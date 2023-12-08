@@ -6,8 +6,8 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
-    .setTitle('Nestjs POC')
-    .setDescription('API of the POC')
+    .setTitle('Server api')
+    .setDescription('API swagger with every routes')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
