@@ -12,6 +12,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install dependencies
         working-directory: ./server
         run: npm install
