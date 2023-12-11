@@ -1,0 +1,22 @@
+name: checks
+
+on: [pull_request]
+
+jobs:
+  check_linter_server:
+    name: Check linter for server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Cd server
+        run: cd server
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linter
+        run: npm run lint
