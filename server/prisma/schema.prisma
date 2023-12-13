@@ -46,19 +46,21 @@ model Area {
 model Action {
   id        Int      @id @default(autoincrement())
   name      String
-  serviceId Int      @unique @map("_serviceIdAction")
-  area      Area     @relation(fields: [id], references: [actionId])
-  Services  Services @relation(fields: [serviceId], references: [id])
+  stringParameter     String?
+  serviceId           Int      @unique
+  area                Area     @relation(fields: [id], references: [reactionId])
+  Services            Services @relation(fields: [serviceId], references: [id])
 
   @@map("action")
 }
 
 model Reaction {
-  id        Int      @id @default(autoincrement())
-  name      String
-  serviceId Int      @unique @map("_serviceIdReaction")
-  area      Area     @relation(fields: [id], references: [reactionId])
-  Services  Services @relation(fields: [serviceId], references: [id])
+  id                  Int      @id @default(autoincrement())
+  name                String
+  stringParameter     String?
+  serviceId           Int      @unique
+  area                Area     @relation(fields: [id], references: [reactionId])
+  Services            Services @relation(fields: [serviceId], references: [id])
 
   @@map("reaction")
 }
