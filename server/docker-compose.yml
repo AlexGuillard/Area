@@ -1,6 +1,6 @@
-version: "3.8"
+version: "3.8" # TODO: remove this file because we already use it in docker compose at root (we keep it for now just in case)
 services:
-  dev-db:
+  db:
     image: postgres:13
     ports:
       - 5434:5432
@@ -10,5 +10,6 @@ services:
       POSTGRES_DB: nest
     networks:
       - network-db
+
 networks:
   network-db:
