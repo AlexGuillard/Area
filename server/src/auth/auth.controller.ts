@@ -20,7 +20,7 @@ export class AuthController {
       },
     },
   })
-  signUpObject(@Body() params: AuthDto) {
+  signUp(@Body() params: AuthDto) {
     return this.authService.signUp(params);
   }
   @Post('signin')
