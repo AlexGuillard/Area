@@ -10,15 +10,16 @@ const Login = () => {
   return (
     <div>
         <h1>login</h1>
-        <GoogleOAuthProvider clientId="someid">
+        <GoogleOAuthProvider clientId="someId">
             <GoogleLogin
 
-              onSuccess={credentialResponse => {
+              onSuccess={async credentialResponse => {
                 console.log(credentialResponse);
 
-                const response = axios.post('http://localhost:3000/login');
+                const response = await axios.post('http://localhost:8080/auth/loginService', {
+                  token: credentialResponse.credential
+                });
                 const data = response.data;
-
                 localStorage.setItem('authData', data)
 
                 setAuthData(data)
