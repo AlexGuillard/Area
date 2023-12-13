@@ -65,4 +65,30 @@ describe('AuthService', () => {
       return expect(service.signUp(weakPasswordParams)).rejects.toThrow();
     });
   });
+
+  describe('signIn', () => {
+    it('should sign up with valid email and password', () => {
+      const validParams: AuthDto = {
+        mail: 'test@example.com',
+        password: 'securePassword123',
+      };
+      return expect(service.signIn(validParams)).resolves.not.toThrow();
+    });
+
+    it('should throw an error with unkown user', () => {
+      const paramsWithoutPassword: AuthDto = {
+        mail: 'testuseless@example.com',
+        password: 'password',
+      };
+      return expect(service.signIn(paramsWithoutPassword)).rejects.toThrowErrorMatchingSnapshot("mail not found");
+    });
+
+    it('should throw an error with incorrect password', () => {
+      const weakPasswordParams: AuthDto = {
+        mail: 'test@example.com',
+        password: 'weak',
+      };
+      return expect(service.signIn(weakPasswordParams)).rejects.toThrowErrorMatchingSnapshot("incorrect password");
+    });
+  });
 });
