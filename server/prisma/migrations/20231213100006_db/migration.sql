@@ -28,7 +28,7 @@ CREATE TABLE "action" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "stringParameter" TEXT,
-    "serviceId" INTEGER NOT NULL,
+    "_serviceIdAction" INTEGER NOT NULL,
 
     CONSTRAINT "action_pkey" PRIMARY KEY ("id")
 );
@@ -38,7 +38,7 @@ CREATE TABLE "reaction" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "stringParameter" TEXT,
-    "serviceId" INTEGER NOT NULL,
+    "_serviceIdReaction" INTEGER NOT NULL,
 
     CONSTRAINT "reaction_pkey" PRIMARY KEY ("id")
 );
@@ -66,10 +66,10 @@ CREATE UNIQUE INDEX "area_actionId_key" ON "area"("actionId");
 CREATE UNIQUE INDEX "area_reactionId_key" ON "area"("reactionId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "action_serviceId_key" ON "action"("serviceId");
+CREATE UNIQUE INDEX "action__serviceIdAction_key" ON "action"("_serviceIdAction");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "reaction_serviceId_key" ON "reaction"("serviceId");
+CREATE UNIQUE INDEX "reaction__serviceIdReaction_key" ON "reaction"("_serviceIdReaction");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "services_userId_key" ON "services"("userId");
@@ -81,16 +81,16 @@ CREATE UNIQUE INDEX "services_token_key" ON "services"("token");
 ALTER TABLE "area" ADD CONSTRAINT "area_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "action" ADD CONSTRAINT "action_id_fkey" FOREIGN KEY ("id") REFERENCES "area"("reactionId") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "action" ADD CONSTRAINT "action_id_fkey" FOREIGN KEY ("id") REFERENCES "area"("actionId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "action" ADD CONSTRAINT "action_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "services"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "action" ADD CONSTRAINT "action__serviceIdAction_fkey" FOREIGN KEY ("_serviceIdAction") REFERENCES "services"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "reaction" ADD CONSTRAINT "reaction_id_fkey" FOREIGN KEY ("id") REFERENCES "area"("reactionId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "reaction" ADD CONSTRAINT "reaction_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "services"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "reaction" ADD CONSTRAINT "reaction__serviceIdReaction_fkey" FOREIGN KEY ("_serviceIdReaction") REFERENCES "services"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "services" ADD CONSTRAINT "services_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
