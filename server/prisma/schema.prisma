@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ServiceType {
+  SPOTIFY
+  GITHUB
+  GOOGLE
+  DISCORD
+  MICROSOFT
+  TWITCH
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  areas     Area[]
+  services  Services[]
+
+  @@map("users")
+}
+
+model Area {
+  id         Int     @id @default(autoincrement())
+  userId     Int     @unique
+  name       String
+  actionId   Int     @unique
+  reactionId Int     @unique
+  user       User    @relation(fields: [userId], references: [id])
+  Action     Action[]
+  Reaction   Reaction[]
+  @@map("area")
+}
+
+model Action {
+  id                  Int      @id @default(autoincrement())
+  name                String
+  stringParameter     String?
+  serviceId           Int      @unique @map("_serviceIdAction")
+  area                Area     @relation(fields: [id], references: [actionId])
+  Services            Services @relation(fields: [serviceId], references: [id])
+  @@map("action")
+}
+
+model Reaction {
+  id                  Int      @id @default(autoincrement())
+  name                String
+  stringParameter     String?
+  serviceId           Int      @unique @map("_serviceIdReaction")
+  area                Area     @relation(fields: [id], references: [reactionId])
+  Services            Services @relation(fields: [serviceId], references: [id])
+  @@map("reaction")
+}
+
+model Services {
+  id          Int         @id @default(autoincrement())
+  userId      Int         @unique
+  token       String      @unique
+  typeService ServiceType
+  user        User        @relation(fields: [userId], references: [id])
+  action      Action[]
+  reaction    Reaction[]
+
+  @@map("services")
+}
