@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  server:
+    restart: on-failure
+    build: ./server
+    # networks:
+    #   - back-tier
+    ports:
+      - "8080:8080"
+
+  # client_mobile:
+  #   restart: on-failure
+  #   build: ./client_mobile
+  #   networks:
+  #     - back-tier
+  #   volumes:
+  #     - common-volume:/usr/common-volume
+
+  client_web:
+    restart: on-failure
+    build: ./web
+    # networks:
+    #   - back-tier
+    depends_on:
+      - server
+      # - client_mobile
+    # volumes:
+    #   - common-volume:/usr/common-volume
+    ports:
+      - "8081:8081"
+
+# networks:
+#   back-tier:
+
+# volumes:
+#   common-volume:
