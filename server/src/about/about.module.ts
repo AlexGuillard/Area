@@ -4,6 +4,6 @@ import { AboutController } from './about.controller';
 
 @Module({
   providers: [AboutService],
-  controllers: [AboutController]
+  controllers: [AboutController],
 })
 export class AboutModule {}
