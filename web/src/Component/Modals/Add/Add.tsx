@@ -36,6 +36,7 @@ const Add = ({ onClose }) => {
           <label htmlFor="select1">Action</label>
           <select id="select1" value={selectedOption1} onChange={handleOption1Change}>
             {/* Ici utiliser une requête pour récupérer les actions possibles */}
+            {/* maybe add a loading state during the api call */}
             <option value="">Select an Option</option>
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
@@ -44,6 +45,7 @@ const Add = ({ onClose }) => {
           <label htmlFor="select2">Reaction</label>
           <select id="select2" value={selectedOption2} onChange={handleOption2Change}>
             {/* Ici utiliser une requête pour récupérer les reaction possibles */}
+            {/* maybe add a loading state during the api call */}
             <option value="">Select an Option</option>
             <option value="optionA">Option A</option>
             <option value="optionB">Option B</option>
