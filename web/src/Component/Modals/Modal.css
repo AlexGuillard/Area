@@ -1,3 +1,5 @@
+@import './../../Palette.css';
+
 .modal {
     position: fixed;
     top: 0;
@@ -11,7 +13,7 @@
   }
   
   .modal-content {
-    background: #fff;
+    background: var(--tertiary-color);
     padding: 50px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -48,3 +50,18 @@
     background-color: #45a049;
   }
   
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .button-container button.close-button {
+    background: var(--danger-color);
+    color: white;
+  }
+  
+  .button-container button + button {
+    margin-left: 10px;
+  }
+

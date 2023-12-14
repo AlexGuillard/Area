@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import './add.css'
+import '../Modal.css'
 
-const Add = ({ onClose }) => {
+const Edit = ({ onClose }) => {
     const [selectedOption1, setSelectedOption1] = useState('');
     const [selectedOption2, setSelectedOption2] = useState('');
 
@@ -24,7 +24,9 @@ const Add = ({ onClose }) => {
     return (
       <div className="modal">
         <div className="modal-content">
-          <h2>Create Area</h2>
+
+          <h2>Edit Area</h2>
+
           <label htmlFor="select1">Action</label>
           <select id="select1" value={selectedOption1} onChange={handleOption1Change}>
             {/* Ici utiliser une requête pour récupérer les actions possibles */}
@@ -39,10 +41,14 @@ const Add = ({ onClose }) => {
             <option value="optionB">Option B</option>
           </select>
 
-          <button onClick={handleSubmit}>Ajouter</button>
+          <div className='button-container'>
+            <button onClick={handleSubmit}>Edit</button>
+            <button onClick={onClose} className='close-button'>Annuler</button>
+          </div>
+
         </div>
       </div>
     );
   };
 
-export default Add;
+export default Edit;
