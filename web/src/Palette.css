@@ -1,0 +1,9 @@
+/* globales variables css like a pallette */
+
+:root {
+    --primary-color: #191825;
+    --secondary-color: #865DFF;
+    --tertiary-color: #E384FF;
+    --neutral-color: #FFA3FD;
+    --danger-color: #dc3545;
+  }
