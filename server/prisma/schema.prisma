@@ -20,13 +20,14 @@ enum ServiceType {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  areas     Area[]
-  services  Services[]
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  randomToken String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  areas       Area[]
+  services    Services[]
 
   @@map("users")
 }

@@ -3,6 +3,7 @@ import { AuthDto } from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { PrismaService } from '../prisma/prisma.service';
+import { uid } from 'rand-token';
 
 @Injectable()
 export class AuthService {
@@ -16,10 +17,12 @@ export class AuthService {
         data: {
           email: params.mail,
           password: hashpass,
+          randomToken: uid(16),
         },
         select: {
           id: true,
           email: true,
+          randomToken: true,
           createdAt: true,
           updatedAt: true,
         }
@@ -38,7 +41,7 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({
       where: {
         email: params.mail,
-      }
+      },
     })
     if (!user) {
       throw new ForbiddenException("mail not found");
@@ -47,6 +50,13 @@ export class AuthService {
     if (!matchPass) {
       throw new ForbiddenException("incorrect password");
     }
-    return user;
+    user.randomToken = uid(16);
+    return {
+      id: user.id,
+      email: user.email,
+      randomToken: user.randomToken,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
   }
 }
