@@ -10,7 +10,7 @@ const Login = () => {
   return (
     <div>
         <h1>login</h1>
-        <GoogleOAuthProvider clientId="someId">
+        <GoogleOAuthProvider clientId="someID">
             <GoogleLogin
 
               onSuccess={async credentialResponse => {
@@ -20,7 +20,7 @@ const Login = () => {
                   token: credentialResponse.credential
                 });
                 const data = response.data;
-                localStorage.setItem('authData', data)
+                localStorage.setItem('authData', JSON.stringify(data))
 
                 setAuthData(data)
               }}
