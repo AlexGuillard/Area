@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto';
 import { ApiBody } from '@nestjs/swagger';
@@ -50,13 +50,12 @@ export class AuthController {
   async loginService(
     @Body('token') token
   ): Promise<any> {
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    })
-    console.log(ticket.getPayload());
-    return {
-      success: true
-    };
+    try {
+      const userData = await this.authService.loginService(token);
+      return userData;
+    } catch (error) {
+      console.log(error);
+      throw new ForbiddenException('Invalid Google token');
+    }
   }
 }
