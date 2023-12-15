@@ -59,6 +59,14 @@ export class AuthService {
       throw new ForbiddenException("incorrect password");
     }
     user.randomToken = uid(16);
+    await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        randomToken: user.randomToken,
+      },
+    })
     return {
       id: user.id,
       email: user.email,

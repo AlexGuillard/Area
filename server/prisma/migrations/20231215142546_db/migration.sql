@@ -58,6 +58,9 @@ CREATE TABLE "services" (
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "users_randomToken_key" ON "users"("randomToken");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "area_userId_key" ON "area"("userId");
 
 -- CreateIndex
