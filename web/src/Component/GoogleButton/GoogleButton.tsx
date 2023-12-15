@@ -15,7 +15,6 @@ export default function GoogleButton() {
               useOneTap
 
               onSuccess={async credentialResponse => {
-                console.log(credentialResponse.credential);
 
                 const response = await axios.post('http://localhost:8080/auth/loginService', {
                   token: credentialResponse.credential

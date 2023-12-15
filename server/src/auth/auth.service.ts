@@ -1,5 +1,4 @@
 import {
-  ConflictException,
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
@@ -136,7 +135,6 @@ export class AuthService {
           updatedAt: existingUser.updatedAt,
         },
       };
-
     } catch (error) {
       throw new ForbiddenException('Error' + error);
     }
