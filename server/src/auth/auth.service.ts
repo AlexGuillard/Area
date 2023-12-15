@@ -127,7 +127,16 @@ export class AuthService {
         };
       }
 
-      throw new ConflictException('User already exists');
+      return {
+        user: {
+          id: existingUser.id,
+          email: existingUser.email,
+          randomToken: existingUser.randomToken,
+          createdAt: existingUser.createdAt,
+          updatedAt: existingUser.updatedAt,
+        },
+      };
+
     } catch (error) {
       throw new ForbiddenException('Error' + error);
     }
