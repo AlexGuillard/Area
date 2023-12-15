@@ -1,13 +1,21 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ConflictException, ForbiddenException, HttpStatus, Injectable } from '@nestjs/common';
 import { AuthDto } from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { PrismaService } from '../prisma/prisma.service';
 import { uid } from 'rand-token';
+import { OAuth2Client } from 'google-auth-library';
 
 @Injectable()
 export class AuthService {
+
+  private readonly googleClient: OAuth2Client;
+
   constructor(private prisma: PrismaService) {
+    this.googleClient = new OAuth2Client(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+    );
   }
 
   async signUp(params: AuthDto) {
@@ -58,5 +66,60 @@ export class AuthService {
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     };
+  }
+
+  async loginService(token: string): Promise<any> {
+    try {
+
+      const ticket = await this.googleClient.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+
+      const payload = ticket.getPayload();
+      const email = payload?.email;
+
+      if (!email) {
+        throw new ForbiddenException('Invalid Google token');
+      }
+
+      const existingUser = await this.prisma.user.findUnique({
+        where: {
+          email,
+        },
+      });
+
+      if (!existingUser) {
+        const hashpass = await argon.hash(uid(16));
+        const newUser = await this.prisma.user.create({
+          data: {
+            email,
+            password: hashpass,
+            randomToken: uid(16),
+          },
+          select: {
+            id: true,
+            email: true,
+            randomToken: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        });
+
+        return {
+          user: {
+            id: newUser.id,
+            email: newUser.email,
+            randomToken: newUser.randomToken,
+            createdAt: newUser.createdAt,
+            updatedAt: newUser.updatedAt,
+          }
+        };
+      }
+
+      throw new ConflictException('User already exists');
+    } catch (error) {
+      throw new ForbiddenException('Error' + error);
+    }
   }
 }
