@@ -8,7 +8,13 @@ import { MeModule } from './me/me.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [AuthModule, PrismaModule, AboutModule, MeModule, ConfigModule.forRoot()],
+  imports: [
+    AuthModule,
+    PrismaModule,
+    AboutModule,
+    MeModule,
+    ConfigModule.forRoot(),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

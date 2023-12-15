@@ -2,12 +2,6 @@ import { Body, Controller, ForbiddenException, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto';
 import { ApiBody } from '@nestjs/swagger';
-import { OAuth2Client } from 'google-auth-library';
-
-const client = new OAuth2Client(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-);
 
 @Controller('auth')
 export class AuthController {
@@ -47,9 +41,7 @@ export class AuthController {
   }
 
   @Post('/loginService')
-  async loginService(
-    @Body('token') token
-  ): Promise<any> {
+  async loginService(@Body('token') token): Promise<any> {
     try {
       const userData = await this.authService.loginService(token);
       return userData;

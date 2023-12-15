@@ -1,4 +1,8 @@
-import { ConflictException, ForbiddenException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { AuthDto } from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
@@ -8,7 +12,6 @@ import { OAuth2Client } from 'google-auth-library';
 
 @Injectable()
 export class AuthService {
-
   private readonly googleClient: OAuth2Client;
 
   constructor(private prisma: PrismaService) {
@@ -33,16 +36,16 @@ export class AuthService {
           randomToken: true,
           createdAt: true,
           updatedAt: true,
-        }
-      })
+        },
+      });
       return user;
     } catch (error) {
-        if (error instanceof PrismaClientKnownRequestError) {
-          if (error.code == "P2002") {
-            throw new ForbiddenException("Email already taken")
-          }
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code == 'P2002') {
+          throw new ForbiddenException('Email already taken');
         }
-        throw error;
+      }
+      throw error;
     }
   }
   async signIn(params: AuthDto) {
@@ -50,13 +53,13 @@ export class AuthService {
       where: {
         email: params.mail,
       },
-    })
+    });
     if (!user) {
-      throw new ForbiddenException("mail not found");
+      throw new ForbiddenException('mail not found');
     }
-    const matchPass = await argon.verify(user.password, params.password)
+    const matchPass = await argon.verify(user.password, params.password);
     if (!matchPass) {
-      throw new ForbiddenException("incorrect password");
+      throw new ForbiddenException('incorrect password');
     }
     user.randomToken = uid(16);
     await this.prisma.user.update({
@@ -66,7 +69,7 @@ export class AuthService {
       data: {
         randomToken: user.randomToken,
       },
-    })
+    });
     return {
       id: user.id,
       email: user.email,
@@ -78,7 +81,6 @@ export class AuthService {
 
   async loginService(token: string): Promise<any> {
     try {
-
       const ticket = await this.googleClient.verifyIdToken({
         idToken: token,
         audience: process.env.GOOGLE_CLIENT_ID,
@@ -121,7 +123,7 @@ export class AuthService {
             randomToken: newUser.randomToken,
             createdAt: newUser.createdAt,
             updatedAt: newUser.updatedAt,
-          }
+          },
         };
       }
 
