@@ -145,7 +145,7 @@ export class AuthService {
         user: {
           id: existingUser.id,
           email: existingUser.email,
-          randomToken: existingUser.randomToken,
+          randomToken: newRandomToken,
           createdAt: existingUser.createdAt,
           updatedAt: existingUser.updatedAt,
         },
