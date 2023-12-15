@@ -123,6 +123,24 @@ export class AuthService {
         };
       }
 
+      const newRandomToken = uid(16);
+
+      await this.prisma.user.update({
+        where: {
+          id: existingUser.id,
+        },
+        data: {
+          randomToken: newRandomToken,
+        },
+        select: {
+          id: true,
+          email: true,
+          randomToken: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+      
       return {
         user: {
           id: existingUser.id,
