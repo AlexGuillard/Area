@@ -41,7 +41,7 @@ export class AuthController {
   }
 
   @Post('/loginService')
-  async loginService(@Body('token') token): Promise<any> {
+  async loginService(@Body('token') token: string): Promise<any> {
     try {
       const userData = await this.authService.loginService(token);
       return userData;
