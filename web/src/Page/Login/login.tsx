@@ -10,11 +10,13 @@ const Login = () => {
   return (
     <div>
         <h1>login</h1>
-        <GoogleOAuthProvider clientId="someID">
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <GoogleLogin
 
+              useOneTap
+
               onSuccess={async credentialResponse => {
-                console.log(credentialResponse);
+                console.log(credentialResponse.credential);
 
                 const response = await axios.post('http://localhost:8080/auth/loginService', {
                   token: credentialResponse.credential
