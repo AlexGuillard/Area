@@ -5,6 +5,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { PrismaService } from '../prisma/prisma.service';
 import { uid } from 'rand-token';
 import { OAuth2Client } from 'google-auth-library';
+import { ServiceType } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -112,6 +113,17 @@ export class AuthService {
           },
         });
 
+        // Here filled with bad infos caus its another funcitonnality so on another branch
+        const service = await this.prisma.services.findUnique({
+          where: {
+            userId: newUser.id,
+            token: newUser.randomToken, // bad token to change
+            typeService: ServiceType.GOOGLE,
+          },
+        });
+
+        console.log(service);
+
         return {
           user: {
             id: newUser.id,
@@ -140,7 +152,7 @@ export class AuthService {
           updatedAt: true,
         },
       });
-      
+
       return {
         user: {
           id: existingUser.id,
