@@ -1,6 +1,8 @@
-  button {
-    background-color: #4caf50;
-    color: white;
+@import './../../Palette.css';
+
+button {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
     padding: 10px 15px;
     border: none;
     border-radius: 15px;

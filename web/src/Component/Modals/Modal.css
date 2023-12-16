@@ -47,7 +47,7 @@
   }
   
   button:hover {
-    background-color: #45a049;
+    background-color: var(--success-color);
   }
   
   .button-container {
@@ -58,7 +58,7 @@
   
   .button-container button.close-button {
     background: var(--danger-color);
-    color: white;
+    color: var(--primary-color);
   }
   
   .button-container button + button {
@@ -66,6 +66,6 @@
   }
 
   .button-container button[disabled] {
-    background-color: #ccc;
+    background-color: var(--disabled-color);
     cursor: not-allowed;
   }
