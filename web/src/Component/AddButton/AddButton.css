@@ -1,8 +1,8 @@
 @import './../../Palette.css';
 
 button {
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
+    background-color: var(--secondary);
+    color: var(--on-secondary);
     padding: 10px 15px;
     border: none;
     border-radius: 15px;

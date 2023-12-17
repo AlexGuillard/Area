@@ -13,10 +13,11 @@
   }
   
   .modal-content {
-    background: var(--tertiary-color);
+    background: var(--tertiary);
     padding: 50px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: var(--on-tertiary);
   }
   
   h2 {
@@ -47,7 +48,7 @@
   }
   
   button:hover {
-    background-color: var(--success-color);
+    background-color: var(--success);
   }
   
   .button-container {
@@ -57,8 +58,8 @@
   }
   
   .button-container button.close-button {
-    background: var(--danger-color);
-    color: var(--primary-color);
+    background: var(--error-container);
+    color: var(--on-tertiary-container);
   }
   
   .button-container button + button {
@@ -66,6 +67,6 @@
   }
 
   .button-container button[disabled] {
-    background-color: var(--disabled-color);
+    background-color: var(--outline);
     cursor: not-allowed;
   }
