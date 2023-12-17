@@ -1,11 +1,52 @@
 /* globales variables css like a pallette */
 
 :root {
-    --primary-color: #191825;
-    --secondary-color: #865DFF;
-    --tertiary-color: #E384FF;
-    --neutral-color: #FFA3FD;
-    --danger-color: #dc3545;
-    --success-color: #28a745;
-    --disabled-color: #6c757d;
+
+    /* Dark scheme */
+
+    /* primary */
+    --primary: #c5c0ff
+    --on-primary: #2b2277;
+    --primary-container: #423b8e;
+    --on-primary-container: #e3dfff;
+
+    /* secondary */
+    --secondary: #cdbdff;
+    --on-secondary: #370095;
+    --secondary-container: #4f12c7;
+    --on-secondary-container: #e8deff;
+
+    /* tertiary */
+    --tertiary: #f0b0ff;
+    --on-tertiary: #54006d;
+    --tertiary-container: #731492;
+    --on-tertiary-container: #fbd7ff;
+
+    /* error */
+    --error: #ffb4ab;
+    --on-error: #690005;
+    --error-container: #93000a;
+    --on-error-container: #ffdad6;
+
+    /* success */
+    --success: #b4f1b0;
+    --on-success: #0a4f00;
+    --success-container: #0d7300;
+    --on-success-container: #d6ffd6;
+
+    /* background */
+    --background: #380036;
+    --on-background: #ffd7f4;
+
+    /* surface */
+    --surface: #380036;
+    --on-surface: #ffd7f4;
+
+    /* outline */
+    --outline: #928f99;
+
+    /* surface */
+    --surface: #47464f;
+    --on-surface: #c8c5d0;
+
   }
