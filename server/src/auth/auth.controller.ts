@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto';
 import { ApiBody } from '@nestjs/swagger';
@@ -38,5 +38,16 @@ export class AuthController {
   })
   signIn(@Body() params: AuthDto) {
     return this.authService.signIn(params);
+  }
+
+  @Post('/loginService')
+  async loginService(@Body('token') token: string): Promise<any> {
+    try {
+      const userData = await this.authService.loginService(token);
+      return userData;
+    } catch (error) {
+      console.log(error);
+      throw new ForbiddenException('Invalid Google token');
+    }
   }
 }
