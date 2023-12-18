@@ -32,6 +32,19 @@
 $ npm install
 ```
 
+## Installation of database
+
+```bash
+# restart database
+$ npm run db:dev:restart
+
+# set new schema.prisma when modifying it
+$ rm -rf prisma/migrations && npx prisma migrate dev
+
+# see database on the website
+$ npx prisma studio # to relauch when changing shema.prisma
+```
+
 ## Running the app
 
 ```bash
