@@ -1,11 +1,11 @@
 import React from 'react';
-import './login.css';
+import './edit.css';
 
-function Login() {
+function Edit() {
   return (
     <div>
     </div>
   );
 }
 
-export default Login;
+export default Edit;
