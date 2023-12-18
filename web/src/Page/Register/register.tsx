@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import './register.css';
+import { Link } from 'react-router-dom';
 
 function Register() {
 
@@ -37,9 +38,9 @@ function Register() {
             Register
           </span>
         </div>
-        <span className='registerButon'>
-          Connection
-        </span>
+        <Link to="/" className='registerButon'>
+          Login
+        </Link>
     </div>
   );
 }

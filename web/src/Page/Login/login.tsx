@@ -1,11 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
 import './login.css';
+import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-dom';
 
 function Login() {
 
   const [textEmail, setTextEmail] = useState("");
   const [textPassWord, setTextPassWord] = useState("");
+  const navigate = useNavigate()
 
   const handleTextChangeUser = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextEmail(event.target.value);
@@ -13,6 +15,10 @@ function Login() {
   const handleTextChangePassWord = (event: React.ChangeEvent<HTMLInputElement>) => {
       setTextPassWord(event.target.value);
   };
+
+  const handleClickConnection = () => {
+    navigate("/Area")
+  }
 
   return (
     <div className='loginPageBody'>
@@ -33,13 +39,13 @@ function Login() {
           className='passwordLoginArea'
         />
         <div className='connectionButon'>
-          <span>
+          <span onClick={handleClickConnection}>
             Connection
           </span>
         </div>
-        <span className='registerButon'>
+        <Link to="/Register" className='registerButon'>
           Register
-        </span>
+        </Link>
     </div>
   );
 }
