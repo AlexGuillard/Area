@@ -1,11 +1,22 @@
 import React from 'react';
-import './login.css';
+import './area.css';
+import User from '../../Image/User.png'
+import AddIcon from '../../Image/AddIcon.png'
+import AreaCard from '../../Component/AreaCard/areaCard'
 
-function Login() {
+function Area() {
   return (
-    <div>
+    <div className='areaBody'>
+      <div className='areaHeader'>
+        <span className='areaTitle'>
+          Area
+        </span>
+        <img src={User} className='UserLogo'/>
+      </div>
+      <AreaCard name="Name area"/>
+      <img src={AddIcon} className='AddLogo'/>
     </div>
   );
 }
 
-export default Login;
+export default Area;
