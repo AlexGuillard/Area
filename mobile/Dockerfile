@@ -10,4 +10,6 @@ WORKDIR /app/android
 
 RUN ./gradlew assembleDebug
 
-RUN cp app/build/outputs/apk/debug/app-debug.apk /usr/common-volume/app-debug.apk
+RUN mkdir -p /common-volume
+
+RUN cp app/build/outputs/apk/debug/app-debug.apk /common-volume/app-debug.apk
