@@ -24,13 +24,13 @@ services:
     ports:
       - "8080:8080"
 
-  # client_mobile:
-  #   restart: on-failure
-  #   build: ./client_mobile
-  #   networks:
-  #     - back-tier
-  #   volumes:
-  #     - common-volume:/usr/common-volume
+  client_mobile:
+    restart: on-failure
+    build: ./mobile
+    # networks:
+    #   - back-tier
+    volumes:
+      - common-volume:/usr/common-volume
 
   client_web:
     restart: on-failure
@@ -39,9 +39,9 @@ services:
     #   - back-tier
     depends_on:
       - server
-      # - client_mobile
-    # volumes:
-    #   - common-volume:/usr/common-volume
+      - client_mobile
+    volumes:
+      - common-volume:/usr/common-volume
     ports:
       - "8081:8081"
 
@@ -49,5 +49,5 @@ networks:
   network-db:
 #   back-tier:
 
-# volumes:
-#   common-volume:
+volumes:
+  common-volume:
