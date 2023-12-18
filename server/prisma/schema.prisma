@@ -20,26 +20,27 @@ enum ServiceType {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  areas     Area[]
-  services  Services[]
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  randomToken String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  areas       Area[]
+  services    Services[]
 
   @@map("users")
 }
 
 model Area {
-  id         Int     @id @default(autoincrement())
-  userId     Int     @unique
+  id         Int      @id @default(autoincrement())
+  userId     Int      @unique
   name       String
-  actionId   Int     @unique
-  reactionId Int     @unique
-  user       User    @relation(fields: [userId], references: [id])
-  Action     Action[]
-  Reaction   Reaction[]
+  actionId   Int      @unique
+  reactionId Int      @unique
+  user       User     @relation(fields: [userId], references: [id])
+  Action     Action   @relation(fields: [actionId], references: [id])
+  Reaction   Reaction @relation(fields: [reactionId], references: [id])
   @@map("area")
 }
 
@@ -47,9 +48,9 @@ model Action {
   id                  Int      @id @default(autoincrement())
   name                String
   stringParameter     String?
-  serviceId           Int      @unique @map("_serviceIdAction")
-  area                Area     @relation(fields: [id], references: [actionId])
-  Services            Services @relation(fields: [serviceId], references: [id])
+  serviceId           Int      @unique
+  area                Area[]
+  Services            Services @relation("Actionlink", fields: [serviceId], references: [id])
   @@map("action")
 }
 
@@ -57,9 +58,9 @@ model Reaction {
   id                  Int      @id @default(autoincrement())
   name                String
   stringParameter     String?
-  serviceId           Int      @unique @map("_serviceIdReaction")
-  area                Area     @relation(fields: [id], references: [reactionId])
-  Services            Services @relation(fields: [serviceId], references: [id])
+  serviceId           Int      @unique
+  area                Area[]
+  Services            Services @relation("Reactionlink", fields: [serviceId], references: [id])
   @@map("reaction")
 }
 
@@ -69,8 +70,8 @@ model Services {
   token       String      @unique
   typeService ServiceType
   user        User        @relation(fields: [userId], references: [id])
-  action      Action[]
-  reaction    Reaction[]
+  action      Action[]    @relation("Actionlink")
+  reaction    Reaction[]  @relation("Reactionlink")
 
   @@map("services")
 }
