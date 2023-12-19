@@ -5,7 +5,6 @@ import { AboutModule } from './about/about.module';
 import { MeModule } from './me/me.module';
 import { ConfigModule } from '@nestjs/config';
 import { GoogleAuthModule } from './google-auth/google-auth.module';
-import { UserTokenModule } from './user-token/user-token.module';
 import { ServicesModule } from './services/services.module';
 
 @Module({
@@ -16,7 +15,6 @@ import { ServicesModule } from './services/services.module';
     MeModule,
     GoogleAuthModule,
     ConfigModule.forRoot(),
-    UserTokenModule,
     ServicesModule,
   ],
 })
