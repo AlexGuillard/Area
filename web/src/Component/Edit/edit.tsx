@@ -23,12 +23,24 @@ function Edit(props: editProps) {
     setNameArea(event.target.value);
   };
 
+  const handleClickActionList = () => {
+    setShowListAction(!showlistAction)
+    setShowListReaction(false)
+  }
+
+  const handleClickReactionList = () => {
+    setShowListReaction(!showlistReaction)
+    setShowListAction(false)
+  }
+
   const handleActionAreaChange = (event: string) => {
     setSelectedAction(event);
+    setShowListAction(false)
   };
 
   const handleReactionAreaChange = (event: string) => {
     setSelectedReaction(event);
+    setShowListReaction(false)
   };
 
   const handleParamAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +68,7 @@ function Edit(props: editProps) {
         <div className='editComponentActionInput'>
           <span>{selectedAction}</span>
           <div className='editCompoentActionLine'/>
-          <img src={SelectInput} className='editComponentActionButton' onClick={() => setShowListAction(!showlistAction)}/>
+          <img src={SelectInput} className='editComponentActionButton' onClick={() => handleClickActionList()}/>
           {showlistAction &&
             (
               <ul className='editComponentActionListArea'>
@@ -74,7 +86,7 @@ function Edit(props: editProps) {
         <div className='editComponentReactionInput'>
           <span>{selectedReaction}</span>
           <div className='editCompoentReactionLine'/>
-          <img src={SelectInput} className='editComponentReactionButton'  onClick={() => setShowListReaction(!showlistReaction)}/>
+          <img src={SelectInput} className='editComponentReactionButton'  onClick={() => handleClickReactionList()}/>
           {showlistReaction &&
             (
               <ul className='editComponentReactionListArea'>

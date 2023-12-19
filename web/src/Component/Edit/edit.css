@@ -49,15 +49,15 @@
 
 .editCompoentActionLine {
     width: 1px;
-    height: 100%;
+    height: 62px;
     background-color: #000;
-    position: relative;
-    left: 85px;
+    position: absolute;
+    left: 260px;
 }
 
 .editComponentActionButton {
-    position:relative;
-    left: 100px;
+    position:absolute;
+    left: 275px;
 }
 
 .editComponentActionListArea {
@@ -89,15 +89,15 @@
 
 .editCompoentReactionLine {
     width: 1px;
-    height: 100%;
+    height: 62px;
     background-color: #000;
-    position: relative;
-    left: 77px;
+    position: absolute;
+    left: 260px;
 }
 
 .editComponentReactionButton {
-    position: relative;
-    left: 90px;
+    position:absolute;
+    left: 275px;
 }
 
 .editComponentReactionListArea {
