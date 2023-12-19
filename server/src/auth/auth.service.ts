@@ -67,6 +67,20 @@ export class AuthService {
         randomToken: user.randomToken,
       },
     });
+    await this.prisma.services.create({
+      data: {
+        token: uid(16),
+        typeService: ServiceType.GOOGLE,
+        userId: user.id,
+      },
+    });
+    await this.prisma.services.create({
+      data: {
+        token: uid(16),
+        typeService: ServiceType.DISCORD,
+        userId: user.id,
+      },
+    });
     return {
       id: user.id,
       email: user.email,
