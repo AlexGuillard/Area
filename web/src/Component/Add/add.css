@@ -1,0 +1,146 @@
+@import '../../Palette.css';
+
+.addComponent {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+}
+
+.addComponentBody {
+    width: 325px;
+    height: 410px; 
+    background-color: #C7C4DC;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.addComponentTitle {
+    font-size: 32px;
+    color: #000;
+    margin-top: 15px;
+}
+
+.addComponentNameInput {
+    margin-top: 40px;
+    height: 50px;
+    width: 280px;
+    background-color: #C5C0FF;
+    border: 2px #423B8E solid;
+    border-radius: 16px;
+    color: #2B2277;
+    font-size: 12px; 
+    padding-left: 18px;
+}
+
+.addComponentActionInput {
+    margin-top: 20px;
+    width: 300px;
+    height: 62px;
+    border-radius: 16px;
+    background-color: #464559;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addComponentActionLine {
+    width: 1px;
+    height: 62px;
+    background-color: #000;
+    position: absolute;
+    left: 260px;
+}
+
+.addComponentActionButton {
+    position:absolute;
+    left: 275px;
+}
+
+.addComponentActionListArea {
+    position: absolute;
+    background-color: var(--secondary-container);
+    top: 154px;
+    width: 46%;
+    border: 1px solid #000;
+    border-radius: 16px 0px 16px 16px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.addComponentActionList {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.addComponentReactionInput {
+    margin-top: 30px;
+    width: 300px;
+    height: 62px;
+    border-radius: 16px;
+    background-color: #464559;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addComponentReactionLine {
+    width: 1px;
+    height: 62px;
+    background-color: #000;
+    position: absolute;
+    left: 260px;
+}
+
+.addComponentReactionButton {
+    position:absolute;
+    left: 275px;
+}
+
+.addComponentReactionListArea {
+    position: absolute;
+    background-color: var(--secondary-container);
+    top: 246px;
+    width: 46%;
+    border: 1px solid #000;
+    border-radius: 16px 0px 16px 16px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.addComponentReactionList {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.addComponentParamInput {
+    margin-top: 15px;
+    height: 44px;
+    width: 262px;
+    background-color: #C5C0FF;
+    border: 2px #423B8E solid;
+    border-radius: 16px;
+    color: #2B2277;
+    font-size: 12px; 
+    padding-left: 18px;
+}
+
+.addComponentButton {
+    margin-top: 25px;
+    border-radius: 16px;
+    background-color: #464559;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 222px;
+    height: 47px; 
+}
+
+.addComponentButtonText {
+    color: #E4DFF9;
+    font-size: 20px; 
+    font-weight: 400;
+}
