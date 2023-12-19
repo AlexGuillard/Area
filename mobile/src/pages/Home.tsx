@@ -22,7 +22,7 @@ function Home(): React.JSX.Element {
           backgroundColor={backgroundStyle.backgroundColor}
         />
         <Appbar style={styles.header}>
-          <Appbar.Content title="Home"/>
+          <Appbar.Content title="Area"/>
           <Appbar.Action icon="account-circle" onPress={() => {}} />
         </Appbar>
         <View style={styles.listReaction}>
@@ -65,6 +65,10 @@ const styles = StyleSheet.create({
   },
   headerItem: {
     color: "#2B2277",
+    fontSize: 30,
+  },
+  headerText: {
+    textDecorationColor: "#2B2277",
     fontSize: 30,
   },
   bottomBar: {
