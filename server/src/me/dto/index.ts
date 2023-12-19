@@ -1,2 +1,2 @@
 export * from './me.dto';
-export * from './userTable.dto'
+export * from './userTable.dto';

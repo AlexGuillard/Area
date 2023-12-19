@@ -49,6 +49,7 @@ CREATE TABLE "services" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "token" TEXT NOT NULL,
+    "refreshToken" TEXT,
     "typeService" "ServiceType" NOT NULL,
 
     CONSTRAINT "services_pkey" PRIMARY KEY ("id")
