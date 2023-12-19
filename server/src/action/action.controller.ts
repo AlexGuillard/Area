@@ -7,6 +7,6 @@ export class ActionController {
 
     @Get('action')
     getMe(@Param('token') token: string) {
-      return this.authService.findAll();
+      return this.authService.findAll(token);
     }
 }
