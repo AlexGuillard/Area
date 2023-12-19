@@ -4,6 +4,7 @@ import { GoogleAuthService } from './google-auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { ForbiddenException } from '@nestjs/common';
 import { ServiceType } from '@prisma/client';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('myauth')
 export class GoogleAuthController {
@@ -18,10 +19,11 @@ export class GoogleAuthController {
 
   @Get('google-redirect')
   @UseGuards(GoogleOAuthGuard)
+  @ApiOperation({
+    summary: 'Google Auth Redirect',
+  })
   async googleAuthRedirect(@Request() req) {
     const token = await this.appService.googleLogin(req);
-    console.log(token);
-    console.log('actual', token.user.accessToken);
 
     const user = await this.prisma.user.findUnique({
       where: {
