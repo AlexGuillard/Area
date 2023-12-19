@@ -7,9 +7,10 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: postgres # TODO: Use private env file
-      POSTGRES_PASSWORD: 123
-      POSTGRES_DB: nest
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}?schema=public"
     networks:
       - db
 
@@ -18,6 +19,11 @@ services:
     build: ./server
     depends_on:
       - db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
     ports:
       - 8080:8080
     networks:
