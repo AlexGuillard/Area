@@ -1,7 +1,7 @@
 import { Body, Controller, ForbiddenException, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto, TokenDto } from './dto';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiOperation } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -20,6 +20,9 @@ export class AuthController {
       },
     },
   })
+  @ApiOperation({
+      summary: 'register to application with mail and password'
+  })
   signUp(@Body() params: AuthDto) {
     return this.authService.signUp(params);
   }
@@ -36,6 +39,9 @@ export class AuthController {
       },
     },
   })
+  @ApiOperation({
+      summary: 'login to application with mail and password'
+  })
   signIn(@Body() params: AuthDto) {
     return this.authService.signIn(params);
   }
@@ -49,6 +55,9 @@ export class AuthController {
         value: { token: 'yourtoken' },
       },
     },
+  })
+  @ApiOperation({
+      summary: 'connect to application with google account'
   })
   async loginService(@Body() token: TokenDto): Promise<any> {
     try {
