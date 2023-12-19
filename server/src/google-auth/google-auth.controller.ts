@@ -13,6 +13,8 @@ export class GoogleAuthController {
   @Get('google-redirect')
   @UseGuards(GoogleOAuthGuard)
   googleAuthRedirect(@Request() req) {
-    return this.appService.googleLogin(req);
+    const token = this.appService.googleLogin(req);
+    console.log(token);
+    return token;
   }
 }

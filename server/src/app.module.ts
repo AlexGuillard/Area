@@ -7,6 +7,7 @@ import { AboutModule } from './about/about.module';
 import { MeModule } from './me/me.module';
 import { ConfigModule } from '@nestjs/config';
 import { GoogleAuthModule } from './google-auth/google-auth.module';
+import { UserTokenModule } from './user-token/user-token.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { GoogleAuthModule } from './google-auth/google-auth.module';
     MeModule,
     GoogleAuthModule,
     ConfigModule.forRoot(),
+    UserTokenModule,
   ],
   controllers: [AppController],
   providers: [AppService],

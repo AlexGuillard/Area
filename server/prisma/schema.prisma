@@ -68,6 +68,7 @@ model Services {
   id          Int         @id @default(autoincrement())
   userId      Int         @unique
   token       String      @unique
+  refreshToken String?
   typeService ServiceType
   user        User        @relation(fields: [userId], references: [id])
   action      Action[]    @relation("Actionlink")
