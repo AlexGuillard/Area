@@ -22,6 +22,7 @@ services:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      WEB_URL: ${WEB_URL}
     ports:
       - 8080:8080
     networks:
@@ -54,8 +55,8 @@ services:
       - server
       - client_mobile
     environment:
-      SERVER_URL: ${SERVER_URL}
-      REACT_APP_GOOGLE_CLIENT_ID: ${REACT_APP_GOOGLE_CLIENT_ID}
+      REACT_APP_SERVER_URL: ${SERVER_URL}
+      REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     volumes:
       - common-volume:/common-volume
     ports:
