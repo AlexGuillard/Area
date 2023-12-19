@@ -5,6 +5,7 @@ import { AboutModule } from './about/about.module';
 import { MeModule } from './me/me.module';
 import { ConfigModule } from '@nestjs/config';
 import { ServicesModule } from './services/services.module';
+import { ActionModule } from './action/action.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ServicesModule } from './services/services.module';
     MeModule,
     ConfigModule.forRoot(),
     ServicesModule,
+    ActionModule,
   ],
 })
 export class AppModule {}
