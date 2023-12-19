@@ -1,0 +1,146 @@
+@import '../../Palette.css';
+
+.editComponent {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+}
+
+.editComponentBody {
+    width: 325px;
+    height: 410px; 
+    background-color: #C7C4DC;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.editComponentTitle {
+    font-size: 32px;
+    color: #000;
+    margin-top: 15px;
+}
+
+.editComponentNameInput {
+    margin-top: 40px;
+    height: 50px;
+    width: 280px;
+    background-color: #C5C0FF;
+    border: 2px #423B8E solid;
+    border-radius: 16px;
+    color: #2B2277;
+    font-size: 12px; 
+    padding-left: 18px;
+}
+
+.editComponentActionInput {
+    margin-top: 20px;
+    width: 300px;
+    height: 62px;
+    border-radius: 16px;
+    background-color: #464559;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editCompoentActionLine {
+    width: 1px;
+    height: 100%;
+    background-color: #000;
+    position: relative;
+    left: 85px;
+}
+
+.editComponentActionButton {
+    position:relative;
+    left: 100px;
+}
+
+.editComponentActionListArea {
+    position: absolute;
+    background-color: var(--secondary-container);
+    top: 154px;
+    width: 46%;
+    border: 1px solid #000;
+    border-radius: 16px 0px 16px 16px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.editComponentActionList {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.editComponentReactionInput {
+    margin-top: 30px;
+    width: 300px;
+    height: 62px;
+    border-radius: 16px;
+    background-color: #464559;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editCompoentReactionLine {
+    width: 1px;
+    height: 100%;
+    background-color: #000;
+    position: relative;
+    left: 77px;
+}
+
+.editComponentReactionButton {
+    position: relative;
+    left: 90px;
+}
+
+.editComponentReactionListArea {
+    position: absolute;
+    background-color: var(--secondary-container);
+    top: 246px;
+    width: 46%;
+    border: 1px solid #000;
+    border-radius: 16px 0px 16px 16px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.editComponentReactionList {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.editComponentParamInput {
+    margin-top: 15px;
+    height: 44px;
+    width: 262px;
+    background-color: #C5C0FF;
+    border: 2px #423B8E solid;
+    border-radius: 16px;
+    color: #2B2277;
+    font-size: 12px; 
+    padding-left: 18px;
+}
+
+.editComponentButton {
+    margin-top: 25px;
+    border-radius: 16px;
+    background-color: #464559;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 222px;
+    height: 47px; 
+}
+
+.editComponentButtonText {
+    color: #E4DFF9;
+    font-size: 20px; 
+    font-weight: 400;
+}
