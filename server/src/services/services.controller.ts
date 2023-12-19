@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ServicesService } from './services.service';
-import { ApiOperation, ApiParam } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 
 @Controller(':token/')
 export class ServicesController {
@@ -14,6 +14,10 @@ export class ServicesController {
     })
     @ApiOperation({
         summary: 'route to get every services of the connected user'
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Return every services of the connected user',
     })
     getServices(@Param('token') token: string) {
         return this.servicesService.getServices(token);
