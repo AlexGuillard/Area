@@ -49,18 +49,18 @@ export class MailingService {
     this.mailerService.addTransporter('gmail', config);
   }
 
-  public async sendMail() {
+  public async sendMail(subject: string, to: string, template: string, from: string, code: string) {
     await this.setTransport();
     this.mailerService
       .sendMail({
         transporterName: 'gmail',
-        to: 'deibarpablo@gmail.com', // list of receivers
-        from: 'noreply@nestjs.com', // sender address
-        subject: 'Verficiaction Code', // Subject line
-        template: 'action',
+        to, // list of receivers
+        from, // sender address
+        subject, // Subject line
+        template,
         context: {
           // Data to be sent to template engine..
-          code: '38320',
+          code,
         },
       })
       .then((success) => {

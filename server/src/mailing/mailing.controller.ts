@@ -6,6 +6,11 @@ export class MailingController {
   constructor(readonly mailingService: MailingService) {}
   @Get('send-mail')
   public sendMail() {
-    this.mailingService.sendMail();
+    const subject = 'Test mail';
+    const template = 'action';
+    const to = 'deibarpablo@gmail.com';
+    const from = 'deibarpablo@gmail.com';
+    const code = '123456';
+    this.mailingService.sendMail(subject, to, template, from, code);
   }
 }
