@@ -1,21 +1,18 @@
-import { Injectable } from '@nestjs/common';
-import { Response, Request } from 'express';
+import { Injectable, Ip } from '@nestjs/common';
 import { AboutDto } from './dto/about.dto';
 
 @Injectable()
 export class AboutService {
-  getAbout(res: Response, req: Request): void {
-    const clientHost = req.connection.remoteAddress;
-
+  getAbout(@Ip() ip): AboutDto {
     const aboutResponse: AboutDto = {
       client: {
-        host: clientHost || 'unknown',
+        host: ip || 'unknown',
       },
       server: {
         current_time: Date.now(),
         services: [
           {
-            name: 'github',
+            name: 'GITHUB',
             actions: [
               {
                 name: 'getRepositories',
@@ -30,7 +27,7 @@ export class AboutService {
             ],
           },
           {
-            name: 'google',
+            name: 'GOOGLE',
             actions: [
               {
                 name: 'getCalendarEvents',
@@ -44,10 +41,20 @@ export class AboutService {
               },
             ],
           },
+          {
+            name: 'TIME',
+            actions: [
+              {
+                name: 'setTimer',
+                description: 'trigger reaction at end of timer',
+              },
+            ],
+            reactions: [
+            ],
+          },
         ],
       },
     };
-
-    res.json(aboutResponse);
+    return aboutResponse;
   }
 }

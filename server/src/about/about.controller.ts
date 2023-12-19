@@ -1,13 +1,13 @@
-import { Controller, Get, Res, Req } from '@nestjs/common';
+import { Controller, Get, Ip } from '@nestjs/common';
 import { AboutService } from './about.service';
-import { Response, Request } from 'express';
+import { AboutDto } from './dto';
 
 @Controller()
 export class AboutController {
   constructor(private aboutService: AboutService) {}
 
   @Get('/about.json')
-  getAbout(@Res() res: Response, @Req() req: Request): void {
-    this.aboutService.getAbout(res, req);
+  getAbout(@Ip() ip): AboutDto {
+    return this.aboutService.getAbout(ip);
   }
 }

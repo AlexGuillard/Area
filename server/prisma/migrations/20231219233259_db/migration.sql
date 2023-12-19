@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "ServiceType" AS ENUM ('SPOTIFY', 'GITHUB', 'GOOGLE', 'DISCORD', 'MICROSOFT', 'TWITCH');
+CREATE TYPE "ServiceType" AS ENUM ('SPOTIFY', 'GITHUB', 'GOOGLE', 'DISCORD', 'MICROSOFT', 'TWITCH', 'TIME');
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -76,10 +76,10 @@ CREATE UNIQUE INDEX "action_serviceId_key" ON "action"("serviceId");
 CREATE UNIQUE INDEX "reaction_serviceId_key" ON "reaction"("serviceId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "services_userId_key" ON "services"("userId");
+CREATE UNIQUE INDEX "services_token_key" ON "services"("token");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "services_token_key" ON "services"("token");
+CREATE UNIQUE INDEX "services_typeService_key" ON "services"("typeService");
 
 -- AddForeignKey
 ALTER TABLE "area" ADD CONSTRAINT "area_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

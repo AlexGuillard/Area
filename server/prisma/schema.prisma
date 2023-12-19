@@ -18,6 +18,7 @@ enum ServiceType {
   DISCORD
   MICROSOFT
   TWITCH
+  TIME
 }
 
 model User {
