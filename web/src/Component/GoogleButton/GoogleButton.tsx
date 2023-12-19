@@ -16,7 +16,7 @@ export default function GoogleButton() {
 
               onSuccess={async credentialResponse => {
 
-                const response = await axios.post('http://localhost:8080/auth/loginService', {
+                const response = await axios.post(process.env.SERVER_URL + '/auth/loginService', {
                   token: credentialResponse.credential
                 });
                 const data = response.data;
