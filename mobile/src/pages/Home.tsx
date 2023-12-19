@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Colors} from 'react-native/Libraries/NewAppScreen';
 import ReactionList from '../components/ReactionList/reactionList.tsx'
 import { Appbar } from 'react-native-paper';
+import MyAppBar from '../components/myAppBar.tsx';
 
 function Home(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -21,10 +22,7 @@ function Home(): React.JSX.Element {
           barStyle={'light-content'}
           backgroundColor={backgroundStyle.backgroundColor}
         />
-        <Appbar style={styles.header}>
-          <Appbar.Content title="Area"/>
-          <Appbar.Action icon="account-circle" onPress={() => {}} />
-        </Appbar>
+        <MyAppBar title="Area"/>
         <View style={styles.listReaction}>
           <ReactionList/>
         </View>
