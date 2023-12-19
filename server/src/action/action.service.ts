@@ -1,17 +1,22 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
-import { Observable, map } from 'rxjs';
+import { Observable, firstValueFrom, map } from 'rxjs';
 import { MeService } from '../me/me.service';
 
 @Injectable()
 export class ActionService {
-    constructor(private httpService: HttpService, private me: MeService) {}
+        constructor(private httpService: HttpService, private me: MeService) {}
 
-  async findAll(token: string): Promise<Observable<AxiosResponse<any>>> {
-    await this.me.getUser(token);
-    return this.httpService.get('http://localhost:8080/about.json').pipe(
-        map((response: AxiosResponse) => response.data),
-      );
-  }
+    async getTime(): Promise<string> {
+        const date = await firstValueFrom(this.httpService.get('http://worldtimeapi.org/api/timezone/Europe/Paris'));
+        return String(date.data.datetime);
+    }
+    async findAll(token: string) {
+        await this.me.getUser(token);
+        const stringDate = await this.getTime();
+        const date = new Date(stringDate).getMinutes();
+        console.log(date);
+        return date;
+    }
 }
