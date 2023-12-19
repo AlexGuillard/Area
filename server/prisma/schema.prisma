@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -66,9 +67,9 @@ model Reaction {
 
 model Services {
   id          Int         @id @default(autoincrement())
-  userId      Int         @unique
+  userId      Int
   token       String      @unique
-  typeService ServiceType
+  typeService ServiceType @unique
   user        User        @relation(fields: [userId], references: [id])
   action      Action[]    @relation("Actionlink")
   reaction    Reaction[]  @relation("Reactionlink")
