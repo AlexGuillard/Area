@@ -66,10 +66,10 @@ model Reaction {
 
 model Services {
   id          Int         @id @default(autoincrement())
-  userId      Int         @unique
+  userId      Int
   token       String      @unique
   refreshToken String?
-  typeService ServiceType
+  typeService ServiceType @unique
   user        User        @relation(fields: [userId], references: [id])
   action      Action[]    @relation("Actionlink")
   reaction    Reaction[]  @relation("Reactionlink")
