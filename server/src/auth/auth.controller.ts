@@ -1,6 +1,6 @@
 import { Body, Controller, ForbiddenException, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthDto } from './dto';
+import { AuthDto, TokenDto } from './dto';
 import { ApiBody } from '@nestjs/swagger';
 
 @Controller('auth')
@@ -40,10 +40,19 @@ export class AuthController {
     return this.authService.signIn(params);
   }
 
-  @Post('/loginService')
-  async loginService(@Body('token') token: string): Promise<any> {
+  @Post('loginservice')
+  @ApiBody({
+    type: AuthDto,
+    required: true,
+    examples: {
+      basicExample: {
+        value: { token: 'yourtoken' },
+      },
+    },
+  })
+  async loginService(@Body() token: TokenDto): Promise<any> {
     try {
-      const userData = await this.authService.loginService(token);
+      const userData = await this.authService.loginService(token.token);
       return userData;
     } catch (error) {
       console.log(error);
