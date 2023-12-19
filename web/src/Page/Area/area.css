@@ -52,7 +52,7 @@
 .areaList {
     display: flex;
     flex-wrap: wrap;
-    overflow: scroll;
+    overflow-y: scroll;
     width: 60%;
     gap: 50px;
     padding: 0px;
