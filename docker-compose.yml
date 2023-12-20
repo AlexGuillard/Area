@@ -23,6 +23,8 @@ services:
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
       WEB_URL: ${WEB_URL}
+      REFRESH_TOKEN: ${REFRESH_TOKEN}
+      EMAIL: ${EMAIL}
     ports:
       - 8080:8080
     networks:
