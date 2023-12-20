@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  SafeAreaView, StatusBar, StyleSheet, useColorScheme, Pressable, View, Dimensions} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+  SafeAreaView, StatusBar, StyleSheet, useColorScheme,
+  TouchableOpacity,
+  Pressable, View, Dimensions, Image} from 'react-native';
 import { Colors} from 'react-native/Libraries/NewAppScreen';
-import ReactionList from '../components/ReactionList/reactionList.tsx'
+import ReactionList from '../components/ReactionList/reactionList'
 import { Appbar } from 'react-native-paper';
-import MyAppBar from '../components/myAppBar.tsx';
 
-function Home(): React.JSX.Element {
+function AreaPage(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor:  Colors.darker,
@@ -22,13 +22,12 @@ function Home(): React.JSX.Element {
           barStyle={'light-content'}
           backgroundColor={backgroundStyle.backgroundColor}
         />
-        <MyAppBar title="Area"/>
         <View style={styles.listReaction}>
           <ReactionList/>
         </View>
-          <Pressable style={styles.addButton} onPress={() => {}}>
-            <Icon name="plus" size={30} color="#FFFFFF" />
-          </Pressable>
+        <TouchableOpacity style={styles.addButton}>
+          <Image source={require('../../assets/FAB.png')} />
+        </TouchableOpacity>
           <Appbar style={styles.bottomBar}>
           </Appbar>
       </SafeAreaView>
@@ -37,7 +36,9 @@ function Home(): React.JSX.Element {
 
 const styles = StyleSheet.create({
   listReaction: {
-    height:  Dimensions.get('window').height - 275,
+    height: "80%",
+    position: 'absolute',
+    top: 0,
   },
   addButton: {
     backgroundColor: "#4A4458",
@@ -77,4 +78,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Home;
+export default AreaPage;

@@ -20,7 +20,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-function Login(): React.JSX.Element {
+const Login = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
@@ -54,7 +54,10 @@ function Login(): React.JSX.Element {
             />
           </View>
           <View style={{paddingHorizontal: 50}}>
-            <Pressable style={styles.primaryButton} onPress={() => { console.log("pressed") }}>
+            <Pressable style={styles.primaryButton} onPress={() => { 
+              console.log("pressed")
+              navigation.navigate('Area')
+              }}>
               <Text style={styles.primaryButtonText}>Login</Text>
             </Pressable>
             <Pressable style={styles.secondaryButton} onPress={() => { console.log("pressed") }}>

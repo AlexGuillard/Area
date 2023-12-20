@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Colors} from 'react-native/Libraries/NewAppScreen';
 import ReactionList from '../components/ReactionList/reactionList.tsx'
 import { Appbar } from 'react-native-paper';
-import MyAppBar from '../components/myAppBar.tsx';
 import ServiceList from '../components/ServiceList/serviceList.tsx';
 
 function Service(): React.JSX.Element {
@@ -23,7 +22,6 @@ function Service(): React.JSX.Element {
           barStyle={'light-content'}
           backgroundColor={backgroundStyle.backgroundColor}
         />
-        <MyAppBar title="Services"/>
         <View style={styles.listContainer}>
         <ServiceList/>
         </View>
