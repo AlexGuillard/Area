@@ -52,7 +52,6 @@ export class ActionService {
       });
       areas.push(...actionAreas);
     }
-    console.log('every area with ' + name + ': ' + areas);
     return areas;
   }
 
@@ -71,15 +70,14 @@ export class ActionService {
           id: area.userId,
         },
       });
-      //   to use when using name of reaction for onEvent
-      //   const reaction = await this.prisma.reaction.findUnique({
-      //     where: {
-      //       id: area.reactionId,
-      //     },
-      //   });
+        const reaction = await this.prisma.reaction.findUnique({
+          where: {
+            id: area.reactionId,
+          },
+        });
       // change order.created with name of reaction from onEvent
       this.eventEmitter.emit(
-        'order.created',
+        reaction.name,
         'subject',
         user.email,
         'action',
