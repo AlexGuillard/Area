@@ -27,9 +27,6 @@ export class MailingService {
       oauth2Client.getAccessToken((err, token) => {
         if (err) {
           console.log(err);
-          console.log('GOOGLE_CLIENT_ID:', this.configService.get('GOOGLE_CLIENT_ID'));
-          console.log('GOOGLE_CLIENT_SECRET:', this.configService.get('GOOGLE_CLIENT_SECRET'));
-          console.log('REFRESH_TOKEN:', process.env.REFRESH_TOKEN);
           reject('Failed to create access token');
         }
         resolve(token);
