@@ -24,11 +24,8 @@ function Register() {
       mail: textEmail,
       password: textPassWord,
     };
-    console.log(process.env.REACT_APP_SERVER_URL)
     axios.post(process.env.REACT_APP_SERVER_URL + '/auth/signup', data)
       .then(response => {
-        console.log(response.data)
-        console.log(response.data[2])
         Cookies.set('token', response.data[2])
         navigate("/Area")
       })
