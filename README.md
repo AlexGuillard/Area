@@ -37,3 +37,12 @@ You can stop the project with the following command:
 ```bash
 docker-compose down
 ```
+
+### Update images
+
+You can update the images of the project with the following command:
+(don't forget to stop the project before [Stop](#stop))
+
+```bash
+docker-compose build
+```
