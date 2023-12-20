@@ -1,5 +1,5 @@
 import { GoogleOAuthGuard } from './google-oauth.guard';
-import { Controller, Get, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Request, Res, UseGuards } from '@nestjs/common';
 import { GoogleAuthService } from './google-auth.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { ForbiddenException } from '@nestjs/common';
@@ -22,7 +22,7 @@ export class GoogleAuthController {
   @ApiOperation({
     summary: 'Google Auth Redirect',
   })
-  async googleAuthRedirect(@Request() req) {
+  async googleAuthRedirect(@Request() req, @Res() res) {
     const token = await this.appService.googleLogin(req);
 
     const user = await this.prisma.user.findUnique({
@@ -43,6 +43,7 @@ export class GoogleAuthController {
       },
     });
 
-    return token;
+    // return token;
+    return res.redirect('http://localhost:8081/Area');
   }
 }
