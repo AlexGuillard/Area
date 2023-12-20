@@ -5,7 +5,6 @@ import { Injectable, Ip } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ActionDescriptionDto, ActionDto } from './dto';
-import { AboutDto } from 'src/about/dto';
 import { AboutService } from 'src/about/about.service';
 
 @Injectable()
@@ -58,7 +57,7 @@ export class ActionService {
         const stringDate = await this.getTime();
         const date = new Date(stringDate).getMinutes();
         if (date !== this.previousDate && this.previousDate !== undefined) {
-            this.getAreas('time')
+            this.getAreas('setTimer')
         }
         this.previousDate = date;
         return date;

@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ServicesModule } from './services/services.module';
 import { ActionModule } from './action/action.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AreaModule } from './area/area.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { ScheduleModule } from '@nestjs/schedule';
     ConfigModule.forRoot(),
     ServicesModule,
     ActionModule,
-    ScheduleModule.forRoot()
+    ScheduleModule.forRoot(),
+    AreaModule
   ],
 })
 export class AppModule {}
