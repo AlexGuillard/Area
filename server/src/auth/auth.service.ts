@@ -122,8 +122,6 @@ export class AuthService {
           },
         });
 
-        console.log(service);
-
         return {
           user: {
             id: newUser.id,
@@ -134,8 +132,6 @@ export class AuthService {
           },
         };
       }
-
-      console.log(existingUser);
 
       const newRandomToken = uid(16);
 
