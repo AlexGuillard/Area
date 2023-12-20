@@ -12,7 +12,12 @@ describe('ActionService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [HttpModule, PrismaModule, ActionModule, EventEmitterModule.forRoot()],
+      imports: [
+        HttpModule,
+        PrismaModule,
+        ActionModule,
+        EventEmitterModule.forRoot(),
+      ],
       providers: [ActionService, MeService, AboutService],
     }).compile();
 

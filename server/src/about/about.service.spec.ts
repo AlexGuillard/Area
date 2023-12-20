@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AboutService } from './about.service';
-import { Response, Request } from 'express';
 import { AboutController } from './about.controller';
-import { Socket } from 'net';
 import { AboutDto } from './dto';
 
 describe('AboutService', () => {
