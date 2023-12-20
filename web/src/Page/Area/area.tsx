@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import './area.css';
 import { useState } from 'react';
 import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-dom';
+import Cookies from 'js-cookie';
 import User from '../../Image/User.png'
 import AddIcon from '../../Image/AddIcon.png'
 import AreaCard from '../../Component/AreaCard/areaCard'
@@ -29,7 +30,10 @@ function Area() {
   }
 
   useEffect(() => {
-    setListArea(["test1", "test2", "test3"])
+    const storedToken = Cookies.get('token');
+    if (storedToken == null)
+      navigate("/")
+    // setListArea(["test1", "test2", "test3"])
   }, []);
 
   return (

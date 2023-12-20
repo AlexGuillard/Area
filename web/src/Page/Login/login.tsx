@@ -1,13 +1,16 @@
 import React from 'react';
-import { useState } from 'react';
 import './login.css';
+import { useState } from 'react';
 import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function Login() {
 
+  const navigate = useNavigate()
+
   const [textEmail, setTextEmail] = useState("");
   const [textPassWord, setTextPassWord] = useState("");
-  const navigate = useNavigate()
 
   const handleTextChangeUser = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextEmail(event.target.value);
@@ -17,7 +20,18 @@ function Login() {
   };
 
   const handleClickConnection = () => {
-    navigate("/Area")
+    const data = {
+      mail: textEmail,
+      password: textPassWord,
+    };
+    axios.post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
+      .then(response => {
+        Cookies.set('token', response.data[2])
+        navigate("/Area")
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   return (
@@ -38,8 +52,8 @@ function Login() {
           placeholder="Pass word"
           className='passwordLoginArea'
         />
-        <div className='connectionButon'>
-          <span onClick={handleClickConnection}>
+        <div className='connectionButon' onClick={handleClickConnection}>
+          <span>
             Connection
           </span>
         </div>

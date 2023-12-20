@@ -1,9 +1,13 @@
 import React from 'react';
-import { useState } from 'react';
 import './register.css';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function Register() {
+
+  const navigate = useNavigate()
 
   const [textEmail, setTextEmail] = useState("");
   const [textPassWord, setTextPassWord] = useState("");
@@ -14,6 +18,21 @@ function Register() {
   const handleTextChangePassWord = (event: React.ChangeEvent<HTMLInputElement>) => {
       setTextPassWord(event.target.value);
   };
+
+  const handleClickRegister = () => {
+    const data = {
+      mail: textEmail,
+      password: textPassWord,
+    };
+    axios.post(process.env.REACT_APP_SERVER_URL + '/auth/signup', data)
+      .then(response => {
+        Cookies.set('token', response.data[2])
+        navigate("/Area")
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 
   return (
     <div className='registerPageBody'>
@@ -33,7 +52,7 @@ function Register() {
           placeholder="Pass word"
           className='passwordRegisterArea'
         />
-        <div className='connectionButon'>
+        <div className='connectionButon' onClick={handleClickRegister}>
           <span>
             Register
           </span>
