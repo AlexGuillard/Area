@@ -1,7 +1,9 @@
 import React from 'react';
-import { useState } from 'react';
 import './register.css';
+import { useState } from 'react';
 import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function Register() {
 
@@ -18,7 +20,21 @@ function Register() {
   };
 
   const handleClickRegister = () => {
-    navigate("/Area")
+    const data = {
+      mail: textEmail,
+      password: textPassWord,
+    };
+    console.log(process.env.REACT_APP_SERVER_URL)
+    axios.post(process.env.REACT_APP_SERVER_URL + '/auth/signup', data)
+      .then(response => {
+        console.log(response.data)
+        console.log(response.data[2])
+        Cookies.set('token', response.data[2])
+        navigate("/Area")
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   return (
