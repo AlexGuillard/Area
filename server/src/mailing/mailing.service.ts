@@ -48,7 +48,13 @@ export class MailingService {
   }
 
   @OnEvent('order.created')
-  public async sendMail(subject: string, to: string, template: string, from: string, code: string) {
+  public async sendMail(
+    subject: string,
+    to: string,
+    template: string,
+    from: string,
+    code: string,
+  ) {
     await this.setTransport();
     this.mailerService
       .sendMail({
@@ -69,8 +75,4 @@ export class MailingService {
         console.log(err);
       });
   }
-
-
 }
-
-

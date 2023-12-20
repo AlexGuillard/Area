@@ -1,1 +1,1 @@
-export * from './area.dto'
+export * from './area.dto';

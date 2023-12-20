@@ -3,10 +3,10 @@ import { ActionService } from './action.service';
 
 @Controller(':token/')
 export class ActionController {
-    constructor(private authService: ActionService) {}
+  constructor(private authService: ActionService) {}
 
-    @Get('actions')
-    getActions(@Param('token') token: string) {
-      return this.authService.getActions(token);
-    }
+  @Get('actions')
+  getActions(@Param('token') token: string) {
+    return this.authService.getActions(token);
+  }
 }

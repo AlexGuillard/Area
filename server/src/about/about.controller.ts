@@ -7,7 +7,7 @@ export class AboutController {
   constructor(private aboutService: AboutService) {}
 
   @Get('/about.json')
-  getAbout(@Ip() ip): AboutDto {
+  getAbout(@Ip() ip: Request): AboutDto {
     return this.aboutService.getAbout(ip);
   }
 }

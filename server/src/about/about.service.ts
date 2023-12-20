@@ -49,8 +49,7 @@ export class AboutService {
                 description: 'trigger reaction at end of timer',
               },
             ],
-            reactions: [
-            ],
+            reactions: [],
           },
         ],
       },

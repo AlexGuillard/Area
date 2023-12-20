@@ -14,7 +14,7 @@ export class ActionDto {
 
   @ApiProperty()
   @IsNotEmpty()
-    @IsString()
+  @IsString()
   name: string;
 
   @ApiProperty()
@@ -29,14 +29,13 @@ export class ActionDto {
 }
 
 export class ActionDescriptionDto {
-    @ApiProperty()
-    @IsNotEmpty()
-      @IsString()
-    name: string;
-  
-    @ApiProperty()
-    @IsNotEmpty()
-      @IsString()
-    description: string;
-  }
-  
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  description: string;
+}
