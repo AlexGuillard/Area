@@ -53,7 +53,7 @@ export class ActionService {
     }
 
     @Cron(CronExpression.EVERY_10_SECONDS)
-    async findAll() {
+    async ActionsetTimer() {
         const stringDate = await this.getTime();
         const date = new Date(stringDate).getMinutes();
         if (date !== this.previousDate && this.previousDate !== undefined) {
