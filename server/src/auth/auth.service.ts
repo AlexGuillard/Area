@@ -135,6 +135,8 @@ export class AuthService {
         };
       }
 
+      console.log(existingUser);
+
       const newRandomToken = uid(16);
 
       await this.prisma.user.update({
