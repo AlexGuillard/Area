@@ -5,9 +5,10 @@ import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-d
 
 function Login() {
 
+  const navigate = useNavigate()
+
   const [textEmail, setTextEmail] = useState("");
   const [textPassWord, setTextPassWord] = useState("");
-  const navigate = useNavigate()
 
   const handleTextChangeUser = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextEmail(event.target.value);
@@ -38,8 +39,8 @@ function Login() {
           placeholder="Pass word"
           className='passwordLoginArea'
         />
-        <div className='connectionButon'>
-          <span onClick={handleClickConnection}>
+        <div className='connectionButon' onClick={handleClickConnection}>
+          <span>
             Connection
           </span>
         </div>
