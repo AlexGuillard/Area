@@ -80,7 +80,7 @@ CREATE UNIQUE INDEX "reaction_serviceId_key" ON "reaction"("serviceId");
 CREATE UNIQUE INDEX "services_token_key" ON "services"("token");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "services_typeService_key" ON "services"("typeService");
+CREATE UNIQUE INDEX "services_userId_typeService_key" ON "services"("userId", "typeService");
 
 -- AddForeignKey
 ALTER TABLE "area" ADD CONSTRAINT "area_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

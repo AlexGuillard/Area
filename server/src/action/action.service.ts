@@ -6,10 +6,15 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ActionDescriptionDto, ActionDto } from './dto';
 import { AboutService } from 'src/about/about.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class ActionService {
-    constructor(private httpService: HttpService, private me: MeService, private prisma: PrismaService, private about: AboutService) {}
+    constructor(private httpService: HttpService,
+        private me: MeService,
+        private prisma: PrismaService,
+        private about: AboutService,
+        private eventEmitter: EventEmitter2) {}
     private previousDate: number;
 
     async getActions(token: string) {
@@ -52,12 +57,29 @@ export class ActionService {
         return String(date.data.datetime);
     }
 
+    async executeReaction(nameAction: string) {
+        const areas = await this.getAreas(nameAction);
+        for (const area of areas) {
+            const user = await this.prisma.user.findUnique({
+                where: {
+                    id: area.userId,
+                },
+            });
+            const reaction = await this.prisma.reaction.findUnique({
+                where: {
+                    id: area.reactionId,
+                },
+            });
+            this.eventEmitter.emit('order.created', "subject", user.email, "action", user.email, "158");
+        }
+    }
+
     @Cron(CronExpression.EVERY_10_SECONDS)
     async ActionsetTimer() {
         const stringDate = await this.getTime();
         const date = new Date(stringDate).getMinutes();
         if (date !== this.previousDate && this.previousDate !== undefined) {
-            this.getAreas('setTimer')
+            this.executeReaction('setTimer')
         }
         this.previousDate = date;
         return date;

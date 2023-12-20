@@ -42,6 +42,13 @@ export class AuthService {
           token: uid(16),
         },
       });
+      await this.prisma.services.create({
+        data: {
+          userId: user.id,
+          typeService: ServiceType.GOOGLE,
+          token: uid(16),
+        },
+      });
       return user;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {

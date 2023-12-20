@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { MeService } from '../me/me.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AreaDto, NewAreaDto } from './dto';
+import { ServiceType } from '@prisma/client';
 
 @Injectable()
 export class AreaService {
@@ -39,12 +40,18 @@ export class AreaService {
         const user = await this.me.getUser(token);
         const serviceAction = await this.prisma.services.findUnique({
             where: {
-                typeService: body.nameServiceAction,
+                UniqueUserService: {
+                  userId: user.id,
+                  typeService: body.nameServiceAction,
+                },
             },
-        });
+          });
         const serviceReaction = await this.prisma.services.findUnique({
             where: {
-                typeService: body.nameServiceReaction,
+                UniqueUserService: {
+                  userId: user.id,
+                  typeService: body.nameServiceAction,
+                },
             },
         });
         const action = await this.prisma.action.create({

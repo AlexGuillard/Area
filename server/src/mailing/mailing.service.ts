@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { MailerService } from '@nestjs-modules/mailer';
 import { google } from 'googleapis';
 import { Options } from 'nodemailer/lib/smtp-transport';
+import { OnEvent } from '@nestjs/event-emitter';
 
 @Injectable()
 export class MailingService {
@@ -46,6 +47,7 @@ export class MailingService {
     this.mailerService.addTransporter('gmail', config);
   }
 
+  @OnEvent('order.created')
   public async sendMail(subject: string, to: string, template: string, from: string, code: string) {
     await this.setTransport();
     this.mailerService

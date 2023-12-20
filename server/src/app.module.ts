@@ -12,6 +12,7 @@ import { AreaModule } from './area/area.module';
 import { MailingModule } from './mailing/mailing.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -26,8 +27,9 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
     ServicesModule,
     ActionModule,
     ScheduleModule.forRoot(),
-    AreaModule
+    AreaModule,
     MailingModule,
+    EventEmitterModule.forRoot(),
     MailerModule.forRoot({
       transport: 'smtps://user@domain.com:pass@smtp.domain.com',
       template: {
