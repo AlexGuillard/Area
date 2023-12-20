@@ -48,16 +48,21 @@ services:
 
   client_web:
     restart: on-failure
-    build: ./web
+    build:
+      context: ./web
+      args:
+        - REACT_APP_SERVER_URL=${SERVER_URL}
+        - REACT_APP_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
     networks:
       - back-tier
     depends_on:
       - server
       - client_mobile
-    environment:
-      REACT_APP_SERVER_URL: ${SERVER_URL}
-      REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+    # environment:
+    #   REACT_APP_SERVER_URL: ${SERVER_URL}
+    #   REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     volumes:
+      - ./web:/usr/src/app/react-docker
       - common-volume:/common-volume
     ports:
       - 8081:8081
