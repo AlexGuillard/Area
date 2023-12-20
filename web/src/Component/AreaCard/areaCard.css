@@ -1,0 +1,14 @@
+.areaCardBody {
+    width: 250px;
+    height: 90px;
+    background-color: #C7C4DC;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.areaCardName {
+    font-size: 20px;
+    color: #000000;
+}

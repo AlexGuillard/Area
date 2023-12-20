@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+  db:
+    restart: on-failure
+    image: postgres:13
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - db
+
+  server:
+    restart: on-failure
+    build: ./server
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      WEB_URL: ${WEB_URL}
+    ports:
+      - 8080:8080
+    networks:
+      - db
+      - back-tier
+
+  setup-db:
+    restart: on-failure
+    build: ./server
+    depends_on:
+      - db
+    command: npm run db:dev:deploy
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
+    networks:
+      - db
+
+  client_mobile:
+    restart: on-failure
+    build: ./mobile
+    volumes:
+      - common-volume:/common-volume
+
+  client_web:
+    restart: on-failure
+    build: ./web
+    networks:
+      - back-tier
+    depends_on:
+      - server
+      - client_mobile
+    environment:
+      REACT_APP_SERVER_URL: ${SERVER_URL}
+      REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+    volumes:
+      - common-volume:/common-volume
+    ports:
+      - 8081:8081
+
+networks:
+  db:
+  back-tier:
+
+volumes:
+  common-volume:
