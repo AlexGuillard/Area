@@ -6,8 +6,12 @@ import {
 import { Colors} from 'react-native/Libraries/NewAppScreen';
 import ReactionList from '../components/ReactionList/reactionList'
 import { Appbar } from 'react-native-paper';
+import AddComponent from '../components/addComponent';
 
-function AreaPage(): React.JSX.Element {
+const AreaPage = () => {
+  const [showAddArea, setShowAddArea] = useState(false);
+  const [showEditArea, setShowEditArea] = useState(false);
+  const [areaSelected, setAreaSelected] = useState("");
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor:  Colors.darker,
@@ -16,18 +20,45 @@ function AreaPage(): React.JSX.Element {
     alignItems: 'center',
   };
 
+  const handleClickAdd = () => {
+    setShowEditArea(false)
+    setShowAddArea(true)
+  }
+
+  const handleClickEdit = (item: string) => {
+    setShowEditArea(true)
+    setShowAddArea(false)
+    setAreaSelected(item)
+  }
+
   return (
     <SafeAreaView style={backgroundStyle}>
         <StatusBar
           barStyle={'light-content'}
           backgroundColor={backgroundStyle.backgroundColor}
         />
+        {
+          showAddArea &&
+          (
+            <View style={styles.addComponent}>
+               <TouchableOpacity style={{height: "100%", width: "100%", position: 'absolute', zIndex: 2}}
+                onPress={() => setShowAddArea(false)}
+                />
+              <AddComponent/>
+            </View>
+          )
+        }
         <View style={styles.listReaction}>
           <ReactionList/>
         </View>
-        <TouchableOpacity style={styles.addButton}>
-          <Image source={require('../../assets/FAB.png')} />
-        </TouchableOpacity>
+        {
+          showAddArea==false &&
+          (
+            <TouchableOpacity style={styles.addButton} onPress={handleClickAdd}>
+              <Image source={require('../../assets/FAB.png')} />
+            </TouchableOpacity>
+          )
+        }
           <Appbar style={styles.bottomBar}>
           </Appbar>
       </SafeAreaView>
@@ -40,6 +71,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
   },
+  addComponent: {
+    position: 'absolute',
+    height: "100%",
+    width: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1
+  },
   addButton: {
     backgroundColor: "#4A4458",
     borderRadius: 16,
@@ -51,7 +93,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: 'absolute',
     bottom: 20,
-    zIndex: 1
+    zIndex: 3
   },
   header: {
     backgroundColor : "rgba(197, 192, 255, 1)",
