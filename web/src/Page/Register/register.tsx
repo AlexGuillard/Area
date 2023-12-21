@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import GoogleButton from '../../Component/GoogleButton/GoogleButton';
 
 function Register() {
 
@@ -57,6 +58,9 @@ function Register() {
             Register
           </span>
         </div>
+
+        <GoogleButton />
+
         <Link to="/" className='registerButon'>
           Login
         </Link>
