@@ -62,7 +62,7 @@ services:
     #   REACT_APP_SERVER_URL: ${SERVER_URL}
     #   REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     volumes:
-      - ./web:/usr/src/app/react-docker
+      - ./web/src:/usr/src/app/react-docker/src
       - common-volume:/common-volume
     ports:
       - 8081:8081
