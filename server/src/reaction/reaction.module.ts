@@ -9,6 +9,6 @@ import { AboutService } from '../about/about.service';
 @Module({
   imports: [HttpModule, PrismaModule],
   providers: [ReactionService, MeService, AboutService],
-  controllers: [ReactionController]
+  controllers: [ReactionController],
 })
 export class ReactionModule {}

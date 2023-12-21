@@ -70,11 +70,11 @@ export class ActionService {
           id: area.userId,
         },
       });
-        const reaction = await this.prisma.reaction.findUnique({
-          where: {
-            id: area.reactionId,
-          },
-        });
+      const reaction = await this.prisma.reaction.findUnique({
+        where: {
+          id: area.reactionId,
+        },
+      });
       // change order.created with name of reaction from onEvent
       this.eventEmitter.emit(
         reaction.name,

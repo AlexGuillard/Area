@@ -18,14 +18,18 @@ export class AreaService {
     const matchingService = infos.server.services.find((service) => {
       let matchingEvent = false;
       if (isAction) {
-        matchingEvent = service.actions.some((action) => action.name === actionReactionName);
+        matchingEvent = service.actions.some(
+          (action) => action.name === actionReactionName,
+        );
       } else {
-        matchingEvent = service.reactions.some((reaction) => reaction.name === actionReactionName);
+        matchingEvent = service.reactions.some(
+          (reaction) => reaction.name === actionReactionName,
+        );
       }
-  
+
       return matchingEvent;
     });
-  
+
     if (matchingService) {
       return matchingService.name as ServiceType;
     }
@@ -81,9 +85,13 @@ export class AreaService {
       },
     });
     if (!serviceAction) {
-      throw new ForbiddenException("You are not connected to the service "+ serviceActionName);
+      throw new ForbiddenException(
+        'You are not connected to the service ' + serviceActionName,
+      );
     } else if (!serviceReaction) {
-      throw new ForbiddenException("You are not connected to the service "+ serviceReactionName);
+      throw new ForbiddenException(
+        'You are not connected to the service ' + serviceReactionName,
+      );
     }
     const action = await this.prisma.action.create({
       data: {
