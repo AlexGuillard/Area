@@ -18,11 +18,14 @@ services:
     build: ./server
     depends_on:
       - db
+    command: npm run start:dev
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
       WEB_URL: ${WEB_URL}
+    volumes:
+      - ./server/src:/usr/src/app/nest-docker/src
     ports:
       - 8080:8080
     networks:

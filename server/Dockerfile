@@ -1,9 +1,20 @@
-FROM node:21-alpine
+FROM node:20
 
-COPY . .
+ENV NODE_ENV development
+
+RUN mkdir common-volume
+
+WORKDIR /usr/src/app/nest-docker
+
+COPY package*.json ./
 
 RUN npm install
 
-EXPOSE 8080
+COPY . .
 
-CMD ["npm", "start"]
+RUN npx prisma generate
+
+EXPOSE 8081
+
+CMD ["npm", "run", "start"]
+
