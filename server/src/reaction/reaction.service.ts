@@ -33,4 +33,6 @@ export class ReactionService {
       }
       return allReactions;
     }
+
+    // when adding a new reaction, make a @onEvent(name in about.json) before
 }
