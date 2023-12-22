@@ -1,0 +1,17 @@
+name: Apk check
+
+# on pr on main branch
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    # use dockerfile to build the image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        working-directory: ./mobile
+        run: docker build -t mobile-apk .
