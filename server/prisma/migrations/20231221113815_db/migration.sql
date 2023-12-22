@@ -62,19 +62,10 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 CREATE UNIQUE INDEX "users_randomToken_key" ON "users"("randomToken");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "area_userId_key" ON "area"("userId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "area_actionId_key" ON "area"("actionId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "area_reactionId_key" ON "area"("reactionId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "action_serviceId_key" ON "action"("serviceId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "reaction_serviceId_key" ON "reaction"("serviceId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "services_token_key" ON "services"("token");
