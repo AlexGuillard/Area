@@ -31,7 +31,7 @@ services:
       REFRESH_TOKEN: ${REFRESH_TOKEN}
       EMAIL: ${EMAIL}
     volumes:
-      - ./server/src:/usr/src/app/nest-docker/src
+      - ./server/src:/app/src
     ports:
       - 8080:8080
     networks:
