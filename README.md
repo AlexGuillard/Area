@@ -19,7 +19,9 @@ GOOGLE_CLIENT_SECRET=Your GOOGLE_CLIENT_SECRET
 You can start the project with the following command:
 
 ```bash
-docker-compose up -d
+docker-compose up [-d] [--build]
+# -d to run it in background
+# --build to rebuild the images rather that running build each time
 ```
 (you can remove -d to see the logs)
 
@@ -36,6 +38,8 @@ You can stop the project with the following command:
 
 ```bash
 docker-compose down
+# or if you want to remove it clean
+docker-compose down --volumes --remove-orphans
 ```
 
 ### Update images
@@ -46,3 +50,13 @@ You can update the images of the project with the following command:
 ```bash
 docker-compose build
 ```
+
+### Clean images
+
+You can clean the images of the project with the following command:
+
+```bash
+docker image prune
+```
+
+It will remove all the images that are not used by a container like `<None>` images.
