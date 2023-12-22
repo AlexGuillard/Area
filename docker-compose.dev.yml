@@ -20,7 +20,7 @@ services:
       context: ./server
       dockerfile: Dockerfile
     container_name: server
-    image: server
+    image: server_dev
     depends_on:
       - db
     command: npm run start:dev
@@ -41,10 +41,11 @@ services:
 
   setup-db:
     restart: on-failure
-    image: server
+    image: server_dev
     container_name: setup-db
     depends_on:
       - db
+      - server
     command: npm run db:dev:deploy
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
@@ -64,6 +65,7 @@ services:
   client_web:
     restart: always
     container_name: client_web
+    image: client_web_dev
     build:
       context: ./web
       dockerfile: Dockerfile.dev

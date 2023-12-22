@@ -20,7 +20,7 @@ services:
       context: ./server
       dockerfile: Dockerfile
     container_name: server
-    image: server
+    image: server_prod
     depends_on:
       - db
     command: npm run start:dev
@@ -41,7 +41,7 @@ services:
 
   setup-db:
     restart: on-failure
-    image: server
+    image: server_prod
     container_name: setup-db
     depends_on:
       - db
@@ -63,6 +63,7 @@ services:
   client_web:
     restart: always
     container_name: client_web
+    image: client_web_prod
     build:
       context: ./web
       dockerfile: Dockerfile.prod
