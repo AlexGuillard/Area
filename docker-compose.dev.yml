@@ -18,12 +18,11 @@ services:
     restart: always
     build:
       context: ./server
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     container_name: server
     image: server_dev
     depends_on:
       - db
-    command: npm run start:dev
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}

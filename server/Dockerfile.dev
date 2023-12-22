@@ -2,9 +2,7 @@ FROM node:20
 
 ENV NODE_ENV development
 
-RUN mkdir common-volume
-
-WORKDIR /usr/src/app/nest-docker
+WORKDIR /app
 
 COPY package*.json ./
 
@@ -16,5 +14,5 @@ RUN npx prisma generate
 
 EXPOSE 8081
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start:dev"]
 

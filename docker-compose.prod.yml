@@ -18,12 +18,11 @@ services:
     restart: always
     build:
       context: ./server
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     container_name: server
     image: server_prod
     depends_on:
       - db
-    command: npm run start:dev
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
@@ -31,8 +30,6 @@ services:
       WEB_URL: ${WEB_URL}
       REFRESH_TOKEN: ${REFRESH_TOKEN}
       EMAIL: ${EMAIL}
-    volumes:
-      - ./server/src:/usr/src/app/nest-docker/src
     ports:
       - 8080:8080
     networks:
@@ -76,7 +73,6 @@ services:
       REACT_APP_SERVER_URL: ${SERVER_URL}
       REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     volumes:
-      - ./web/src:/app/src
       - common-volume:/common-volume
     ports:
       - 8081:8081
