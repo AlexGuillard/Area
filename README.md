@@ -19,7 +19,7 @@ GOOGLE_CLIENT_SECRET=Your GOOGLE_CLIENT_SECRET
 You can start the project with the following command:
 
 ```bash
-docker-compose up -f docker-compose[.dev].yml [-d] [--build]
+docker-compose -f docker-compose[.dev|.prod].yml up [-d] [--build]
 # -f to specify the file to use, you can use docker-compose.dev.yml to use the dev version, it will enable the hot reload. (it will use Dockerfile.dev instead of Dockerfile)
 # -d to run it in background
 # --build to rebuild the images rather that running build each time
@@ -40,10 +40,10 @@ You can stop the project with the following command:
 ```bash
 docker-compose down
 # or if you want to remove it clean
-docker-compose down [--volumes] [--remove-orphans] [--rmi all]
+docker-compose -f docker-compose[.dev|.prod].yml down [--volumes] [--remove-orphans] [--rmi local]
 # --volumes to remove the volumes
 # --remove-orphans to remove the containers that are not in the docker-compose.yml file
-# --rmi all to remove all the images, you can also use 'local' to remove only the images that are not on a registry
+# --rmi local to remove all the images, you can also use 'all' to remove all the images
 ```
 
 ### Update images
@@ -52,7 +52,7 @@ You can update the images of the project with the following command:
 (don't forget to stop the project before [Stop](#stop))
 
 ```bash
-docker-compose build
+docker-compose -f docker-compose[.dev|.prod].yml build
 ```
 
 ### Clean images

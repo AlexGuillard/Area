@@ -3,6 +3,7 @@ version: "3.8"
 services:
   db:
     restart: always
+    container_name: db
     image: postgres:13
     ports:
       - 5432:5432
@@ -18,6 +19,8 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
+    container_name: server
+    image: server
     depends_on:
       - db
     command: npm run start:dev
@@ -38,9 +41,8 @@ services:
 
   setup-db:
     restart: on-failure
-    build:
-      context: ./server
-      dockerfile: Dockerfile
+    image: server
+    container_name: setup-db
     depends_on:
       - db
     command: npm run db:dev:deploy
@@ -51,17 +53,20 @@ services:
 
   client_mobile:
     restart: on-failure
+    container_name: client_mobile
     build:
       context: ./mobile
       dockerfile: Dockerfile
+    command:
     volumes:
       - common-volume:/common-volume
 
   client_web:
     restart: always
+    container_name: client_web
     build:
       context: ./web
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       # args:
       #   - REACT_APP_SERVER_URL=${SERVER_URL}
       #   - REACT_APP_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
@@ -74,7 +79,7 @@ services:
       REACT_APP_SERVER_URL: ${SERVER_URL}
       REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     volumes:
-      - ./web/src:/usr/src/app/react-docker/src
+      - ./web/src:/app/src
       - common-volume:/common-volume
     ports:
       - 8081:8081

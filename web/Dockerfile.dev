@@ -4,7 +4,7 @@ ENV NODE_ENV development
 
 RUN mkdir common-volume
 
-WORKDIR /usr/src/app/react-docker
+WORKDIR /app
 
 COPY package*.json ./
 
