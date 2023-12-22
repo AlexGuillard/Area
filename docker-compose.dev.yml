@@ -1,0 +1,87 @@
+version: "3.8"
+
+services:
+  db:
+    restart: always
+    image: postgres:13
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - db
+
+  server:
+    restart: always
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    command: npm run start:dev
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      WEB_URL: ${WEB_URL}
+      REFRESH_TOKEN: ${REFRESH_TOKEN}
+      EMAIL: ${EMAIL}
+    volumes:
+      - ./server/src:/usr/src/app/nest-docker/src
+    ports:
+      - 8080:8080
+    networks:
+      - db
+      - back-tier
+
+  setup-db:
+    restart: on-failure
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    command: npm run db:dev:deploy
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
+    networks:
+      - db
+
+  client_mobile:
+    restart: on-failure
+    build:
+      context: ./mobile
+      dockerfile: Dockerfile
+    volumes:
+      - common-volume:/common-volume
+
+  client_web:
+    restart: always
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      # args:
+      #   - REACT_APP_SERVER_URL=${SERVER_URL}
+      #   - REACT_APP_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+    networks:
+      - back-tier
+    depends_on:
+      - server
+      - client_mobile
+    environment:
+      REACT_APP_SERVER_URL: ${SERVER_URL}
+      REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+    volumes:
+      - ./web/src:/usr/src/app/react-docker/src
+      - common-volume:/common-volume
+    ports:
+      - 8081:8081
+
+networks:
+  db:
+  back-tier:
+
+volumes:
+  common-volume:
