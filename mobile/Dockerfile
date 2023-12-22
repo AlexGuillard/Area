@@ -1,4 +1,4 @@
-FROM reactnativecommunity/react-native-android:latest
+FROM reactnativecommunity/react-native-android:latest as builder
 
 WORKDIR /app
 
@@ -23,3 +23,8 @@ RUN ./gradlew assembleRelease
 RUN mkdir -p /common-volume
 
 RUN cp app/build/outputs/apk/release/app-release.apk /common-volume/app-release.apk
+
+FROM scratch
+
+COPY --from=builder /common-volume /common-volume
+
