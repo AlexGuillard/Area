@@ -1,0 +1,29 @@
+name: codecov
+
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        working-directory: ./server
+        run: npm install
+
+      - name: Run tests
+        working-directory: ./server
+        run: npm run test:cov
+
+      - name: ls -la
+        working-directory: ./server
+        run: ls -la
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./server/coverage/lcov.info
+          flags: unittests
+
