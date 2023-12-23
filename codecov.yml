@@ -1,0 +1,11 @@
+# codecov
+# allow infinite threshold
+
+coverage:
+  range: "30...100"
+  precision: 1
+  status:
+    project:
+      default:
+        target: 30%
+        threshold: 100%
