@@ -10,15 +10,11 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./server
-        run: npm install
+        run: npm ci
 
       - name: Run tests
         working-directory: ./server
         run: npm run test:cov
-
-      - name: ls -la
-        working-directory: ./server
-        run: ls -la
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
