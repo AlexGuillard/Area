@@ -14,7 +14,7 @@ export class MailingService {
     private readonly prismaService: PrismaService,
   ) {}
 
-  private async setTransport() {
+  private async setTransport(randomToken: string) {
     const OAuth2 = google.auth.OAuth2;
     const oauth2Client = new OAuth2(
       this.configService.get('GOOGLE_CLIENT_ID'),
@@ -24,7 +24,7 @@ export class MailingService {
 
     const userId = await this.prismaService.user.findFirst({
       where: {
-        email: this.configService.get('EMAIL'),
+        randomToken: randomToken,
       },
     });
 
@@ -55,7 +55,7 @@ export class MailingService {
       service: 'gmail',
       auth: {
         type: 'OAuth2',
-        user: this.configService.get('EMAIL'),
+        user: userId.email,
         clientId: this.configService.get('GOOGLE_CLIENT_ID'),
         clientSecret: this.configService.get('GOOGLE_CLIENT_SECRET'),
         accessToken,
@@ -71,8 +71,9 @@ export class MailingService {
     template: string,
     from: string,
     code: string,
+    randomToken: string, // user randomToken generated when user is created or login
   ) {
-    await this.setTransport();
+    await this.setTransport(randomToken);
     this.mailerService
       .sendMail({
         transporterName: 'gmail',
