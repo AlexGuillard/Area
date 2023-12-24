@@ -36,7 +36,7 @@ model User {
 
 model Area {
   id         Int      @id @default(autoincrement())
-  userId     Int      @unique
+  userId     Int
   name       String
   actionId   Int      @unique
   reactionId Int      @unique
@@ -50,7 +50,7 @@ model Action {
   id                  Int      @id @default(autoincrement())
   name                String
   stringParameter     String?
-  serviceId           Int      @unique
+  serviceId           Int
   area                Area[]
   Services            Services @relation("Actionlink", fields: [serviceId], references: [id])
   @@map("action")
@@ -60,7 +60,7 @@ model Reaction {
   id                  Int      @id @default(autoincrement())
   name                String
   stringParameter     String?
-  serviceId           Int      @unique
+  serviceId           Int
   area                Area[]
   Services            Services @relation("Reactionlink", fields: [serviceId], references: [id])
   @@map("reaction")

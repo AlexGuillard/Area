@@ -50,7 +50,7 @@ function Register() {
           id="text-input"
           value={textPassWord}
           onChange={handleTextChangePassWord}
-          placeholder="Pass word"
+          placeholder="Password"
           className='passwordRegisterArea'
         />
         <div className='connectionButon' onClick={handleClickRegister}>

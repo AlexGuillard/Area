@@ -49,7 +49,7 @@ function Login() {
           id="text-input"
           value={textPassWord}
           onChange={handleTextChangePassWord}
-          placeholder="Pass word"
+          placeholder="Password"
           className='passwordLoginArea'
         />
         <div className='connectionButon' onClick={handleClickConnection}>
