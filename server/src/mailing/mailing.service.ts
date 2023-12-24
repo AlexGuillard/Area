@@ -4,12 +4,14 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { google } from 'googleapis';
 import { Options } from 'nodemailer/lib/smtp-transport';
 import { OnEvent } from '@nestjs/event-emitter';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class MailingService {
   constructor(
     private readonly configService: ConfigService,
     private readonly mailerService: MailerService,
+    private readonly prismaService: PrismaService,
   ) {}
 
   private async setTransport() {
@@ -20,8 +22,23 @@ export class MailingService {
       'https://developers.google.com/oauthplayground',
     );
 
+    const userId = await this.prismaService.user.findFirst({
+      where: {
+        email: this.configService.get('EMAIL'),
+      },
+    });
+
+    if (!userId) {
+      throw new Error('User not found, or google services not configured');
+    }
+
+    const service = await this.prismaService.services.findMany({
+      where: { userId: userId.id },
+      select: { token: true },
+    })
+
     oauth2Client.setCredentials({
-      refresh_token: process.env.REFRESH_TOKEN,
+      refresh_token: service[0].token,
     });
 
     const accessToken: string = await new Promise((resolve, reject) => {
