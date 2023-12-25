@@ -35,7 +35,7 @@ export class MailingService {
     const service = await this.prismaService.services.findMany({
       where: { userId: userId.id },
       select: { token: true },
-    })
+    });
 
     oauth2Client.setCredentials({
       refresh_token: service[0].token,

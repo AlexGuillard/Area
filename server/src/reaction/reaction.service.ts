@@ -40,7 +40,14 @@ export class ReactionService {
   public async handleSendEmail(eventPayLoad: any) {
     const { subject, to, template, from, code, randomToken } = eventPayLoad;
 
-    await this.mailingService.sendMail(subject, to, template, from, code, randomToken);
+    await this.mailingService.sendMail(
+      subject,
+      to,
+      template,
+      from,
+      code,
+      randomToken,
+    );
   }
 
   // when adding a new reaction, make a @onEvent(name in about.json) before

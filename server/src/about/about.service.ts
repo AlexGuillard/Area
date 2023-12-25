@@ -37,7 +37,8 @@ export class AboutService {
             reactions: [
               {
                 name: 'sendEmail',
-                description: 'Send an email with a subject, a to, a template, a from, a code and a randomToken to know wich user is sending the email',
+                description:
+                  'Send an email with a subject, a to, a template, a from, a code and a randomToken to know wich user is sending the email',
               },
             ],
           },
