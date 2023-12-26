@@ -1,7 +1,8 @@
-import { Injectable, Res } from '@nestjs/common';
+import { ForbiddenException, Injectable, Res } from '@nestjs/common';
 import { Request } from '@nestjs/common';
 import axios from 'axios';
 import { PrismaService } from '../prisma/prisma.service';
+import { ServiceType } from '@prisma/client';
 
 @Injectable()
 export class DiscordService {
@@ -9,7 +10,7 @@ export class DiscordService {
       private prisma: PrismaService,
     ) {}
     async discordLogin(@Res() req: any) {
-        const url = 'https://discord.com/api/oauth2/authorize?client_id=1189230397108793416&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Fdiscord%2Fcallback&scope=identify'
+        const url = 'https://discord.com/api/oauth2/authorize?client_id=1189230397108793416&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Fdiscord%2Fcallback&scope=identify+email'
         req.redirect(url);
     }
 
@@ -36,15 +37,30 @@ export class DiscordService {
             headers
           }
         );
-        req.body = response.data;
-        console.log('params: ', req.body);
-        // const user = await this.prisma.user.findUnique({
-        //   where: {
-        //     email: token.user.email,
-        //   },
-        // });
+        const userResponse = await axios.get('https://discord.com/api/users/@me', {
+            headers: {
+                Authorization: `${response.data.token_type} ${response.data.access_token}`
+            }
+        });
+        const user = await this.prisma.user.findUnique({
+          where: {
+            email: userResponse.data.email,
+          },
+        });
+    
+        if (!user) {
+          throw new ForbiddenException('mail not found. Please register with the same email as the one you are connected');
+        }
+    
+        await this.prisma.services.create({
+          data: {
+            token: response.data.access_token,
+            refreshToken: response.data.refresh_token,
+            typeService: ServiceType.DISCORD,
+            userId: user.id,
+          },
+        });
     
         res.redirect('http://localhost:8081/Area');
-        // return req.body;
     }
 }
