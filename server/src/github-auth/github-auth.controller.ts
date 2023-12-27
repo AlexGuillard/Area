@@ -4,7 +4,7 @@ import { GithubDto } from './dto/github.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ServiceType } from '@prisma/client';
 
-@Controller('auth')
+@Controller('auth/github')
 export class GithubAuthController {
   constructor(
     private prisma: PrismaService,
