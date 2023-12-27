@@ -14,6 +14,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ReactionModule } from './reaction/reaction.module';
+import { GithubAuthModule } from './github-auth/github-auth.module';
 
 @Module({
   imports: [
@@ -42,6 +43,8 @@ import { ReactionModule } from './reaction/reaction.module';
       },
     }),
     ReactionModule,
+    GithubAuthModule,
   ],
+  controllers: [],
 })
 export class AppModule {}
