@@ -68,9 +68,6 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile.dev
-      # args:
-      #   - REACT_APP_SERVER_URL=${SERVER_URL}
-      #   - REACT_APP_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
     networks:
       - back-tier
     depends_on:
