@@ -30,6 +30,7 @@ const App = () => {
           component={AreaPage}
           options={({ navigation }) => ({
             title: 'Area',
+            headerBackVisible: false,
             headerRight: () => (
               <IconButton
                 style={styles.IconItem}
