@@ -5,10 +5,13 @@ import { MeService } from '../me/me.service';
 import { HttpModule } from '@nestjs/axios';
 import { PrismaModule } from '../prisma/prisma.module';
 import { AboutService } from '../about/about.service';
+import { MailingModule } from '../mailing/mailing.module';
+import { MailingService } from '../mailing/mailing.service';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [HttpModule, PrismaModule],
-  providers: [ReactionService, MeService, AboutService],
+  imports: [HttpModule, PrismaModule, MailingModule, ConfigModule.forRoot()],
+  providers: [ReactionService, MeService, AboutService, MailingService],
   controllers: [ReactionController],
 })
 export class ReactionModule {}

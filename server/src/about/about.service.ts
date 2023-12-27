@@ -36,8 +36,9 @@ export class AboutService {
             ],
             reactions: [
               {
-                name: 'createCalendarEvent',
-                description: 'Create a calendar event',
+                name: 'sendEmail',
+                description:
+                  'Send an email with a subject, a to, a template, a from, a code and a randomToken to know wich user is sending the email',
               },
             ],
           },
