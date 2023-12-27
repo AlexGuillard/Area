@@ -1,7 +1,7 @@
 import { Controller, Get, Req, UseGuards, Res, ForbiddenException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GithubDto } from './dto/github.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { ServiceType } from '@prisma/client';
 
 @Controller('auth/github')
