@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 import { View, Text, TextInput, TouchableOpacity, Image, FlatList } from 'react-native';
 
 const AddComponent = () => {
@@ -100,8 +101,6 @@ const AddComponent = () => {
 };
 
 export default AddComponent;
-
-import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   addComponent: {

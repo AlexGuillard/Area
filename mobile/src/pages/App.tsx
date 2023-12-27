@@ -2,7 +2,7 @@ import * as React from 'react';
 import {StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { IconButton } from 'react-native-paper'; // Import IconButton from your UI library
+import { IconButton, Text } from 'react-native-paper';
 
 import Login from './Login';
 import AreaPage from './AreaPage';
@@ -23,14 +23,13 @@ const App = () => {
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{ headerShown: false }} // Hide the header for the Login screen
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Area"
           component={AreaPage}
           options={({ navigation }) => ({
             title: 'Area',
-            headerLeft: () => null,
             headerRight: () => (
               <IconButton
                 style={styles.IconItem}

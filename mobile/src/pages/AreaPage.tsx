@@ -1,18 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView, StatusBar, StyleSheet, useColorScheme,
-  TouchableOpacity,
-  Pressable, View, Dimensions, Image} from 'react-native';
+  TouchableOpacity, TouchableWithoutFeedback,
+  Pressable, View, Dimensions, Image, FlatList} from 'react-native';
 import { Colors} from 'react-native/Libraries/NewAppScreen';
-import ReactionList from '../components/ReactionList/reactionList'
+import Reaction from '../components/ReactionList/reactionList'
 import { Appbar } from 'react-native-paper';
 import AddComponent from '../components/addComponent';
+import EditComponent from '../components/editComponent';
+import {data_reaction} from '../constants/test_data';
 
+
+interface ReactionItem {
+  id: string;
+  icon: string;
+  title: string;
+}
 const AreaPage = () => {
   const [showAddArea, setShowAddArea] = useState(false);
   const [showEditArea, setShowEditArea] = useState(false);
   const [areaSelected, setAreaSelected] = useState("");
+  const [listArea, setListArea] = useState<ReactionItem[]>([]);
   const isDarkMode = useColorScheme() === 'dark';
+
   const backgroundStyle = {
     backgroundColor:  Colors.darker,
     flex: 1,
@@ -31,6 +41,10 @@ const AreaPage = () => {
     setAreaSelected(item)
   }
 
+  useEffect(() => {
+    setListArea(data_reaction)
+  }, []);
+
   return (
     <SafeAreaView style={backgroundStyle}>
         <StatusBar
@@ -40,19 +54,34 @@ const AreaPage = () => {
         {
           showAddArea &&
           (
-            <View style={styles.addComponent}>
-               <TouchableOpacity style={{height: "100%", width: "100%", position: 'absolute', zIndex: 2}}
-                onPress={() => setShowAddArea(false)}
-                />
-              <AddComponent/>
-            </View>
+            <TouchableWithoutFeedback onPress={() => setShowAddArea(false)}>
+              <View style={styles.addComponent}>
+                <AddComponent />
+              </View>
+            </TouchableWithoutFeedback>
+          )
+        }
+        {
+          showEditArea &&
+          (
+            <TouchableWithoutFeedback onPress={() => setShowEditArea(false)}>
+              <View style={styles.editComponent}>
+                <EditComponent name={areaSelected}/>
+              </View>
+            </TouchableWithoutFeedback>
           )
         }
         <View style={styles.listReaction}>
-          <ReactionList/>
+          <FlatList
+            data={listArea}
+            renderItem={({item}) =>
+            <Reaction title={item.title} image_url={item.icon} on_press={() => handleClickEdit(item.title)}/>
+            }
+            keyExtractor={item => item.id}
+          />
         </View>
         {
-          showAddArea==false &&
+          showAddArea==false && showEditArea==false &&
           (
             <TouchableOpacity style={styles.addButton} onPress={handleClickAdd}>
               <Image source={require('../../assets/FAB.png')} />
@@ -67,9 +96,20 @@ const AreaPage = () => {
 
 const styles = StyleSheet.create({
   listReaction: {
-    height: "80%",
+    height: "75%",
     position: 'absolute',
-    top: 0,
+    top: 50,
+  },
+  editComponent: {
+    position: 'absolute',
+    height: "100%",
+    width: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.75)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1
   },
   addComponent: {
     position: 'absolute',
