@@ -16,7 +16,8 @@ GOOGLE_CLIENT_ID=Your GOOGLE_CLIENT_ID
 GOOGLE_CLIENT_SECRET=Your GOOGLE_CLIENT_SECRET
 GITHUB_CLIENT_ID=Your GITHUB_CLIENT_ID
 GITHUB_CLIENT_SECRET=Your GITHUB_CLIENT_SECRET
-```
+PGADMIN_DEFAULT_EMAIL=Email of the pgadmin user like 'admin@admin.com'
+PGADMIN_DEFAULT_PASSWORD=Password of the pgadmin user like '123'
 ```
 
 You can start the project with the following command:
@@ -49,3 +50,14 @@ You can update the images of the project with the following command:
 ```bash
 docker-compose build
 ```
+
+### PgAdmin
+
+You can access the pgadmin interface at the following url: http://localhost:8083
+You must connect with the email and password you set in the `.env` file.
+After that you can add a new server with the following informations:
+- Name: `It can be anything`
+- Host name/address: `db`
+- Port: `5432`
+- Username: `It should be defined in the .env file as POSTGRES_USER`
+- Password: `It should be defined in the .env file as POSTGRES_PASSWORD`
