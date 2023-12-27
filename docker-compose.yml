@@ -26,6 +26,9 @@ services:
       WEB_URL: ${WEB_URL}
       REFRESH_TOKEN: ${REFRESH_TOKEN}
       EMAIL: ${EMAIL}
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+      DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
+      DISCORD_REDIRECT_URI: ${DISCORD_REDIRECT_URI}
     volumes:
       - ./server/src:/usr/src/app/nest-docker/src
     ports:
