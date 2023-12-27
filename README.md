@@ -14,6 +14,9 @@ SERVER_URL=Url of the server like 'http://localhost:8080'
 WEB_URL=Url of the web app like 'http://localhost:8081'
 GOOGLE_CLIENT_ID=Your GOOGLE_CLIENT_ID
 GOOGLE_CLIENT_SECRET=Your GOOGLE_CLIENT_SECRET
+GITHUB_CLIENT_ID=Your GITHUB_CLIENT_ID
+GITHUB_CLIENT_SECRET=Your GITHUB_CLIENT_SECRET
+```
 ```
 
 You can start the project with the following command:
