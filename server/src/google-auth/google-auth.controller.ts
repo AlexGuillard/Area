@@ -32,7 +32,7 @@ export class GoogleAuthController {
     });
 
     if (!user) {
-      throw new ForbiddenException('mail not found');
+      throw new ForbiddenException('mail not found while creating Google service');
     }
 
     await this.prisma.services.create({
