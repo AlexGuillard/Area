@@ -5,6 +5,7 @@ services:
     restart: always
     container_name: db
     image: postgres:13
+    container_name: db
     ports:
       - 5432:5432
     environment:
@@ -76,6 +77,22 @@ services:
       - common-volume:/common-volume
     ports:
       - 8081:8081
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - '8083:80'
+    depends_on:
+      - db
+    networks:
+      - db
+
+
 
 networks:
   db:
