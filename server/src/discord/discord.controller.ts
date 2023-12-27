@@ -1,5 +1,6 @@
-import { Controller, Get, Request, Res } from '@nestjs/common';
+import { Controller, Get, Request, Res, UseGuards } from '@nestjs/common';
 import { DiscordService } from './discord.service';
+import { DiscordGuard } from './discord.guard';
 
 @Controller('services')
 export class DiscordController {
@@ -8,11 +9,13 @@ export class DiscordController {
   ) {}
 
   @Get('discord/login')
-  async discordAuth(@Res() req: any) {
-    return this.appService.discordLogin(req);
+  @UseGuards(DiscordGuard)
+  async discordAuth() {
+    return;
   }
   @Get('discord/callback')
+  @UseGuards(DiscordGuard)
   async discordCallback(@Request() req: any, @Res() res: any) {
-    return this.appService.discordCallback(req, res);
+    this.appService.discordValidate(req, res);
   }
 }
