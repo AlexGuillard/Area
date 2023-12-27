@@ -26,6 +26,8 @@ services:
       WEB_URL: ${WEB_URL}
       REFRESH_TOKEN: ${REFRESH_TOKEN}
       EMAIL: ${EMAIL}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
     volumes:
       - ./server/src:/usr/src/app/nest-docker/src
     ports:
