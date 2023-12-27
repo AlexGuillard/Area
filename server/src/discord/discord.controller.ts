@@ -1,7 +1,7 @@
 import { Controller, Get, Request, Res } from '@nestjs/common';
 import { DiscordService } from './discord.service';
 
-@Controller('auth')
+@Controller('services')
 export class DiscordController {
   constructor(
     private readonly appService: DiscordService,
