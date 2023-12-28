@@ -37,6 +37,23 @@ jobs:
         working-directory: ./server
         run: npm run test
 
+  check_build_server:
+    name: Build for server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        working-directory: ./server
+        run: npm install
+
+      - name: Build
+        working-directory: ./server
+        run: npm run build
+
   check_linter_web:
     name: Linter for web
     runs-on: ubuntu-latest
@@ -53,6 +70,25 @@ jobs:
       - name: Run linter
         working-directory: ./web
         run: npm run lint
+
+  check_build_web:
+    name: Build for web
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        working-directory: ./web
+        run: npm install
+
+      - name: Build
+        working-directory: ./web
+        env:
+          CI: false # TODO: remove this when the issue is fixed
+        run: npm run build
 
   check_linter_mobile:
     name: Linter for mobile
