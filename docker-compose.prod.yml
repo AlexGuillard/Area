@@ -33,6 +33,7 @@ services:
       EMAIL: ${EMAIL}
       GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
       GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      BASE_URL: ${BASE_URL}
     ports:
       - 8080:8080
     networks:

@@ -21,7 +21,7 @@ export class GithubAuthController {
 
     try {
       await this.githubAuthService.handleGithubAuthCallback(user);
-      return res.redirect('http://localhost:8081/Area');
+      return res.redirect(`${process.env.WEB_URL}/Area`);
     } catch (error) {
       throw error;
     }
