@@ -1,6 +1,5 @@
 import React from 'react';
 import './serviceCard.css';
-import Google from '../../Image/Google.png'
 
 interface ServiceCardProps {
   name: string;
@@ -21,7 +20,7 @@ function ServiceCard(props: ServiceCardProps) {
         </span>
       </div>
       <div className='serviceCardBody'>
-        <img src={props.image} className='serviceLogo'/>
+        <img src={props.image} className='serviceLogo' alt="service logo"/>
         <span className='serviceCardUser'>
           {props.user}
         </span>
