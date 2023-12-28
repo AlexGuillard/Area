@@ -37,7 +37,7 @@ export class GoogleAuthController {
 
     await this.prisma.services.create({
       data: {
-        token: token.user.accessToken,
+        token: token.user.refreshToken,
         typeService: ServiceType.GOOGLE,
         userId: user.id,
       },

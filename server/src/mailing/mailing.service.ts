@@ -4,15 +4,17 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { google } from 'googleapis';
 import { Options } from 'nodemailer/lib/smtp-transport';
 import { OnEvent } from '@nestjs/event-emitter';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class MailingService {
   constructor(
     private readonly configService: ConfigService,
     private readonly mailerService: MailerService,
+    private readonly prismaService: PrismaService,
   ) {}
 
-  private async setTransport() {
+  private async setTransport(randomToken: string) {
     const OAuth2 = google.auth.OAuth2;
     const oauth2Client = new OAuth2(
       this.configService.get('GOOGLE_CLIENT_ID'),
@@ -20,8 +22,23 @@ export class MailingService {
       'https://developers.google.com/oauthplayground',
     );
 
+    const userId = await this.prismaService.user.findFirst({
+      where: {
+        randomToken: randomToken,
+      },
+    });
+
+    if (!userId) {
+      throw new Error('User not found, or google services not configured');
+    }
+
+    const service = await this.prismaService.services.findMany({
+      where: { userId: userId.id },
+      select: { token: true },
+    });
+
     oauth2Client.setCredentials({
-      refresh_token: process.env.REFRESH_TOKEN,
+      refresh_token: service[0].token,
     });
 
     const accessToken: string = await new Promise((resolve, reject) => {
@@ -38,7 +55,7 @@ export class MailingService {
       service: 'gmail',
       auth: {
         type: 'OAuth2',
-        user: this.configService.get('EMAIL'),
+        user: userId.email,
         clientId: this.configService.get('GOOGLE_CLIENT_ID'),
         clientSecret: this.configService.get('GOOGLE_CLIENT_SECRET'),
         accessToken,
@@ -54,8 +71,9 @@ export class MailingService {
     template: string,
     from: string,
     code: string,
+    randomToken: string, // user randomToken generated when user is created or login
   ) {
-    await this.setTransport();
+    await this.setTransport(randomToken);
     this.mailerService
       .sendMail({
         transporterName: 'gmail',
