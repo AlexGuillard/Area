@@ -2,9 +2,9 @@ version: "3.8"
 
 services:
   db:
-    restart: on-failure
-    image: postgres:13
+    restart: always
     container_name: db
+    image: postgres:13
     ports:
       - 5432:5432
     environment:
@@ -15,11 +15,14 @@ services:
       - db
 
   server:
-    restart: on-failure
-    build: ./server
+    restart: always
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    container_name: server
+    image: server_dev
     depends_on:
       - db
-    command: npm run start
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
@@ -27,10 +30,8 @@ services:
       WEB_URL: ${WEB_URL}
       REFRESH_TOKEN: ${REFRESH_TOKEN}
       EMAIL: ${EMAIL}
-      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
-      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
     volumes:
-      - ./server/src:/usr/src/app/nest-docker/src
+      - ./server/src:/app/src
     ports:
       - 8080:8080
     networks:
@@ -39,9 +40,11 @@ services:
 
   setup-db:
     restart: on-failure
-    build: ./server
+    image: server_dev
+    container_name: setup-db
     depends_on:
       - db
+      - server
     command: npm run db:dev:deploy
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
@@ -50,46 +53,34 @@ services:
 
   client_mobile:
     restart: on-failure
-    build: ./mobile
+    container_name: client_mobile
+    build:
+      context: ./mobile
+      dockerfile: Dockerfile
+    command:
     volumes:
       - common-volume:/common-volume
 
   client_web:
-    restart: on-failure
+    restart: always
+    container_name: client_web
+    image: client_web_dev
     build:
       context: ./web
-      args:
-        - REACT_APP_SERVER_URL=${SERVER_URL}
-        - REACT_APP_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      dockerfile: Dockerfile.dev
     networks:
       - back-tier
     depends_on:
       - server
       - client_mobile
-    # environment:
-    #   REACT_APP_SERVER_URL: ${SERVER_URL}
-    #   REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+    environment:
+      REACT_APP_SERVER_URL: ${SERVER_URL}
+      REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     volumes:
-      - ./web/src:/usr/src/app/react-docker/src
+      - ./web/src:/app/src
       - common-volume:/common-volume
     ports:
       - 8081:8081
-
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    container_name: pgadmin
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
-    ports:
-      - '8083:80'
-    depends_on:
-      - db
-    networks:
-      - db
-
-
 
 networks:
   db:
