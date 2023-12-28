@@ -37,20 +37,22 @@ function Login() {
   return (
     <div className='loginPageBody'>
         <input
-          type="text"
+          type="email"
           id="text-input"
           value={textEmail}
           onChange={handleTextChangeUser}
           placeholder="Email"
           className='emailLoginArea'
+          minLength={8} maxLength={128}
         />
         <input
-          type="text"
+          type="password"
           id="text-input"
           value={textPassWord}
           onChange={handleTextChangePassWord}
           placeholder="Password"
           className='passwordLoginArea'
+          minLength={8} maxLength={64}
         />
         <div className='connectionButon' onClick={handleClickConnection}>
           <span>
