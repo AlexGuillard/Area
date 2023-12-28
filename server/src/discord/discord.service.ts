@@ -18,7 +18,7 @@ export class DiscordService {
     });
 
     if (!user) {
-      await res.redirect('http://localhost:8081/Area');
+      res.redirect('http://localhost:8081/Area');
       throw new ForbiddenException(
         'mail not found. Please register with the same email as the one you are connected',
       );
