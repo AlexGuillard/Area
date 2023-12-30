@@ -21,6 +21,7 @@
     flex-direction: row;
     gap: 25px;
     align-items: center;
+    cursor: pointer;
 }
 
 .servicesTitle {

@@ -69,7 +69,7 @@ function Add() {
                 {
                   listAction && listAction.map((item) =>
                     <li key={item} className='addComponentActionList' >
-                      <span onClick={() => handleActionAreaChange(item)}>{item}</span>
+                      <span className='addComponentActionListName' onClick={() => handleActionAreaChange(item)}>{item}</span>
                     </li>
                   )
                 }

@@ -10,7 +10,7 @@
 
 .addComponentBody {
     width: 325px;
-    height: 410px; 
+    height: 410px;
     background-color: #C7C4DC;
     border-radius: 16px;
     display: flex;
@@ -32,7 +32,7 @@
     border: 2px #423B8E solid;
     border-radius: 16px;
     color: #2B2277;
-    font-size: 12px; 
+    font-size: 12px;
     padding-left: 18px;
 }
 
@@ -58,6 +58,7 @@
 .addComponentActionButton {
     position:absolute;
     left: 275px;
+    cursor: pointer;
 }
 
 .addComponentActionListArea {
@@ -74,6 +75,10 @@
 .addComponentActionList {
     list-style: none;
     margin-top: 10px;
+}
+
+.addComponentActionListName {
+    cursor: pointer;
 }
 
 .addComponentReactionInput {
@@ -98,6 +103,7 @@
 .addComponentReactionButton {
     position:absolute;
     left: 275px;
+    cursor: pointer;
 }
 
 .addComponentReactionListArea {
@@ -124,7 +130,7 @@
     border: 2px #423B8E solid;
     border-radius: 16px;
     color: #2B2277;
-    font-size: 12px; 
+    font-size: 12px;
     padding-left: 18px;
 }
 
@@ -136,11 +142,12 @@
     align-items: center;
     justify-content: center;
     width: 222px;
-    height: 47px; 
+    height: 47px;
+    cursor: pointer;
 }
 
 .addComponentButtonText {
     color: #E4DFF9;
-    font-size: 20px; 
+    font-size: 20px;
     font-weight: 400;
 }
