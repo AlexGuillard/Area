@@ -18,6 +18,7 @@ enum ServiceType {
   DISCORD
   MICROSOFT
   TWITCH
+  TIME
 }
 
 model User {
@@ -35,7 +36,7 @@ model User {
 
 model Area {
   id         Int      @id @default(autoincrement())
-  userId     Int      @unique
+  userId     Int
   name       String
   actionId   Int      @unique
   reactionId Int      @unique
@@ -49,7 +50,7 @@ model Action {
   id                  Int      @id @default(autoincrement())
   name                String
   stringParameter     String?
-  serviceId           Int      @unique
+  serviceId           Int
   area                Area[]
   Services            Services @relation("Actionlink", fields: [serviceId], references: [id])
   @@map("action")
@@ -59,21 +60,22 @@ model Reaction {
   id                  Int      @id @default(autoincrement())
   name                String
   stringParameter     String?
-  serviceId           Int      @unique
+  serviceId           Int
   area                Area[]
   Services            Services @relation("Reactionlink", fields: [serviceId], references: [id])
   @@map("reaction")
 }
 
 model Services {
-  id          Int         @id @default(autoincrement())
-  userId      Int
-  token       String      @unique
+  id           Int        @id @default(autoincrement())
+  userId       Int
+  token        String     @unique
   refreshToken String?
-  typeService ServiceType @unique
+  typeService  ServiceType
   user        User        @relation(fields: [userId], references: [id])
   action      Action[]    @relation("Actionlink")
   reaction    Reaction[]  @relation("Reactionlink")
-
+  
+  @@unique([userId, typeService], name: "UniqueUserService")
   @@map("services")
 }

@@ -35,6 +35,13 @@ export class AuthService {
           updatedAt: true,
         },
       });
+      await this.prisma.services.create({
+        data: {
+          userId: user.id,
+          typeService: ServiceType.TIME,
+          token: uid(16),
+        },
+      });
       return user;
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {

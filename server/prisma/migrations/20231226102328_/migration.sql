@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "ServiceType" AS ENUM ('SPOTIFY', 'GITHUB', 'GOOGLE', 'DISCORD', 'MICROSOFT', 'TWITCH');
+CREATE TYPE "ServiceType" AS ENUM ('SPOTIFY', 'GITHUB', 'GOOGLE', 'DISCORD', 'MICROSOFT', 'TWITCH', 'TIME');
 
 -- CreateTable
 CREATE TABLE "users" (
@@ -49,6 +49,7 @@ CREATE TABLE "services" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "token" TEXT NOT NULL,
+    "refreshToken" TEXT,
     "typeService" "ServiceType" NOT NULL,
 
     CONSTRAINT "services_pkey" PRIMARY KEY ("id")
@@ -61,25 +62,16 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 CREATE UNIQUE INDEX "users_randomToken_key" ON "users"("randomToken");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "area_userId_key" ON "area"("userId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "area_actionId_key" ON "area"("actionId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "area_reactionId_key" ON "area"("reactionId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "action_serviceId_key" ON "action"("serviceId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "reaction_serviceId_key" ON "reaction"("serviceId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "services_userId_key" ON "services"("userId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "services_token_key" ON "services"("token");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "services_userId_typeService_key" ON "services"("userId", "typeService");
 
 -- AddForeignKey
 ALTER TABLE "area" ADD CONSTRAINT "area_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
