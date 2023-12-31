@@ -21,12 +21,12 @@ const App = () => {
         }}
       >
         <Stack.Screen
-          name="Login"
+          name='Login'
           component={Login}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Area"
+          name='Area'
           component={AreaPage}
           options={({ navigation }) => ({
             title: 'Area',
@@ -34,14 +34,14 @@ const App = () => {
             headerRight: () => (
               <IconButton
                 style={styles.IconItem}
-                icon="account-circle"
+                icon='account-circle'
                 onPress={() => {
                 }}
               />
             ),
           })}
         />
-        <Stack.Screen name="Service" component={Service} />
+        <Stack.Screen name='Service' component={Service} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -49,20 +49,20 @@ const App = () => {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor : "rgba(197, 192, 255, 1)",
+    backgroundColor : 'rgba(197, 192, 255, 1)',
     position: 'absolute',
     top: 0,
-    width: "100%",
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    height: "10%",
+    height: '10%',
   },
   IconItem: {
-    color: "#2B2277",
+    color: '#2B2277',
     fontSize: 30,
   },
   headerText: {
-    textDecorationColor: "#2B2277",
+    textDecorationColor: '#2B2277',
     fontSize: 30,
   },
 });

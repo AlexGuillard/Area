@@ -19,7 +19,7 @@ interface ReactionItem {
 const AreaPage = () => {
   const [showAddArea, setShowAddArea] = useState(false);
   const [showEditArea, setShowEditArea] = useState(false);
-  const [areaSelected, setAreaSelected] = useState("");
+  const [areaSelected, setAreaSelected] = useState('');
   const [listArea, setListArea] = useState<ReactionItem[]>([]);
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -96,65 +96,65 @@ const AreaPage = () => {
 
 const styles = StyleSheet.create({
   listReaction: {
-    height: "75%",
+    height: '75%',
     position: 'absolute',
     top: 50,
   },
   editComponent: {
     position: 'absolute',
-    height: "100%",
-    width: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.75)",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+    height: '100%',
+    width: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
     zIndex: 1
   },
   addComponent: {
     position: 'absolute',
-    height: "100%",
-    width: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.75)",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+    height: '100%',
+    width: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
     zIndex: 1
   },
   addButton: {
-    backgroundColor: "#4A4458",
+    backgroundColor: '#4A4458',
     borderRadius: 16,
-    display: "flex",
+    display: 'flex',
     width: 75,
     height: 75,
     marginTop: 10,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     position: 'absolute',
     bottom: 20,
     zIndex: 3
   },
   header: {
-    backgroundColor : "rgba(197, 192, 255, 1)",
+    backgroundColor : 'rgba(197, 192, 255, 1)',
     position: 'absolute',
     top: 0,
-    width: "100%",
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    height: "10%",
+    height: '10%',
   },
   headerItem: {
-    color: "#2B2277",
+    color: '#2B2277',
     fontSize: 30,
   },
   headerText: {
-    textDecorationColor: "#2B2277",
+    textDecorationColor: '#2B2277',
     fontSize: 30,
   },
   bottomBar: {
-    backgroundColor : "rgba(197, 192, 255, 1)",
-    width: "100%",
+    backgroundColor : 'rgba(197, 192, 255, 1)',
+    width: '100%',
     position: 'absolute',
     bottom: 0,
   }
