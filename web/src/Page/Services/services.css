@@ -21,6 +21,12 @@
     flex-direction: row;
     gap: 25px;
     align-items: center;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.servicesBackArea:hover {
+    filter: brightness(0.7);
 }
 
 .servicesTitle {
