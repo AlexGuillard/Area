@@ -144,10 +144,15 @@
     width: 222px;
     height: 47px;
     cursor: pointer;
+    transition: all 0.15s ease-in-out;
 }
 
 .addComponentButtonText {
     color: #E4DFF9;
     font-size: 20px;
     font-weight: 400;
+}
+
+.addComponentButton:hover {
+    scale: 1.05;
 }
