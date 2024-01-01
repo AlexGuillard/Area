@@ -5,7 +5,6 @@ services:
     restart: always
     container_name: db
     image: postgres:13
-    container_name: db
     ports:
       - 5432:5432
     environment:
@@ -31,6 +30,9 @@ services:
       WEB_URL: ${WEB_URL}
       REFRESH_TOKEN: ${REFRESH_TOKEN}
       EMAIL: ${EMAIL}
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+      DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
+      DISCORD_REDIRECT_URI: ${DISCORD_REDIRECT_URI}
     ports:
       - 8080:8080
     networks:

@@ -86,8 +86,6 @@ jobs:
 
       - name: Build
         working-directory: ./web
-        env:
-          CI: false # TODO: remove this when the issue is fixed
         run: npm run build
 
   check_linter_mobile:
