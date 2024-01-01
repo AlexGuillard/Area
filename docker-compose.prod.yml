@@ -5,7 +5,6 @@ services:
     restart: always
     container_name: db
     image: postgres:13
-    container_name: db
     ports:
       - 5432:5432
     environment:

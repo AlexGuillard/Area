@@ -1,7 +1,7 @@
 import React from 'react';
 import './register.css';
 import { useState } from 'react';
-import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import GoogleButton from '../../Component/GoogleButton/GoogleButton';
