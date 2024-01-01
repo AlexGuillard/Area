@@ -14,7 +14,7 @@ function Add() {
   const [showlistAction, setShowListAction] = useState(false);
   const [showlistReaction, setShowListReaction] = useState(false);
   const [listAction, setListAction] = useState<string []>();
-  const [listReaction] = useState<string []>();
+  const [listReaction, setListReaction] = useState<string []>();
 
   const handleNameAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameArea(event.target.value);
