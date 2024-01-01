@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import './add.css';
 import { useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import SelectInput from '../../Image/SelectInput.png'
 
 function Add() {
@@ -43,8 +45,54 @@ function Add() {
     setParamArea(event.target.value);
   };
 
+  const handleCallActionList = () => {
+    const storedToken = Cookies.get('token');
+    axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/actions")
+      .then(response => {
+        setListAction((prevState: string[] | undefined) => [
+          ...(prevState || []),
+          ...response.data.map((item: { name: string }) => item.name)
+        ]);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  const handleCallReactionList = () => {
+    const storedToken = Cookies.get('token');
+    axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/reactions")
+      .then(response => {
+        setListReaction((prevState: string[] | undefined) => [
+          ...(prevState || []),
+          ...response.data.map((item: { name: string }) => item.name)
+        ]);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  const handleCreateArea = () => {
+    const data = {
+      nameArea: nameArea,
+      nameAction: selectedAction,
+      actionParameter: "",
+      nameReaction: selectedReaction,
+      reactionParameter: paramArea
+    };
+    const storedToken = Cookies.get('token');
+    axios.post(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/areas", data)
+    .then(response => {
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+
   useEffect(() => {
-    setListAction(["test1", "test2", "test3", "test4"])
+    handleCallActionList()
+    handleCallReactionList()
   }, []);
 
   return (
@@ -105,7 +153,7 @@ function Add() {
         />
       </div>
       <div className='addComponentButton'>
-        <span className='addComponentButtonText'>Create</span>
+        <span className='addComponentButtonText' onClick={handleCreateArea}>Create</span>
       </div>
     </div>
   );
