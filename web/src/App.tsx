@@ -4,7 +4,7 @@ import Register from './Page/Register/register';
 import Area from './Page/Area/area';
 import Services from './Page/Services/services';
 import './App.css';
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (

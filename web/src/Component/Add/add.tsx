@@ -14,7 +14,7 @@ function Add() {
   const [showlistAction, setShowListAction] = useState(false);
   const [showlistReaction, setShowListReaction] = useState(false);
   const [listAction, setListAction] = useState<string []>();
-  const [listReaction, setListReaction] = useState<string []>();
+  const [listReaction] = useState<string []>();
 
   const handleNameAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameArea(event.target.value);
@@ -110,7 +110,7 @@ function Add() {
         <div className='addComponentActionInput'>
           <span>{selectedAction}</span>
           <div className='addComponentActionLine'/>
-          <img src={SelectInput} className='addComponentActionButton' onClick={() => handleClickActionList()}/>
+          <img src={SelectInput} className='addComponentActionButton' onClick={() => handleClickActionList()} alt="click action list"/>
           {showlistAction &&
             (
               <ul className='addComponentActionListArea'>
@@ -128,7 +128,7 @@ function Add() {
         <div className='addComponentReactionInput'>
           <span>{selectedReaction}</span>
           <div className='addComponentReactionLine'/>
-          <img src={SelectInput} className='addComponentReactionButton'  onClick={() => handleClickReactionList()}/>
+          <img src={SelectInput} className='addComponentReactionButton'  onClick={() => handleClickReactionList()} alt="click reaction list"/>
           {showlistReaction &&
             (
               <ul className='addComponentReactionListArea'>

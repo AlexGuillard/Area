@@ -100,7 +100,7 @@ function Edit(props: editProps) {
         <div className='editComponentActionInput'>
           <span>{selectedAction}</span>
           <div className='editCompoentActionLine'/>
-          <img src={SelectInput} className='editComponentActionButton' onClick={() => handleClickActionList()}/>
+          <img src={SelectInput} className='editComponentActionButton' onClick={() => handleClickActionList()} alt="click action list"/>
           {showlistAction &&
             (
               <ul className='editComponentActionListArea'>
@@ -118,7 +118,7 @@ function Edit(props: editProps) {
         <div className='editComponentReactionInput'>
           <span>{selectedReaction}</span>
           <div className='editCompoentReactionLine'/>
-          <img src={SelectInput} className='editComponentReactionButton'  onClick={() => handleClickReactionList()}/>
+          <img src={SelectInput} className='editComponentReactionButton'  onClick={() => handleClickReactionList()} alt="click reaction list"/>
           {showlistReaction &&
             (
               <ul className='editComponentReactionListArea'>

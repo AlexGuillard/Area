@@ -13,6 +13,8 @@
     "@types/node": "^16.18.68",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.17",
+    "@types/cookie-parser": "^1.4.6",
+    "@types/js-cookie": "^3.0.6",
     "axios": "^1.6.2",
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
@@ -47,9 +49,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/cookie-parser": "^1.4.6",
-    "@types/js-cookie": "^3.0.6"
   }
 }

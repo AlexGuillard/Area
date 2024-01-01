@@ -87,7 +87,7 @@ function Area() {
         <span className='areaTitle'>
           Area
         </span>
-        <img src={User} className='UserLogo' onClick={() => navigate("/Services")}/>
+        <img src={User} className='UserLogo' onClick={() => navigate("/Services")} alt="area"/>
       </div>
       <ul className='areaList'>
         {
@@ -100,7 +100,7 @@ function Area() {
           )
         }
       </ul>
-      <img src={AddIcon} className='AddLogo' onClick={() => handleClickAdd()}/>
+      <img src={AddIcon} className='AddLogo' onClick={() => handleClickAdd()} alt="add"/>
     </div>
   );
 }
