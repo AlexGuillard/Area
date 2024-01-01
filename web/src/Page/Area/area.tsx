@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './area.css';
 import { useState } from 'react';
-import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import User from '../../Image/User.png'
 import AddIcon from '../../Image/AddIcon.png'
@@ -16,7 +16,7 @@ function Area() {
   const [showAddArea, setShowAddArea] = useState(false);
   const [showEditArea, setShowEditArea] = useState(false);
   const [areaSelected, setAreaSelected] = useState("");
-  const [listArea, setListArea] = useState<string []>();
+  const [listArea] = useState<string []>();
 
   const handleClickAdd = () => {
     setShowEditArea(false)
@@ -33,8 +33,7 @@ function Area() {
     const storedToken = Cookies.get('token');
     if (storedToken == null)
       navigate("/")
-    // setListArea(["test1", "test2", "test3"])
-  }, []);
+  }, [navigate]);
 
   return (
     <div className='areaBody'>
@@ -58,7 +57,7 @@ function Area() {
         <span className='areaTitle'>
           Area
         </span>
-        <img src={User} className='UserLogo' onClick={() => navigate("/Services")}/>
+        <img src={User} className='UserLogo' onClick={() => navigate("/Services")} alt="area"/>
       </div>
       <ul className='areaList'>
         {
@@ -71,7 +70,7 @@ function Area() {
           )
         }
       </ul>
-      <img src={AddIcon} className='AddLogo' onClick={() => handleClickAdd()}/>
+      <img src={AddIcon} className='AddLogo' onClick={() => handleClickAdd()} alt="add"/>
     </div>
   );
 }

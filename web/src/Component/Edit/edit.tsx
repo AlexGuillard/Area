@@ -51,7 +51,7 @@ function Edit(props: editProps) {
     setNameArea(props.name)
     setListAction(["test1", "test2", "test3", "test4", "aaaaaaaaa"])
     setListReaction(["test1", "test2"])
-  }, []);
+  }, [props.name]);
 
   return (
     <div className='editComponent'>
@@ -68,7 +68,7 @@ function Edit(props: editProps) {
         <div className='editComponentActionInput'>
           <span>{selectedAction}</span>
           <div className='editCompoentActionLine'/>
-          <img src={SelectInput} className='editComponentActionButton' onClick={() => handleClickActionList()}/>
+          <img src={SelectInput} className='editComponentActionButton' onClick={() => handleClickActionList()} alt="click action list"/>
           {showlistAction &&
             (
               <ul className='editComponentActionListArea'>
@@ -86,7 +86,7 @@ function Edit(props: editProps) {
         <div className='editComponentReactionInput'>
           <span>{selectedReaction}</span>
           <div className='editCompoentReactionLine'/>
-          <img src={SelectInput} className='editComponentReactionButton'  onClick={() => handleClickReactionList()}/>
+          <img src={SelectInput} className='editComponentReactionButton'  onClick={() => handleClickReactionList()} alt="click reaction list"/>
           {showlistReaction &&
             (
               <ul className='editComponentReactionListArea'>
