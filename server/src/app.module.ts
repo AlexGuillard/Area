@@ -15,6 +15,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ReactionModule } from './reaction/reaction.module';
 import { GithubAuthModule } from './github-auth/github-auth.module';
+import { DiscordModule } from './discord/discord.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { GithubAuthModule } from './github-auth/github-auth.module';
     }),
     ReactionModule,
     GithubAuthModule,
+    DiscordModule,
   ],
   controllers: [],
 })

@@ -1,7 +1,7 @@
 import React from 'react';
 import './register.css';
 import { useState } from 'react';
-import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import GoogleButton from '../../Component/GoogleButton/GoogleButton';
@@ -38,20 +38,22 @@ function Register() {
   return (
     <div className='registerPageBody'>
         <input
-          type="text"
+          type="email"
           id="text-input"
           value={textEmail}
           onChange={handleTextChangeUser}
           placeholder="Email"
           className='emailRegisterArea'
+          minLength={8} maxLength={128}
         />
         <input
-          type="text"
+          type="password"
           id="text-input"
           value={textPassWord}
           onChange={handleTextChangePassWord}
           placeholder="Password"
           className='passwordRegisterArea'
+          minLength={8} maxLength={64}
         />
         <div className='connectionButon' onClick={handleClickRegister}>
           <span>

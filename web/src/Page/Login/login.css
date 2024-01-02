@@ -43,7 +43,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
 }
+
+.connectionButon:hover {
+    background-color: #423B8E;
+    color: #E5E1E6;
+}
+
+/* create transition for button ease out */
+
 
 .registerButon {
     color: #E5E1E6;

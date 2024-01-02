@@ -5,7 +5,6 @@ services:
     restart: always
     container_name: db
     image: postgres:13
-    container_name: db
     ports:
       - 5432:5432
     environment:
@@ -34,6 +33,9 @@ services:
       GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
       GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
       BASE_URL: ${BASE_URL}
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+      DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
+      DISCORD_REDIRECT_URI: ${DISCORD_REDIRECT_URI}
     ports:
       - 8080:8080
     networks:
