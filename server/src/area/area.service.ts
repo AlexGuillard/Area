@@ -65,10 +65,14 @@ export class AreaService {
   }
   async getArea(token: string, id: string): Promise<NewAreaDto> {
     const user = await this.me.getUser(token);
+    const idArea = parseInt(id);
+    if (isNaN(idArea)) {
+      throw new NotFoundException('This area does not exist');
+    }
     const area = await this.prisma.area.findUnique({
       where: {
         userId: user.id,
-        id: parseInt(id),
+        id: idArea,
       },
     });
 
