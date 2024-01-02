@@ -10,6 +10,10 @@ export class AreaController {
   getAreas(@Param('token') token: string) {
     return this.areaService.getAreas(token);
   }
+  @Get('areas/:id')
+  getArea(@Param('token') token: string, @Param('id') id: string) {
+    return this.areaService.getArea(token, id);
+  }
   @Post('areas')
   setAreas(@Param('token') token: string, @Body() body: NewAreaDto) {
     return this.areaService.setAreas(token, body);

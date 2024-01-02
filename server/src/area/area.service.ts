@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, Ip } from '@nestjs/common';
+import { ForbiddenException, Injectable, Ip, NotFoundException } from '@nestjs/common';
 import { MeService } from '../me/me.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { AreaDto, NewAreaDto } from './dto';
@@ -62,6 +62,43 @@ export class AreaService {
       });
     }
     return allAreas;
+  }
+  async getArea(token: string, id: string): Promise<NewAreaDto> {
+    const user = await this.me.getUser(token);
+    const area = await this.prisma.area.findUnique({
+      where: {
+        userId: user.id,
+        id: parseInt(id),
+      },
+    });
+
+    if (!area) {
+      throw new NotFoundException('This area does not exist');
+    }
+    const action = await this.prisma.action.findUnique({
+      where: {
+        id: area.actionId,
+      },
+    });
+    if (!action) {
+      throw new NotFoundException('This area does not contain an action');
+    }
+    const reaction = await this.prisma.reaction.findUnique({
+      where: {
+        id: area.reactionId,
+      },
+    });
+    if (!reaction) {
+      throw new NotFoundException('This area does not contain a reaction');
+    }
+    const AreaDto: NewAreaDto = {
+      nameArea: area.name,
+      nameAction: action.name,
+      actionParameter: action.stringParameter,
+      nameReaction: reaction.name,
+      reactionParameter: reaction.stringParameter
+    }
+    return AreaDto;
   }
 
   async setAreas(token: string, body: NewAreaDto) {
