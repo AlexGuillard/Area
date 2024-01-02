@@ -45,20 +45,9 @@ export class AreaService {
       },
     });
     for (const a of area) {
-      const action = await this.prisma.action.findUnique({
-        where: {
-          id: a.actionId,
-        },
-      });
-      const reaction = await this.prisma.reaction.findUnique({
-        where: {
-          id: a.reactionId,
-        },
-      });
       allAreas.push({
+        id: a.id,
         nameArea: a.name,
-        nameAction: action.name,
-        nameReaction: reaction.name,
       });
     }
     return allAreas;
