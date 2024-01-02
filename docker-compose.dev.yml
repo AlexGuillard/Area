@@ -35,6 +35,7 @@ services:
       DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
       DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
       DISCORD_REDIRECT_URI: ${DISCORD_REDIRECT_URI}
+      BASE_URL: ${BASE_URL}
     volumes:
       - ./server/src:/app/src
     ports:
