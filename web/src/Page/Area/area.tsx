@@ -63,7 +63,7 @@ function Area() {
     if (storedToken == null)
       navigate("/")
     handleCallAreaList()
-  }, []);
+  }, [navigate]);
 
   return (
     <div className='areaBody'>
