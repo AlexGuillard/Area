@@ -47,6 +47,12 @@
     right: 53px;
     width: 40px;
     height: 40px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.UserLogo:hover {
+    filter: brightness(0.7);
 }
 
 .areaList {
@@ -69,4 +75,10 @@
     bottom: 50px;
     width: 100px;
     height: 100px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.AddLogo:hover {
+    scale: 1.05;
 }

@@ -14,8 +14,14 @@ SERVER_URL=Url of the server like 'http://localhost:8080'
 WEB_URL=Url of the web app like 'http://localhost:8081'
 GOOGLE_CLIENT_ID=Your GOOGLE_CLIENT_ID
 GOOGLE_CLIENT_SECRET=Your GOOGLE_CLIENT_SECRET
+GITHUB_CLIENT_ID=Your GITHUB_CLIENT_ID
+GITHUB_CLIENT_SECRET=Your GITHUB_CLIENT_SECRET
+DISCORD_CLIENT_ID=Your DISCORD_CLIENT_ID
+DISCORD_CLIENT_SECRET=Your DISCORD_CLIENT_SECRET
+DISCORD_REDIRECT_URI=Your redirect url from the Redirects in the applications of Discord
 PGADMIN_DEFAULT_EMAIL=Email of the pgadmin user like 'admin@admin.com'
 PGADMIN_DEFAULT_PASSWORD=Password of the pgadmin user like '123'
+BASE_URL=Url of the server like 'http://localhost:8080'
 ```
 
 You can start the project with the following command:
