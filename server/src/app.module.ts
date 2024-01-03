@@ -4,18 +4,15 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AboutModule } from './about/about.module';
 import { MeModule } from './me/me.module';
 import { ConfigModule } from '@nestjs/config';
-import { GoogleAuthModule } from './google-auth/google-auth.module';
 import { ServicesModule } from './services/services.module';
 import { ActionModule } from './action/action.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AreaModule } from './area/area.module';
-import { MailingModule } from './mailing/mailing.module';
+import { MailingModule } from './reaction/mailing/mailing.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ReactionModule } from './reaction/reaction.module';
-import { GithubAuthModule } from './github-auth/github-auth.module';
-import { DiscordModule } from './discord/discord.module';
 
 @Module({
   imports: [
@@ -26,7 +23,6 @@ import { DiscordModule } from './discord/discord.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    GoogleAuthModule,
     ServicesModule,
     ActionModule,
     ScheduleModule.forRoot(),
@@ -44,8 +40,6 @@ import { DiscordModule } from './discord/discord.module';
       },
     }),
     ReactionModule,
-    GithubAuthModule,
-    DiscordModule,
   ],
   controllers: [],
 })
