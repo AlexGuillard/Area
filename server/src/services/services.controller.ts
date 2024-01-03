@@ -1,7 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ServicesService } from './services.service';
-import { ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('services')
 @Controller(':token/')
 export class ServicesController {
   constructor(private servicesService: ServicesService) {}
