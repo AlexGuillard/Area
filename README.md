@@ -21,7 +21,6 @@ DISCORD_CLIENT_SECRET=Your DISCORD_CLIENT_SECRET
 DISCORD_REDIRECT_URI=Your redirect url from the Redirects in the applications of Discord
 PGADMIN_DEFAULT_EMAIL=Email of the pgadmin user like 'admin@admin.com'
 PGADMIN_DEFAULT_PASSWORD=Password of the pgadmin user like '123'
-BASE_URL=Url of the server like 'http://localhost:8080'
 ```
 
 You can start the project with the following command:
