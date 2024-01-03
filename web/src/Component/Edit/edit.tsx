@@ -83,7 +83,7 @@ function Edit(props: editProps) {
     setNameArea(props.name)
     handleCallActionList()
     handleCallReactionList()
-  }, []);
+  }, [props.name]);
 
   return (
     <div className='editComponent'>
