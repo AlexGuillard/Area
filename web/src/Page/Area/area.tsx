@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './area.css';
 import { useState } from 'react';
-import { BrowserRouter as Router, Route, Link, useNavigate} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import User from '../../Image/User.png'
@@ -20,8 +20,8 @@ function Area() {
   const [actionSelected, setActionSelected] = useState("");
   const [reactionSelected, setReactionSelected] = useState("");
   const [listArea, setListArea] = useState<string []>();
-  const [listselectedAction, setListSelectedAction] = useState<string []>();
-  const [listselectedReaction, setListSelectedReaction] = useState<string []>();
+  // const [listselectedAction, setListSelectedAction] = useState<string []>();
+  // const [listselectedReaction, setListSelectedReaction] = useState<string []>();
 
   const handleClickAdd = () => {
     setShowEditArea(false)
@@ -44,14 +44,14 @@ function Area() {
           ...(prevState || []),
           ...response.data.map((item: { nameArea: string }) => item.nameArea)
         ]);
-        setListSelectedAction((prevState: string[] | undefined) => [
-          ...(prevState || []),
-          ...response.data.map((item: { nameAction: string }) => item.nameAction)
-        ]);
-        setListSelectedReaction((prevState: string[] | undefined) => [
-          ...(prevState || []),
-          ...response.data.map((item: { nameReaction: string }) => item.nameReaction)
-        ]);
+        // setListSelectedAction((prevState: string[] | undefined) => [
+        //   ...(prevState || []),
+        //   ...response.data.map((item: { nameAction: string }) => item.nameAction)
+        // ]);
+        // setListSelectedReaction((prevState: string[] | undefined) => [
+        //   ...(prevState || []),
+        //   ...response.data.map((item: { nameReaction: string }) => item.nameReaction)
+        // ]);
       })
       .catch(error => {
         console.error(error);
