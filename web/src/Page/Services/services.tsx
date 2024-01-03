@@ -6,10 +6,20 @@ User from '../../Image/User.png'
 import BackIcon from '../../Image/BackIcon.png'
 import ServiceCard from '../../Component/ServiceCard/serviceCard';
 import Google from '../../Image/Google.png'
+import axios from 'axios';
 
 function Services() {
 
   const navigate = useNavigate()
+
+  const [googleLoggin, setGoogleLoggin] = React.useState(false);
+
+  useEffect(() => {
+    const storedToken = Cookies.get('token');
+    if (storedToken != null) {
+      setGoogleLoggin(true)
+    }
+  }, []);
 
   useEffect(() => {
     const storedToken = Cookies.get('token');
@@ -34,7 +44,7 @@ function Services() {
       <form action="http://localhost:8080/myauth/google-redirect" method="get">
         <input type="submit" value="Press to log in"/>
       </form>
-      <ServiceCard name="Google" status='Not Connected' user='User name' image={Google}/>
+      <ServiceCard name="Google" status={googleLoggin} user='User Name' image={Google}/>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import './serviceCard.css';
 
 interface ServiceCardProps {
   name: string;
-  status: string;
+  status: boolean;
   user: string;
   image: string;
 }
@@ -16,7 +16,7 @@ function ServiceCard(props: ServiceCardProps) {
           {props.name}
         </span>
         <span className='serviceCardStatus'>
-          {props.status}
+          {props.status ? 'Connected' : 'Not Connected'}
         </span>
       </div>
       <div className='serviceCardBody'>
