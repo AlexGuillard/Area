@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { ReactionDescriptionDto } from './dto';
 import { AboutService } from '../about/about.service';
-import { MailingService } from '../mailing/mailing.service';
+import { MailingService } from './mailing/mailing.service';
 
 @Injectable()
 export class ReactionService {

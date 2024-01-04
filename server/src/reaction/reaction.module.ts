@@ -5,8 +5,8 @@ import { MeService } from '../me/me.service';
 import { HttpModule } from '@nestjs/axios';
 import { PrismaModule } from '../prisma/prisma.module';
 import { AboutService } from '../about/about.service';
-import { MailingModule } from '../mailing/mailing.module';
-import { MailingService } from '../mailing/mailing.service';
+import { MailingModule } from './mailing/mailing.module';
+import { MailingService } from './mailing/mailing.service';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
