@@ -1,4 +1,4 @@
-import { Injectable, Ip } from '@nestjs/common';
+import { Injectable, Ip, NotFoundException } from '@nestjs/common';
 import { MeService } from '../me/me.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
@@ -35,7 +35,10 @@ export class ReactionService {
   async getReactionInfo(token: string, nameReaction: string) {
     await this.me.getUser(token);
     let structInfo = {};
-    this.eventEmitter.emit(nameReaction + ".struct", structInfo)
+    const res = this.eventEmitter.emit(nameReaction + ".struct", structInfo)
+    if (res === false) {
+      throw new NotFoundException('Reaction not found');
+    }
     return structInfo;
   }
 }
