@@ -3,8 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { MailerService } from '@nestjs-modules/mailer';
 import { google } from 'googleapis';
 import { Options } from 'nodemailer/lib/smtp-transport';
-import { OnEvent } from '@nestjs/event-emitter';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../../prisma/prisma.service';
+import { SendMailDto } from './dto';
 
 @Injectable()
 export class MailingService {
@@ -12,7 +13,16 @@ export class MailingService {
     private readonly configService: ConfigService,
     private readonly mailerService: MailerService,
     private readonly prismaService: PrismaService,
-  ) {}
+    private eventEmitter: EventEmitter2,
+  ) {
+    this.eventEmitter.on("sendEmail.struct", (struct: SendMailDto) => {
+      struct.to = 'string';
+      struct.from = 'string';
+      struct.subject = 'string';
+      struct.template = 'string';
+      struct.code = 'string';
+    })
+  }
 
   private async setTransport(randomToken: string) {
     const OAuth2 = google.auth.OAuth2;
@@ -64,7 +74,6 @@ export class MailingService {
     this.mailerService.addTransporter('gmail', config);
   }
 
-  @OnEvent('order.created')
   public async sendMail(
     subject: string,
     to: string,

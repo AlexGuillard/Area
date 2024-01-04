@@ -36,6 +36,13 @@ export class ReactionService {
     return allReactions;
   }
 
+  async getReactionInfo(token: string, nameReaction: string) {
+    await this.me.getUser(token);
+    let structInfo = {};
+    this.eventEmitter.emit(nameReaction + ".struct", structInfo)
+    return structInfo;
+  }
+
   @OnEvent('sendEmail')
   public async handleSendEmail(eventPayLoad: any) {
     const { subject, to, template, from, code, randomToken } = eventPayLoad;
