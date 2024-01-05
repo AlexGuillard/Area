@@ -38,25 +38,37 @@ export class AreaService {
     throw new ForbiddenException("This action or reaction doesn't exist");
   }
 
-  getStructUser(object: {}) {
-    const allPropertyNames = Object.keys(object) as (keyof typeof object)[];
-    for (var j=0; j<allPropertyNames.length; j++) {
-      console.log(allPropertyNames[j])
-      const key = allPropertyNames[j] as string
-      const data = object[key]
-      let variableType = typeof data
-      console.log(key + ": " + data + " and is of type " + variableType)
+  checkStructUser(object: JSON, actualStruct: Record<string, any>) {
+    const allObjectNames = Object.keys(object) as (keyof typeof object)[];
+    const allstructNames = Object.keys(actualStruct) as (keyof typeof actualStruct)[];
+
+    if (allObjectNames.length !== allstructNames.length) {
+      throw new ForbiddenException('Wrong number of parameters. we need ' + JSON.stringify(actualStruct));
+    }
+    for (var j = 0; j < allObjectNames.length; j++) {
+      const key = allObjectNames[j] as string
+      const structKey = allstructNames[j] as string
+      if (key !== structKey) {
+        throw new ForbiddenException('Wrong parameter name. we need ' + JSON.stringify(actualStruct));
+      }
+      const variableType = typeof object[key]
+      const structType = typeof actualStruct[structKey]
+      if (variableType !== structType) {
+        throw new ForbiddenException('Wrong parameter type. we need ' + JSON.stringify(actualStruct));
+      }
     }
   }
 
-  async checkActionStringParameter(
-    actionName: string,
-    actionParameter: JSON,
+  checkStringParameter(
+    name: string,
+    parameter: JSON,
   ) {
     const struct = {}
-    this.eventEmitter.emit(actionName + '.struct', struct);
-    this.getStructUser(actionParameter);
-    console.log(JSON.stringify(struct));
+    const res = this.eventEmitter.emit(name + '.struct', struct);
+    if (res === false) {
+      throw new NotFoundException('Action or reaction not found');
+    }
+    this.checkStructUser(parameter, struct);
   }
 
   async getAreas(token: string) {
@@ -146,7 +158,8 @@ export class AreaService {
         'You are not connected to the service ' + serviceReactionName,
       );
     }
-    this.checkActionStringParameter(body.nameAction, body.actionParameter);
+    this.checkStringParameter(body.nameAction, body.actionParameter);
+    this.checkStringParameter(body.nameReaction, body.reactionParameter);
     const action = await this.prisma.action.create({
       data: {
         name: body.nameAction,
@@ -172,7 +185,6 @@ export class AreaService {
         name: true,
       },
     });
-    console.log(JSON.stringify(action.parameters) + ' and ' + reaction.parameters);
     return area;
   }
 }
