@@ -13,9 +13,11 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ReactionModule } from './reaction/reaction.module';
+import { TimeModule } from './action/time/time.module';
 
 @Module({
   imports: [
+    TimeModule,
     AuthModule,
     PrismaModule,
     AboutModule,
