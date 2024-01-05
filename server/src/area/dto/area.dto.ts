@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsJSON, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class AreaDto {
   @ApiProperty()
@@ -25,8 +25,8 @@ export class NewAreaDto {
   nameAction: string;
 
   @ApiProperty()
-  @IsString()
-  actionParameter: string;
+  @IsJSON()
+  actionParameter: JSON;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -34,6 +34,6 @@ export class NewAreaDto {
   nameReaction: string;
 
   @ApiProperty()
-  @IsString()
-  reactionParameter: string;
+  @IsJSON()
+  reactionParameter: JSON;
 }

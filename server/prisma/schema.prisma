@@ -49,7 +49,7 @@ model Area {
 model Action {
   id                  Int      @id @default(autoincrement())
   name                String
-  stringParameter     String?
+  stringParameter     Json?
   serviceId           Int
   area                Area[]
   Services            Services @relation("Actionlink", fields: [serviceId], references: [id])
@@ -59,7 +59,7 @@ model Action {
 model Reaction {
   id                  Int      @id @default(autoincrement())
   name                String
-  stringParameter     String?
+  stringParameter     Json?
   serviceId           Int
   area                Area[]
   Services            Services @relation("Reactionlink", fields: [serviceId], references: [id])

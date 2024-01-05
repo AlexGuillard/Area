@@ -35,8 +35,10 @@ export class ActionService {
     for (const service of services) {
       const actions = infos.server.services.find(
         (s) => s.name === service.typeService,
-      ).actions;
-      allActions.push(...actions);
+      );
+      if (actions != undefined) {
+        allActions.push(...actions.actions);
+      }
     }
     return allActions;
   }

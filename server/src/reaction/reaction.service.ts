@@ -26,8 +26,10 @@ export class ReactionService {
     for (const service of services) {
       const reactions = infos.server.services.find(
         (s) => s.name === service.typeService,
-      ).reactions;
-      allReactions.push(...reactions);
+      );
+      if (reactions != undefined) {
+        allReactions.push(...reactions.reactions);
+      }
     }
     return allReactions;
   }
