@@ -41,8 +41,8 @@ model Area {
   actionId   Int      @unique
   reactionId Int      @unique
   user       User     @relation(fields: [userId], references: [id])
-  Action     Action   @relation(fields: [actionId], references: [id])
-  Reaction   Reaction @relation(fields: [reactionId], references: [id])
+  Action     Action   @relation(fields: [actionId], references: [id], onDelete: Cascade)
+  Reaction   Reaction @relation(fields: [reactionId], references: [id], onDelete: Cascade)
   @@map("area")
 }
 

@@ -129,6 +129,33 @@ export class AreaService {
     return AreaDto;
   }
 
+  async deleteArea(token: string, id: string) {
+    const user = await this.me.getUser(token);
+    const idArea = parseInt(id);
+    if (isNaN(idArea)) {
+      throw new NotFoundException('This area does not exist');
+    }
+    const area = await this.prisma.area.findUnique({
+      where: {
+        userId: user.id,
+        id: idArea,
+      },
+      include: {
+        Action: true,
+        Reaction: true,
+      },
+    });
+    if (!area) {
+      throw new NotFoundException('This area does not exist');
+    }
+    await this.prisma.area.delete({
+      where: {
+        id: idArea,
+      },
+    });
+    return 'Area deleted';
+  }
+
   async setAreas(token: string, body: NewAreaDto) {
     const user = await this.me.getUser(token);
     const serviceActionName = this.findServiceName(body.nameAction, true);
