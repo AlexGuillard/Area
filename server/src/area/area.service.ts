@@ -3,7 +3,7 @@ import { MeService } from '../me/me.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { AreaDto, NewAreaDto } from './dto';
 import { AboutService } from '../about/about.service';
-import { ServiceType } from '@prisma/client';
+import { Prisma, ServiceType } from '@prisma/client';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
@@ -110,9 +110,9 @@ export class AreaService {
     const AreaDto: NewAreaDto = {
       nameArea: area.name,
       nameAction: action.name,
-      actionParameter: JSON.parse(action.stringParameter.toString()),
+      actionParameter: action.parameters as unknown as JSON,
       nameReaction: reaction.name,
-      reactionParameter: JSON.parse(reaction.stringParameter.toString()),
+      reactionParameter: reaction.parameters as unknown as JSON,
     }
     return AreaDto;
   }
@@ -150,14 +150,14 @@ export class AreaService {
     const action = await this.prisma.action.create({
       data: {
         name: body.nameAction,
-        stringParameter: JSON.parse(body.actionParameter.toString()),
+        parameters: body.actionParameter as unknown as Prisma.JsonValue,
         serviceId: serviceAction.id,
       },
     });
     const reaction = await this.prisma.reaction.create({
       data: {
         name: body.nameReaction,
-        stringParameter: JSON.parse(body.reactionParameter.toString()),
+        parameters: body.reactionParameter as unknown as Prisma.JsonValue,
         serviceId: serviceReaction.id,
       },
     });
@@ -172,6 +172,7 @@ export class AreaService {
         name: true,
       },
     });
+    console.log(JSON.stringify(action.parameters) + ' and ' + reaction.parameters);
     return area;
   }
 }

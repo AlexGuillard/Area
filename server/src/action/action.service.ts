@@ -19,7 +19,7 @@ export class ActionService {
   async executeActions() {
     const actions = await this.prisma.action.findMany();
     for (const action of actions) {
-      this.eventEmitter.emit(action.name, action.stringParameter);
+      this.eventEmitter.emit(action.name, action.parameters);
     }
   }
 
@@ -84,9 +84,9 @@ export class ActionService {
           id: area.reactionId,
         },
       });
-      if (reaction.stringParameter === structInfo) {
+      if (reaction.parameters === structInfo) {
         this.eventEmitter.emit(
-          reaction.name, reaction.stringParameter, user.randomToken);
+          reaction.name, reaction.parameters, user.randomToken);
       }
     }
   }

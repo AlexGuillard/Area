@@ -97,7 +97,7 @@ describe('AreaService', () => {
       jest.spyOn(prismaService.action, 'findUnique').mockResolvedValueOnce({
         id: 1,
         name: 'Action1',
-        stringParameter: 'testStringParameters',
+        parameters: 'testStringParameters',
         serviceId: 1,
         // Add other action properties as needed
       });
@@ -105,7 +105,7 @@ describe('AreaService', () => {
       jest.spyOn(prismaService.reaction, 'findUnique').mockResolvedValueOnce({
         id: 2,
         name: 'Reaction1',
-        stringParameter: 'testStringParameters',
+        parameters: 'testStringParameters',
         serviceId: 1,
         // Add other reaction properties as needed
       });
@@ -194,7 +194,7 @@ describe('AreaService', () => {
       jest.spyOn(prismaService.action, 'findUnique').mockResolvedValueOnce({
         id: 1,
         name: 'Action1',
-        stringParameter: 'testStringParameters',
+        parameters: 'testStringParameters',
         serviceId: 1,
         // Add other action properties as needed
       });
@@ -202,7 +202,7 @@ describe('AreaService', () => {
       jest.spyOn(prismaService.reaction, 'findUnique').mockResolvedValueOnce({
         id: 2,
         name: 'Reaction1',
-        stringParameter: 'testStringParameters',
+        parameters: 'testStringParameters',
         serviceId: 1,
         // Add other reaction properties as needed
       });

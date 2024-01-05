@@ -28,7 +28,7 @@ CREATE TABLE "area" (
 CREATE TABLE "action" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "stringParameter" JSONB,
+    "parameters" JSONB,
     "serviceId" INTEGER NOT NULL,
 
     CONSTRAINT "action_pkey" PRIMARY KEY ("id")
@@ -38,7 +38,7 @@ CREATE TABLE "action" (
 CREATE TABLE "reaction" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "stringParameter" JSONB,
+    "parameters" JSONB,
     "serviceId" INTEGER NOT NULL,
 
     CONSTRAINT "reaction_pkey" PRIMARY KEY ("id")
