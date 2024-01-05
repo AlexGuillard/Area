@@ -18,6 +18,7 @@ describe('DiscordService', () => {
             },
             services: {
               create: jest.fn(),
+              findUnique: jest.fn(),
             },
           },
         },

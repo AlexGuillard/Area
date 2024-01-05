@@ -8,6 +8,7 @@ import { AboutService } from '../about/about.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { AreaDto, NewAreaDto } from './dto';
 import { NotFoundException } from '@nestjs/common';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 describe('AreaService', () => {
   let service: AreaService;
@@ -34,7 +35,7 @@ describe('AreaService', () => {
             },
           },
         }],
-      imports: [HttpModule, AreaModule, MeModule],
+      imports: [HttpModule, AreaModule, MeModule, EventEmitterModule.forRoot(),],
     }).compile();
 
     service = module.get<AreaService>(AreaService);
