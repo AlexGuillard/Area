@@ -16,7 +16,7 @@ export class ActionService {
   ) {}
 
   @Cron(CronExpression.EVERY_30_SECONDS)
-  async executeActions() {
+  private async executeActions() {
     const actions = await this.prisma.action.findMany();
     for (const action of actions) {
       this.eventEmitter.emit(action.name, action.parameters);

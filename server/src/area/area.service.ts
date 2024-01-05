@@ -148,7 +148,17 @@ export class AreaService {
     if (!area) {
       throw new NotFoundException('This area does not exist');
     }
-    await this.prisma.area.delete({
+    await this.prisma.action.deleteMany({
+      where: {
+        id: area.actionId,
+      },
+    });
+    await this.prisma.reaction.deleteMany({
+      where: {
+        id: area.reactionId,
+      },
+    });
+    await this.prisma.area.deleteMany({
       where: {
         id: idArea,
       },
