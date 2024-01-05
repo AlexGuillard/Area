@@ -79,12 +79,17 @@ export class ActionService {
           id: area.userId,
         },
       });
+      const action = await this.prisma.action.findUnique({
+        where: {
+          id: area.actionId,
+        },
+      });
       const reaction = await this.prisma.reaction.findUnique({
         where: {
           id: area.reactionId,
         },
       });
-      if (reaction.parameters === structInfo) {
+      if (JSON.stringify(action.parameters) === JSON.stringify(structInfo)) {
         this.eventEmitter.emit(
           reaction.name, reaction.parameters, user.randomToken);
       }
