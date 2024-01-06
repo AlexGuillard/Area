@@ -11,4 +11,8 @@ export class ReactionController {
   getReactions(@Param('token') token: string) {
     return this.authService.getReactions(token);
   }
+  @Get('reactions/:nameReaction')
+  getReactionInfo(@Param('token') token: string, @Param('nameReaction') nameReaction: string) {
+    return this.authService.getReactionInfo(token, nameReaction);
+  }
 }

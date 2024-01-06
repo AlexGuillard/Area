@@ -11,4 +11,8 @@ export class ActionController {
   getActions(@Param('token') token: string) {
     return this.authService.getActions(token);
   }
+  @Get('actions/:nameAction')
+  getReactionInfo(@Param('token') token: string, @Param('nameAction') nameAction: string) {
+    return this.authService.getActionInfo(token, nameAction);
+  }
 }
