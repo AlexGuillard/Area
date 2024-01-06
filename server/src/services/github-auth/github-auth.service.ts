@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { ServiceType } from '@prisma/client';
 import { ForbiddenException } from '@nestjs/common';
 import { GithubDto } from './dto/github.dto';

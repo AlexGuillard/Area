@@ -1,7 +1,9 @@
 import { Controller, Get, Req, UseGuards, Res } from '@nestjs/common';  
 import { AuthGuard } from '@nestjs/passport';
 import { GithubAuthService } from './github-auth.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('services')
 @Controller('auth/github')
 export class GithubAuthController {
   constructor(
