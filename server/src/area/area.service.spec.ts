@@ -8,6 +8,7 @@ import { AboutService } from '../about/about.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { AreaDto, NewAreaDto } from './dto';
 import { NotFoundException } from '@nestjs/common';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 describe('AreaService', () => {
   let service: AreaService;
@@ -34,7 +35,7 @@ describe('AreaService', () => {
             },
           },
         }],
-      imports: [HttpModule, AreaModule, MeModule],
+      imports: [HttpModule, AreaModule, MeModule, EventEmitterModule.forRoot(),],
     }).compile();
 
     service = module.get<AreaService>(AreaService);
@@ -97,7 +98,7 @@ describe('AreaService', () => {
       jest.spyOn(prismaService.action, 'findUnique').mockResolvedValueOnce({
         id: 1,
         name: 'Action1',
-        stringParameter: 'testStringParameters',
+        parameters: 'testStringParameters',
         serviceId: 1,
         // Add other action properties as needed
       });
@@ -105,7 +106,7 @@ describe('AreaService', () => {
       jest.spyOn(prismaService.reaction, 'findUnique').mockResolvedValueOnce({
         id: 2,
         name: 'Reaction1',
-        stringParameter: 'testStringParameters',
+        parameters: 'testStringParameters',
         serviceId: 1,
         // Add other reaction properties as needed
       });
@@ -194,7 +195,7 @@ describe('AreaService', () => {
       jest.spyOn(prismaService.action, 'findUnique').mockResolvedValueOnce({
         id: 1,
         name: 'Action1',
-        stringParameter: 'testStringParameters',
+        parameters: 'testStringParameters',
         serviceId: 1,
         // Add other action properties as needed
       });
@@ -202,7 +203,7 @@ describe('AreaService', () => {
       jest.spyOn(prismaService.reaction, 'findUnique').mockResolvedValueOnce({
         id: 2,
         name: 'Reaction1',
-        stringParameter: 'testStringParameters',
+        parameters: 'testStringParameters',
         serviceId: 1,
         // Add other reaction properties as needed
       });
