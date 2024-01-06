@@ -46,8 +46,8 @@ export class AboutService {
             name: 'TIME',
             actions: [
               {
-                name: 'setTimer',
-                description: 'trigger reaction at end of timer',
+                name: 'ExecuteTime',
+                description: 'trigger reaction when clock minutes correspond to args',
               },
             ],
             reactions: [],

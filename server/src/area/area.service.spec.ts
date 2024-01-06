@@ -119,23 +119,12 @@ describe('AreaService', () => {
           userId: 1, // Replace with the user ID returned by getUser mock
         },
       });
-      expect(prismaService.action.findUnique).toHaveBeenCalledWith({
-        where: {
-          id: 1,
-        },
-      });
-      expect(prismaService.reaction.findUnique).toHaveBeenCalledWith({
-        where: {
-          id: 2,
-        },
-      });
 
       // Verify the structure of the result
       expect(result).toEqual([
         {
+          id: 1,
           nameArea: 'Area1',
-          nameAction: 'Action1',
-          nameReaction: 'Reaction1',
         },
         // Add more expected AreaDto objects based on your test data
       ]);

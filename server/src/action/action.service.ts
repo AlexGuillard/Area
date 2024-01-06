@@ -1,7 +1,5 @@
-import { HttpService } from '@nestjs/axios';
-import { firstValueFrom } from 'rxjs';
 import { MeService } from '../me/me.service';
-import { Injectable, Ip } from '@nestjs/common';
+import { Injectable, Ip, NotFoundException } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from '../prisma/prisma.service';
 import { ActionDescriptionDto, ActionDto } from './dto';
@@ -11,13 +9,19 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 @Injectable()
 export class ActionService {
   constructor(
-    private httpService: HttpService,
     private me: MeService,
     private prisma: PrismaService,
     private about: AboutService,
     private eventEmitter: EventEmitter2,
   ) {}
-  private previousDate: number;
+
+  @Cron(CronExpression.EVERY_30_SECONDS)
+  async executeActions() {
+    const actions = await this.prisma.action.findMany();
+    for (const action of actions) {
+      this.eventEmitter.emit(action.name, action.stringParameter);
+    }
+  }
 
   async getActions(token: string) {
     const allActions: ActionDescriptionDto[] = [];
@@ -35,6 +39,16 @@ export class ActionService {
       allActions.push(...actions);
     }
     return allActions;
+  }
+
+  async getActionInfo(token: string, nameAction: string) {
+    await this.me.getUser(token);
+    let structInfo = {};
+    const res = this.eventEmitter.emit(nameAction + ".struct", structInfo)
+    if (res === false) {
+      throw new NotFoundException('Action not found');
+    }
+    return structInfo;
   }
 
   async getAreas(name: string): Promise<any> {
@@ -55,14 +69,7 @@ export class ActionService {
     return areas;
   }
 
-  async getTime(): Promise<string> {
-    const date = await firstValueFrom(
-      this.httpService.get('http://worldtimeapi.org/api/timezone/Europe/Paris'),
-    );
-    return String(date.data.datetime);
-  }
-
-  async executeReaction(nameAction: string) {
+  async executeReaction(nameAction: string, structInfo: any) {
     const areas = await this.getAreas(nameAction);
     for (const area of areas) {
       const user = await this.prisma.user.findUnique({
@@ -75,26 +82,10 @@ export class ActionService {
           id: area.reactionId,
         },
       });
-      // change order.created with name of reaction from onEvent
-      this.eventEmitter.emit(
-        reaction.name,
-        'subject',
-        user.email,
-        'action',
-        user.email,
-        '158',
-      );
+      if (reaction.stringParameter === structInfo) {
+        this.eventEmitter.emit(
+          reaction.name, reaction.stringParameter, user.randomToken);
+      }
     }
-  }
-
-  @Cron(CronExpression.EVERY_10_SECONDS)
-  async ActionsetTimer() {
-    const stringDate = await this.getTime();
-    const date = new Date(stringDate).getMinutes();
-    if (date !== this.previousDate && this.previousDate !== undefined) {
-      this.executeReaction('setTimer');
-    }
-    this.previousDate = date;
-    return date;
   }
 }
