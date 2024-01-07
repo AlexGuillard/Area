@@ -6,6 +6,8 @@ User from '../../Image/User.png'
 import BackIcon from '../../Image/BackIcon.png'
 import ServiceCard from '../../Component/ServiceCard/serviceCard';
 import Google from '../../Image/Google.png'
+import Discord from '../../Image/Discord.png'
+import Github from '../../Image/Github.png'
 
 function Services() {
 
@@ -13,7 +15,7 @@ function Services() {
 
   useEffect(() => {
     const storedToken = Cookies.get('token');
-    if (storedToken == null)
+    if (storedToken == "undefined")
       navigate("/")
   }, [navigate]);
 
@@ -31,10 +33,11 @@ function Services() {
         </span>
         <img src={User} className='UserLogo' alt="user logo"/>
       </div>
-      <form action="http://localhost:8080/myauth/google-redirect" method="get">
-        <input type="submit" value="Press to log in"/>
-      </form>
-      <ServiceCard name="Google" status='Not Connected' user='User name' image={Google}/>
+      <div className='servicesCardArea'>
+        <ServiceCard name="Google" status='Not Connected' user='User name' image={Google} link='http://localhost:8080/myauth/google-redirect'/>
+        <ServiceCard name="Discord" status='Not Connected' user='User name' image={Discord} link=''/>
+        <ServiceCard name="Github" status='Not Connected' user='User name' image={Github} link=''/>
+      </div>
     </div>
   );
 }
