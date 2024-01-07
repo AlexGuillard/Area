@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import SelectInput from '../../Image/SelectInput.png'
+import { info } from 'console';
 
 interface editProps {
   name: string;
@@ -13,12 +14,26 @@ interface editProps {
 
 function Edit(props: editProps) {
 
-  const [nameArea, setNameArea] = useState(props.name);
-  const [selectedAction, setSelectedAction] = useState(props.nameAction);
-  const [selectedReaction, setSelectedReaction] = useState(props.nameReaction);
+  interface AreaItem {
+    nameArea: string;
+    nameAction: string;
+    actionParameter: string;
+    nameReaction: string;
+    reactionParameter: string;
+  }
+
+
+  const [infoArea, setInfoArea] = useState<AreaItem | null>(null);
+
+  const [nameArea, setNameArea] = useState("");
+  const [selectedAction, setSelectedAction] = useState("");
+  const [selectedReaction, setSelectedReaction] = useState("");
+
   const [paramArea, setParamArea] = useState("");
+
   const [showlistAction, setShowListAction] = useState(false);
   const [showlistReaction, setShowListReaction] = useState(false);
+
   const [listAction, setListAction] = useState<string []>();
   const [listReaction, setListReaction] = useState<string []>();
 
@@ -52,6 +67,7 @@ function Edit(props: editProps) {
   };
 
   const handleCallActionList = () => {
+    setListAction([])
     const storedToken = Cookies.get('token');
     axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/actions")
       .then(response => {
@@ -66,6 +82,7 @@ function Edit(props: editProps) {
   }
 
   const handleCallReactionList = () => {
+    setListReaction([])
     const storedToken = Cookies.get('token');
     axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/reactions")
       .then(response => {
@@ -79,11 +96,31 @@ function Edit(props: editProps) {
       });
   }
 
+  const handleCallAreaInfo = async () => {
+    try {
+      const storedToken = Cookies.get('token');
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/areas/" + props.name);
+      await setInfoArea(await response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
-    setNameArea(props.name)
-    handleCallActionList()
-    handleCallReactionList()
-  }, [props.name]);
+    if (infoArea == null) {
+      handleCallAreaInfo()
+    } else {
+      setNameArea(infoArea.nameArea)
+      setSelectedAction(infoArea.nameAction)
+      setSelectedReaction(infoArea.nameReaction)
+    }
+    if (listAction == undefined) {
+      handleCallActionList()
+    }
+    if (listReaction == undefined) {
+      handleCallReactionList()
+    }
+  }, [infoArea]);
 
   return (
     <div className='editComponent'>
