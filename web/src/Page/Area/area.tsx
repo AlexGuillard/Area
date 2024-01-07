@@ -14,12 +14,17 @@ function Area() {
 
   const navigate = useNavigate();
 
+  interface AreaItem {
+    id: string;
+    nameArea: string;
+  }
+
   const [showAddArea, setShowAddArea] = useState(false);
   const [showEditArea, setShowEditArea] = useState(false);
   const [areaSelected, setAreaSelected] = useState("");
   const [actionSelected, setActionSelected] = useState("");
   const [reactionSelected, setReactionSelected] = useState("");
-  const [listArea, setListArea] = useState<string []>();
+  const [listArea, setListArea] = useState<AreaItem[]>([]);
   // const [listselectedAction, setListSelectedAction] = useState<string []>();
   // const [listselectedReaction, setListSelectedReaction] = useState<string []>();
 
@@ -40,18 +45,7 @@ function Area() {
     const storedToken = Cookies.get('token');
     axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/areas")
       .then(response => {
-        setListArea((prevState: string[] | undefined) => [
-          ...(prevState || []),
-          ...response.data.map((item: { nameArea: string }) => item.nameArea)
-        ]);
-        // setListSelectedAction((prevState: string[] | undefined) => [
-        //   ...(prevState || []),
-        //   ...response.data.map((item: { nameAction: string }) => item.nameAction)
-        // ]);
-        // setListSelectedReaction((prevState: string[] | undefined) => [
-        //   ...(prevState || []),
-        //   ...response.data.map((item: { nameReaction: string }) => item.nameReaction)
-        // ]);
+        setListArea(response.data)
       })
       .catch(error => {
         console.error(error);
@@ -60,7 +54,7 @@ function Area() {
 
   useEffect(() => {
     const storedToken = Cookies.get('token');
-    if (storedToken == null)
+    if (storedToken == "undefined")
       navigate("/")
     handleCallAreaList()
   }, [navigate]);
@@ -92,9 +86,9 @@ function Area() {
       <ul className='areaList'>
         {
           listArea && listArea.map((item) =>
-            <li key={item} className='areaCardArea'>
-              <div onClick={() => handleClickEdit(item)}>
-                <AreaCard name={item}/>
+            <li key={item.id} className='areaCardArea'>
+              <div onClick={() => handleClickEdit(item.id)}>
+                <AreaCard name={item.nameArea}/>
               </div>
             </li>
           )
