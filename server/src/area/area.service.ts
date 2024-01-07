@@ -166,6 +166,77 @@ export class AreaService {
     return 'Area deleted';
   }
 
+  async changeArea(token: string, idArea: string, body: NewAreaDto) {
+    const user = await this.me.getUser(token);
+    const serviceActionName = this.findServiceName(body.nameAction, true);
+    const serviceAction = await this.prisma.services.findUnique({
+      where: {
+        UniqueUserService: {
+          userId: user.id,
+          typeService: serviceActionName,
+        },
+      },
+    });
+    const serviceReactionName = this.findServiceName(body.nameReaction, false);
+    const serviceReaction = await this.prisma.services.findUnique({
+      where: {
+        UniqueUserService: {
+          userId: user.id,
+          typeService: serviceActionName,
+        },
+      },
+    });
+    if (!serviceAction) {
+      throw new ForbiddenException(
+        'You are not connected to the service ' + serviceActionName,
+      );
+    } else if (!serviceReaction) {
+      throw new ForbiddenException(
+        'You are not connected to the service ' + serviceReactionName,
+      );
+    }
+    this.checkStringParameter(body.nameAction, body.actionParameter);
+    this.checkStringParameter(body.nameReaction, body.reactionParameter);
+    let area = await this.prisma.area.findUnique({
+      where: {
+        userId: user.id,
+        id: parseInt(idArea),
+      },
+    });
+    const action = await this.prisma.action.update({
+      where: {
+        id: area.id,
+      },
+      data: {
+        name: body.nameAction,
+        parameters: body.actionParameter as unknown as Prisma.JsonValue,
+        serviceId: serviceAction.id,
+      },
+    });
+    const reaction = await this.prisma.reaction.update({
+      where: {
+        id: area.id,
+      },
+      data: {
+        name: body.nameReaction,
+        parameters: body.reactionParameter as unknown as Prisma.JsonValue,
+        serviceId: serviceReaction.id,
+      },
+    });
+    area = await this.prisma.area.update({
+      where: {
+        id: area.id,
+      },
+      data: {
+        name: body.nameArea,
+        userId: user.id,
+        actionId: action.id,
+        reactionId: reaction.id,
+      },
+    });
+    return { "name": area.name };
+  }
+
   async setAreas(token: string, body: NewAreaDto) {
     const user = await this.me.getUser(token);
     const serviceActionName = this.findServiceName(body.nameAction, true);
