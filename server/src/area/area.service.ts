@@ -182,7 +182,7 @@ export class AreaService {
       where: {
         UniqueUserService: {
           userId: user.id,
-          typeService: serviceActionName,
+          typeService: serviceReactionName,
         },
       },
     });
@@ -253,7 +253,7 @@ export class AreaService {
       where: {
         UniqueUserService: {
           userId: user.id,
-          typeService: serviceActionName,
+          typeService: serviceReactionName,
         },
       },
     });
