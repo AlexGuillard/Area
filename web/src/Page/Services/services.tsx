@@ -35,8 +35,8 @@ function Services() {
       </div>
       <div className='servicesCardArea'>
         <ServiceCard name="Google" status='Not Connected' user='User name' image={Google} link='http://localhost:8080/myauth/google-redirect'/>
-        <ServiceCard name="Discord" status='Not Connected' user='User name' image={Discord} link=''/>
-        <ServiceCard name="Github" status='Not Connected' user='User name' image={Github} link=''/>
+        <ServiceCard name="Discord" status='Not Connected' user='User name' image={Discord} link='http://localhost:8080/services/discord/login'/>
+        <ServiceCard name="Github" status='Not Connected' user='User name' image={Github} link='http://localhost:8080/auth/github'/>
       </div>
     </div>
   );
