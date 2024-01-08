@@ -1,20 +1,38 @@
 import React, { useEffect } from 'react';
 import './edit.css';
 import { useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import SelectInput from '../../Image/SelectInput.png'
 
 interface editProps {
   name: string;
+  nameAction: string;
+  nameReaction: string;
 }
 
 function Edit(props: editProps) {
 
+  interface AreaItem {
+    nameArea: string;
+    nameAction: string;
+    actionParameter: string;
+    nameReaction: string;
+    reactionParameter: string;
+  }
+
+
+  const [infoArea, setInfoArea] = useState<AreaItem | null>(null);
+
   const [nameArea, setNameArea] = useState("");
-  const [selectedAction, setSelectedAction] = useState("Action");
-  const [selectedReaction, setSelectedReaction] = useState("Reaction");
+  const [selectedAction, setSelectedAction] = useState("");
+  const [selectedReaction, setSelectedReaction] = useState("");
+
   const [paramArea, setParamArea] = useState("");
+
   const [showlistAction, setShowListAction] = useState(false);
   const [showlistReaction, setShowListReaction] = useState(false);
+
   const [listAction, setListAction] = useState<string []>();
   const [listReaction, setListReaction] = useState<string []>();
 
@@ -47,11 +65,61 @@ function Edit(props: editProps) {
     setParamArea(event.target.value);
   };
 
+  const handleCallActionList = () => {
+    setListAction([])
+    const storedToken = Cookies.get('token');
+    axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/actions")
+      .then(response => {
+        setListAction((prevState: string[] | undefined) => [
+          ...(prevState || []),
+          ...response.data.map((item: { name: string }) => item.name)
+        ]);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  const handleCallReactionList = () => {
+    setListReaction([])
+    const storedToken = Cookies.get('token');
+    axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/reactions")
+      .then(response => {
+        setListReaction((prevState: string[] | undefined) => [
+          ...(prevState || []),
+          ...response.data.map((item: { name: string }) => item.name)
+        ]);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  const handleCallAreaInfo = async () => {
+    try {
+      const storedToken = Cookies.get('token');
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/areas/" + props.name);
+      await setInfoArea(await response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
-    setNameArea(props.name)
-    setListAction(["test1", "test2", "test3", "test4", "aaaaaaaaa"])
-    setListReaction(["test1", "test2"])
-  }, [props.name]);
+    if (infoArea === null) {
+      handleCallAreaInfo()
+    } else {
+      setNameArea(infoArea.nameArea)
+      setSelectedAction(infoArea.nameAction)
+      setSelectedReaction(infoArea.nameReaction)
+    }
+    if (listAction === undefined) {
+      handleCallActionList()
+    }
+    if (listReaction === undefined) {
+      handleCallReactionList()
+    }
+  }, [infoArea]);
 
   return (
     <div className='editComponent'>

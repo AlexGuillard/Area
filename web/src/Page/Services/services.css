@@ -49,3 +49,8 @@
     font-size: 30px;
     color: #2B2277;
 }
+
+.servicesCardArea {
+    display: flex;
+    flex-direction: row;
+}

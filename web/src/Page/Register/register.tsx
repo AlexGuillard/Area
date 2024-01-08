@@ -27,7 +27,7 @@ function Register() {
     };
     axios.post(process.env.REACT_APP_SERVER_URL + '/auth/signup', data)
       .then(response => {
-        Cookies.set('token', response.data[2])
+        Cookies.set('token', response.data.randomToken)
         navigate("/Area")
       })
       .catch(error => {
