@@ -10,5 +10,6 @@ import { AboutService } from '../about/about.service';
   imports: [PrismaModule],
   providers: [ActionService, MeService, AboutService],
   controllers: [ActionController],
+  exports: [ActionService],
 })
 export class ActionModule {}
