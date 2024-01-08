@@ -21,6 +21,17 @@ const Register = ({navigation}) => {
   };
 
   const handleClickRegister = async () => {
+      const data = {
+        mail: textEmail,
+        password: textPassWord,
+      };
+      axios.post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
+        .then(response => {
+          navigation.navigate("Area")
+        })
+        .catch(error => {
+          console.error(error);
+        });
   }
 
   const backgroundStyle = {

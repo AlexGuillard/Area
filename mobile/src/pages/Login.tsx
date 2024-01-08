@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  TextInput,
-  Pressable,
+  SafeAreaView, StatusBar, StyleSheet, Text, useColorScheme,
+  View, TextInput, Pressable
 } from 'react-native';
-
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+import axios from 'axios';
+import { Colors} from 'react-native/Libraries/NewAppScreen';
+import Config from 'react-native-config';
+import { REACT_APP_SERVER_URL } from '@env';
 
 const Login = ({navigation}) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -22,6 +16,30 @@ const Login = ({navigation}) => {
     backgroundColor:  Colors.darker,
     flex: 1,
   };
+
+
+  const handleTextChangeUser = (text: string) => {
+    setMail(text);
+  };
+  const handleTextChangePassWord = (text: string) => {
+      setPassword(text);
+  };
+
+  const handleClickConnection = () => {
+    const data = {
+      mail: mail,
+      password: password,
+    };
+    axios.post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
+      .then(response => {
+        const token = response.data[2];
+        navigation.navigate("Area")
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -35,25 +53,23 @@ const Login = ({navigation}) => {
               style={styles.input}
               placeholder='Email'
               placeholderTextColor={'rgba(43, 34, 119, 1)'}
-              onChangeText={newMail => setMail(newMail)}
+              onChangeText={handleTextChangeUser}
               defaultValue={mail}
             />
             <TextInput
               style={styles.input}
               placeholder='Password'
               placeholderTextColor={'rgba(43, 34, 119, 1)'}
-              onChangeText={newPassword => setPassword(newPassword)}
+              onChangeText={handleTextChangePassWord}
               defaultValue={password}
               secureTextEntry={true}
             />
           </View>
           <View style={{paddingHorizontal: 50}}>
-            <Pressable style={styles.primaryButton} onPress={() => {
-              navigation.navigate('Area')
-              }}>
+            <Pressable style={styles.primaryButton} onPress={handleClickConnection}>
               <Text style={styles.primaryButtonText}>Login</Text>
             </Pressable>
-            <Pressable style={styles.secondaryButton} onPress={() => { navigation.navigate('Register') }}>
+            <Pressable style={styles.secondaryButton} onPress={() => {navigation.navigate('Register')}}>
               <Text style={styles.secondaryButtonText}>Register</Text>
             </Pressable>
           </View>
