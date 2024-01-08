@@ -29,6 +29,7 @@ CREATE TABLE "action" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "parameters" JSONB,
+    "saveParams" JSONB,
     "serviceId" INTEGER NOT NULL,
 
     CONSTRAINT "action_pkey" PRIMARY KEY ("id")
