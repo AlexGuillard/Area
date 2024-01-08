@@ -4,7 +4,6 @@ import { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import SelectInput from '../../Image/SelectInput.png'
-import { info } from 'console';
 
 interface editProps {
   name: string;
@@ -107,17 +106,17 @@ function Edit(props: editProps) {
   }
 
   useEffect(() => {
-    if (infoArea == null) {
+    if (infoArea === null) {
       handleCallAreaInfo()
     } else {
       setNameArea(infoArea.nameArea)
       setSelectedAction(infoArea.nameAction)
       setSelectedReaction(infoArea.nameReaction)
     }
-    if (listAction == undefined) {
+    if (listAction === undefined) {
       handleCallActionList()
     }
-    if (listReaction == undefined) {
+    if (listReaction === undefined) {
       handleCallReactionList()
     }
   }, [infoArea]);
