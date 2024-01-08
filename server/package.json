@@ -68,6 +68,7 @@
     "@types/node": "^20.10.5",
     "@types/nodemailer": "^6.4.14",
     "@types/passport-google-oauth20": "^2.0.14",
+    "@types/passport-spotify": "^2.0.4",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
