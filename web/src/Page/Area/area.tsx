@@ -54,7 +54,7 @@ function Area() {
 
   useEffect(() => {
     const storedToken = Cookies.get('token');
-    if (storedToken == "undefined")
+    if (storedToken === "undefined")
       navigate("/")
     handleCallAreaList()
   }, [navigate]);
