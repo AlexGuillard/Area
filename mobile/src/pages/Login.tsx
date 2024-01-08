@@ -48,13 +48,12 @@ const Login = ({navigation}) => {
             />
           </View>
           <View style={{paddingHorizontal: 50}}>
-            <Pressable style={styles.primaryButton} onPress={() => { 
-              console.log('pressed')
+            <Pressable style={styles.primaryButton} onPress={() => {
               navigation.navigate('Area')
               }}>
               <Text style={styles.primaryButtonText}>Login</Text>
             </Pressable>
-            <Pressable style={styles.secondaryButton} onPress={() => { console.log('pressed') }}>
+            <Pressable style={styles.secondaryButton} onPress={() => { navigation.navigate('Register') }}>
               <Text style={styles.secondaryButtonText}>Register</Text>
             </Pressable>
           </View>

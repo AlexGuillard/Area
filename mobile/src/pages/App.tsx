@@ -7,6 +7,7 @@ import { IconButton, Text } from 'react-native-paper';
 import Login from './Login';
 import AreaPage from './AreaPage';
 import Service from './Service';
+import Register from './Register';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +43,7 @@ const App = () => {
           })}
         />
         <Stack.Screen name='Service' component={Service} />
+        <Stack.Screen name='Register' component={Register} />
       </Stack.Navigator>
     </NavigationContainer>
   );
