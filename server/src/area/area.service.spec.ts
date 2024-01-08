@@ -99,6 +99,7 @@ describe('AreaService', () => {
         id: 1,
         name: 'Action1',
         parameters: 'testStringParameters',
+        saveParams: 'testStringSaveParameters',
         serviceId: 1,
         // Add other action properties as needed
       });
@@ -196,6 +197,7 @@ describe('AreaService', () => {
         id: 1,
         name: 'Action1',
         parameters: 'testStringParameters',
+        saveParams: 'testStringSaveParameters',
         serviceId: 1,
         // Add other action properties as needed
       });
