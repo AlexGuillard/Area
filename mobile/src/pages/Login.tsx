@@ -1,28 +1,29 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
-  SafeAreaView, StatusBar, StyleSheet, Text, useColorScheme,
-  View, TextInput, Pressable
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
 } from 'react-native';
 import axios from 'axios';
-import { Colors} from 'react-native/Libraries/NewAppScreen';
-import Config from 'react-native-config';
-import { REACT_APP_SERVER_URL } from '@env';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const Login = ({navigation}) => {
-  const isDarkMode = useColorScheme() === 'dark';
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
   const backgroundStyle = {
-    backgroundColor:  Colors.darker,
+    backgroundColor: Colors.darker,
     flex: 1,
   };
-
 
   const handleTextChangeUser = (text: string) => {
     setMail(text);
   };
   const handleTextChangePassWord = (text: string) => {
-      setPassword(text);
+    setPassword(text);
   };
 
   const handleClickConnection = () => {
@@ -30,16 +31,15 @@ const Login = ({navigation}) => {
       mail: mail,
       password: password,
     };
-    axios.post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
-      .then(response => {
-        const token = response.data[2];
-        navigation.navigate("Area")
+    axios
+      .post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
+      .then(() => {
+        navigation.navigate('Area');
       })
       .catch(error => {
         console.error(error);
       });
-  }
-
+  };
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -47,36 +47,44 @@ const Login = ({navigation}) => {
         barStyle={'light-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 50 }}>
-        <View style={{ justifyContent: 'center' }}>
-            <TextInput
-              style={styles.input}
-              placeholder='Email'
-              placeholderTextColor={'rgba(43, 34, 119, 1)'}
-              onChangeText={handleTextChangeUser}
-              defaultValue={mail}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder='Password'
-              placeholderTextColor={'rgba(43, 34, 119, 1)'}
-              onChangeText={handleTextChangePassWord}
-              defaultValue={password}
-              secureTextEntry={true}
-            />
-          </View>
-          <View style={{paddingHorizontal: 50}}>
-            <Pressable style={styles.primaryButton} onPress={handleClickConnection}>
-              <Text style={styles.primaryButtonText}>Login</Text>
-            </Pressable>
-            <Pressable style={styles.secondaryButton} onPress={() => {navigation.navigate('Register')}}>
-              <Text style={styles.secondaryButtonText}>Register</Text>
-            </Pressable>
-          </View>
+      <View style={{flex: 1, justifyContent: 'center', paddingHorizontal: 50}}>
+        <View style={{justifyContent: 'center'}}>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor={'rgba(43, 34, 119, 1)'}
+            onChangeText={handleTextChangeUser}
+            defaultValue={mail}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor={'rgba(43, 34, 119, 1)'}
+            onChangeText={handleTextChangePassWord}
+            defaultValue={password}
+            secureTextEntry={true}
+          />
         </View>
+        <View style={{paddingHorizontal: 50}}>
+          <Pressable
+            style={styles.primaryButton}
+            onPress={() => {
+              navigation.navigate('Area');
+            }}>
+            <Text style={styles.primaryButtonText}>Login</Text>
+          </Pressable>
+          <Pressable
+            style={styles.secondaryButton}
+            onPress={() => {
+              navigation.navigate('Register');
+            }}>
+            <Text style={styles.secondaryButtonText}>Register</Text>
+          </Pressable>
+        </View>
+      </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   sectionContainer: {
@@ -100,7 +108,7 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 40,
     backgroundColor: 'rgba(197, 192, 255, 1)',
-    marginBottom: 10
+    marginBottom: 10,
   },
   primaryButton: {
     borderColor: '#3F3C8F',
@@ -136,7 +144,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     fontSize: 10,
     fontWeight: '400',
-  }
+  },
 });
 
 export default Login;

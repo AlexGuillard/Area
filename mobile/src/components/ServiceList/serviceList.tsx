@@ -1,16 +1,6 @@
 import React from 'react';
-import { Avatar } from 'react-native-elements';
-import {
-  SafeAreaView,
-  View,
-  FlatList,
-  StyleSheet,
-  Text,
-  StatusBar,
-  Pressable,
-  Dimensions
-} from 'react-native';
-import Service from '../../pages/Service';
+import {Avatar} from 'react-native-elements';
+import {SafeAreaView, View, FlatList, StyleSheet, Text} from 'react-native';
 
 const DATA = [
   {
@@ -58,42 +48,48 @@ const DATA = [
 ];
 
 type ServiceProps = {
-  serviceName: string,
-  status: string,
-  image_url: string,
-  userName: string,
+  serviceName: string;
+  status: string;
+  image_url: string;
+  userName: string;
 };
 
 const ServiceCard = (props: ServiceProps) => {
-    return (
-        <View style={styles.card}>
-            <View style={styles.infoPart}>
-              <Text style={{fontSize: 20, color: "black"}}>{props.serviceName}</Text>
-              <View style={{flex: 1}}/>
-              <Text style={{marginLeft: 50, fontSize: 10, color: (props.status == "Active" ? "green" : "red")}}>{props.status}</Text>
-            </View>
-            <View style={styles.userPart}>
-              <Avatar
-                rounded
-                size="large"
-                source={{uri: props.image_url}}/>
-              <Text style={styles.userNameText}>{props.userName}</Text>
-            </View>
-        </View>
-    );
-}
+  return (
+    <View style={styles.card}>
+      <View style={styles.infoPart}>
+        <Text style={{fontSize: 20, color: 'black'}}>{props.serviceName}</Text>
+        <View style={{flex: 1}} />
+        <Text
+          style={{
+            marginLeft: 50,
+            fontSize: 10,
+            color: props.status === 'Active' ? 'green' : 'red',
+          }}>
+          {props.status}
+        </Text>
+      </View>
+      <View style={styles.userPart}>
+        <Avatar rounded size="large" source={{uri: props.image_url}} />
+        <Text style={styles.userNameText}>{props.userName}</Text>
+      </View>
+    </View>
+  );
+};
 
 const ServiceList = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={DATA}
-        renderItem={({item}) => <ServiceCard
-          serviceName={item.serviceName}
-          status={item.status}
-          image_url={item.image_url}
-          userName={item.userName}
-        />}
+        renderItem={({item}) => (
+          <ServiceCard
+            serviceName={item.serviceName}
+            status={item.status}
+            image_url={item.image_url}
+            userName={item.userName}
+          />
+        )}
         keyExtractor={item => item.id}
       />
     </SafeAreaView>
@@ -103,37 +99,37 @@ const ServiceList = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    width: "80%"
+    width: '80%',
   },
   card: {
-      paddingHorizontal: 24,
-      borderRadius: 16,
-      padding: 10,
-      marginBottom: 20,
-      backgroundColor: "rgba(199, 196, 220, 1)",
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignContent: 'center'
-    },
-    infoPart: {
-      flexDirection: 'row',
-    },
-    userPart: {
-      marginTop: 20,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignContent: 'center'
-    },
-    cardImage: {
-        width: 65,
-        height: 65,
-        borderRadius: 100,
-    },
-    userNameText: {
-      fontSize: 30,
-      marginLeft: 20,
-      color: "black"
-    }
+    paddingHorizontal: 24,
+    borderRadius: 16,
+    padding: 10,
+    marginBottom: 20,
+    backgroundColor: 'rgba(199, 196, 220, 1)',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  infoPart: {
+    flexDirection: 'row',
+  },
+  userPart: {
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  cardImage: {
+    width: 65,
+    height: 65,
+    borderRadius: 100,
+  },
+  userNameText: {
+    fontSize: 30,
+    marginLeft: 20,
+    color: 'black',
+  },
 });
 
 export default ServiceList;

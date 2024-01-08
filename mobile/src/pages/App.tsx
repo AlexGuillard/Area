@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {StyleSheet} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { IconButton, Text } from 'react-native-paper';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {IconButton} from 'react-native-paper';
 
 import Login from './Login';
 import AreaPage from './AreaPage';
@@ -19,31 +19,29 @@ const App = () => {
           headerStyle: styles.header,
           headerTitleStyle: styles.headerText,
           headerTintColor: '#2B2277',
-        }}
-      >
+        }}>
         <Stack.Screen
-          name='Login'
+          name="Login"
           component={Login}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
-          name='Area'
+          name="Area"
           component={AreaPage}
-          options={({ navigation }) => ({
+          options={() => ({
             title: 'Area',
             headerBackVisible: false,
             headerRight: () => (
               <IconButton
                 style={styles.IconItem}
-                icon='account-circle'
-                onPress={() => {
-                }}
+                icon="account-circle"
+                onPress={() => {}}
               />
             ),
           })}
         />
-        <Stack.Screen name='Service' component={Service} />
-        <Stack.Screen name='Register' component={Register} />
+        <Stack.Screen name="Service" component={Service} />
+        <Stack.Screen name="Register" component={Register} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -51,7 +49,7 @@ const App = () => {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor : 'rgba(197, 192, 255, 1)',
+    backgroundColor: 'rgba(197, 192, 255, 1)',
     position: 'absolute',
     top: 0,
     width: '100%',

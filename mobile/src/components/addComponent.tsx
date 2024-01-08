@@ -1,6 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import { View, Text, TextInput, TouchableOpacity, Image, FlatList } from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from 'react-native';
 
 const AddComponent = () => {
   const [nameArea, setNameArea] = useState('');
@@ -9,10 +16,10 @@ const AddComponent = () => {
   const [paramArea, setParamArea] = useState('');
   const [showListAction, setShowListAction] = useState(false);
   const [showListReaction, setShowListReaction] = useState(false);
-  const [listAction, setListAction] = useState(['test1', 'test2', 'test3', 'test4']);
-  const [listReaction, setListReaction] = useState(['reaction1', 'reaction2', 'reaction3']);
+  const listAction = useState(['test1', 'test2', 'test3', 'test4']);
+  const listReaction = useState(['reaction1', 'reaction2', 'reaction3']);
 
-  const handleNameAreaChange = (text) => {
+  const handleNameAreaChange = text => {
     setNameArea(text);
   };
 
@@ -26,17 +33,17 @@ const AddComponent = () => {
     setShowListAction(false);
   };
 
-  const handleActionAreaChange = (item) => {
+  const handleActionAreaChange = item => {
     setSelectedAction(item);
     setShowListAction(false);
   };
 
-  const handleReactionAreaChange = (item) => {
+  const handleReactionAreaChange = item => {
     setSelectedReaction(item);
     setShowListReaction(false);
   };
 
-  const handleParamAreaChange = (text) => {
+  const handleParamAreaChange = text => {
     setParamArea(text);
   };
 
@@ -54,13 +61,16 @@ const AddComponent = () => {
           <Text>{selectedAction}</Text>
           <View style={styles.addComponentActionLine} />
           <TouchableOpacity onPress={handleClickActionList}>
-            <Image source={require('../../assets/SelectInput.png')} style={styles.addComponentActionButton} />
+            <Image
+              source={require('../../assets/SelectInput.png')}
+              style={styles.addComponentActionButton}
+            />
           </TouchableOpacity>
           {showListAction && (
             <FlatList
               data={listAction}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
+              keyExtractor={item => item}
+              renderItem={({item}) => (
                 <TouchableOpacity onPress={() => handleActionAreaChange(item)}>
                   <Text style={styles.addComponentActionList}>{item}</Text>
                 </TouchableOpacity>
@@ -72,14 +82,18 @@ const AddComponent = () => {
           <Text>{selectedReaction}</Text>
           <View style={styles.addComponentReactionLine} />
           <TouchableOpacity onPress={handleClickReactionList}>
-            <Image source={require('../../assets/SelectInput.png')} style={styles.addComponentReactionButton} />
+            <Image
+              source={require('../../assets/SelectInput.png')}
+              style={styles.addComponentReactionButton}
+            />
           </TouchableOpacity>
           {showListReaction && (
             <FlatList
               data={listReaction}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => handleReactionAreaChange(item)}>
+              keyExtractor={item => item}
+              renderItem={({item}) => (
+                <TouchableOpacity
+                  onPress={() => handleReactionAreaChange(item)}>
                   <Text style={styles.addComponentReactionList}>{item}</Text>
                 </TouchableOpacity>
               )}
@@ -213,4 +227,3 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
 });
-
