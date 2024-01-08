@@ -14,7 +14,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ReactionModule } from './reaction/reaction.module';
 import { TimeModule } from './action/time/time.module';
-import { SpotifyAuthModule } from './spotify-auth/spotify-auth.module';
+import { SpotifyAuthModule } from './services/spotify-auth/spotify-auth.module';
 
 @Module({
   imports: [
