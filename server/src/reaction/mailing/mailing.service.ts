@@ -43,8 +43,8 @@ export class MailingService {
     }
 
     const service = await this.prismaService.services.findMany({
-      where: { userId: userId.id },
-      select: { token: true },
+      where: { userId: userId.id, typeService: 'GOOGLE' },
+      select: { token: true, typeService: true },
     });
 
     oauth2Client.setCredentials({
