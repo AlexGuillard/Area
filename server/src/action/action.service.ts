@@ -19,8 +19,32 @@ export class ActionService {
   private async executeActions() {
     const actions = await this.prisma.action.findMany();
     for (const action of actions) {
-      this.eventEmitter.emit(action.name, action.parameters);
+      this.eventEmitter.emit(action.name, action.parameters, action.id);
     }
+  }
+
+  async getAction(id: number) {
+    const action = await this.prisma.action.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    if (action === null) {
+      throw new NotFoundException('Action not found');
+    }
+    return action;
+  }
+
+  async updateAction(id: number, saveParams: {}) {
+    const action = await this.prisma.action.update({
+      where: {
+        id: id,
+      },
+      data: {
+        saveParams: saveParams,
+      },
+    });
+    return action;
   }
 
   async getActions(token: string) {
