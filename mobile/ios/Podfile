@@ -39,7 +39,7 @@ target 'mobile' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'AreaMobileTests' do
+  target 'mobileTests' do
     inherit! :complete
     # Pods for testing
   end
