@@ -8,7 +8,7 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
-import axios from 'axios';
+// import axios from 'axios';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const Login = ({navigation}) => {
@@ -26,20 +26,20 @@ const Login = ({navigation}) => {
     setPassword(text);
   };
 
-  const handleClickConnection = () => {
-    const data = {
-      mail: mail,
-      password: password,
-    };
-    axios
-      .post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
-      .then(() => {
-        navigation.navigate('Area');
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
+  // const handleClickConnection = () => {
+  //   const data = {
+  //     mail: mail,
+  //     password: password,
+  //   };
+  //   axios
+  //     .post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
+  //     .then(() => {
+  //       navigation.navigate('Area');
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // };
 
   return (
     <SafeAreaView style={backgroundStyle}>
