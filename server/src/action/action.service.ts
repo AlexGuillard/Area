@@ -16,10 +16,10 @@ export class ActionService {
   ) {}
 
   @Cron(CronExpression.EVERY_30_SECONDS)
-  async executeActions() {
+  private async executeActions() {
     const actions = await this.prisma.action.findMany();
     for (const action of actions) {
-      this.eventEmitter.emit(action.name, action.stringParameter);
+      this.eventEmitter.emit(action.name, action.parameters);
     }
   }
 
@@ -35,8 +35,10 @@ export class ActionService {
     for (const service of services) {
       const actions = infos.server.services.find(
         (s) => s.name === service.typeService,
-      ).actions;
-      allActions.push(...actions);
+      );
+      if (actions != undefined) {
+        allActions.push(...actions.actions);
+      }
     }
     return allActions;
   }
@@ -77,14 +79,19 @@ export class ActionService {
           id: area.userId,
         },
       });
+      const action = await this.prisma.action.findUnique({
+        where: {
+          id: area.actionId,
+        },
+      });
       const reaction = await this.prisma.reaction.findUnique({
         where: {
           id: area.reactionId,
         },
       });
-      if (reaction.stringParameter === structInfo) {
+      if (JSON.stringify(action.parameters) === JSON.stringify(structInfo)) {
         this.eventEmitter.emit(
-          reaction.name, reaction.stringParameter, user.randomToken);
+          reaction.name, reaction.parameters, user.randomToken);
       }
     }
   }

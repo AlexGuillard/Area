@@ -32,6 +32,8 @@ export default function GoogleButton() {
               onError={() => {
                 console.log('Login Failed');
               }}
+
+              theme='filled_black'
             />
         </GoogleOAuthProvider>
     </div>

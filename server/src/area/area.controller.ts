@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { AreaService } from './area.service';
 import { NewAreaDto } from './dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -19,5 +19,13 @@ export class AreaController {
   @Post('areas')
   setAreas(@Param('token') token: string, @Body() body: NewAreaDto) {
     return this.areaService.setAreas(token, body);
+  }
+  @Delete('areas/:id')
+  deleteArea(@Param('token') token: string, @Param('id') id: string) {
+    return this.areaService.deleteArea(token, id);
+  }
+  @Put('areas/:id')
+  changeArea(@Param('token') token: string, @Param('id') id: string, @Body() body: NewAreaDto) {
+    return this.areaService.changeArea(token, id, body);
   }
 }

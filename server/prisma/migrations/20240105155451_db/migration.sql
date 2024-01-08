@@ -28,7 +28,7 @@ CREATE TABLE "area" (
 CREATE TABLE "action" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "stringParameter" TEXT,
+    "parameters" JSONB,
     "serviceId" INTEGER NOT NULL,
 
     CONSTRAINT "action_pkey" PRIMARY KEY ("id")
@@ -38,7 +38,7 @@ CREATE TABLE "action" (
 CREATE TABLE "reaction" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "stringParameter" TEXT,
+    "parameters" JSONB,
     "serviceId" INTEGER NOT NULL,
 
     CONSTRAINT "reaction_pkey" PRIMARY KEY ("id")
@@ -77,10 +77,10 @@ CREATE UNIQUE INDEX "services_userId_typeService_key" ON "services"("userId", "t
 ALTER TABLE "area" ADD CONSTRAINT "area_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "area" ADD CONSTRAINT "area_actionId_fkey" FOREIGN KEY ("actionId") REFERENCES "action"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "area" ADD CONSTRAINT "area_actionId_fkey" FOREIGN KEY ("actionId") REFERENCES "action"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "area" ADD CONSTRAINT "area_reactionId_fkey" FOREIGN KEY ("reactionId") REFERENCES "reaction"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "area" ADD CONSTRAINT "area_reactionId_fkey" FOREIGN KEY ("reactionId") REFERENCES "reaction"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "action" ADD CONSTRAINT "action_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "services"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
