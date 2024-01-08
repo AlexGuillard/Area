@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DiscordService } from './discord.service';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { ForbiddenException } from '@nestjs/common';
 
 describe('DiscordService', () => {
@@ -18,6 +18,7 @@ describe('DiscordService', () => {
             },
             services: {
               create: jest.fn(),
+              findUnique: jest.fn(),
             },
           },
         },

@@ -1,7 +1,9 @@
 import { Controller, Get, Request, Res, UseGuards } from '@nestjs/common';
 import { DiscordService } from './discord.service';
 import { DiscordGuard } from './discord.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('services')
 @Controller('services')
 export class DiscordController {
   constructor(

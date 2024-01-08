@@ -1,11 +1,12 @@
 import { GoogleOAuthGuard } from './google-oauth.guard';
 import { Controller, Get, Request, Res, UseGuards } from '@nestjs/common';
 import { GoogleAuthService } from './google-auth.service';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { ForbiddenException } from '@nestjs/common';
 import { ServiceType } from '@prisma/client';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('services')
 @Controller('myauth')
 export class GoogleAuthController {
   constructor(
@@ -32,7 +33,7 @@ export class GoogleAuthController {
     });
 
     if (!user) {
-      throw new ForbiddenException('mail not found');
+      throw new ForbiddenException('mail not found while creating Google service');
     }
 
     await this.prisma.services.create({

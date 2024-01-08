@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, Res } from '@nestjs/common';
 import { Request } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { ServiceType } from '@prisma/client';
 
 @Injectable()
@@ -24,14 +24,22 @@ export class DiscordService {
       );
     }
 
-    await this.prisma.services.create({
-      data: {
-        token: accessToken,
-        refreshToken: refreshToken,
-        typeService: ServiceType.DISCORD,
+    const service = await this.prisma.services.findUnique({
+      where: {
         userId: user.id,
+        token: accessToken,
       },
     });
+    if (!service) {
+      await this.prisma.services.create({
+        data: {
+          token: accessToken,
+          refreshToken: refreshToken,
+          typeService: ServiceType.DISCORD,
+          userId: user.id,
+        },
+      });
+    }
     res.redirect('http://localhost:8081/Area');
   }
 }

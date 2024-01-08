@@ -2,8 +2,8 @@ import { Global, Module } from '@nestjs/common';
 import { DiscordController } from './discord.controller';
 import { DiscordService } from './discord.service';
 import { ConfigModule } from '@nestjs/config';
-import { PrismaModule } from '../prisma/prisma.module';
-import { DiscordStrategy } from '../strategy/discord.strategy';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { DiscordStrategy } from 'src/strategy/discord.strategy';
 
 @Global()
 @Module({

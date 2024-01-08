@@ -3,8 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { MailerService } from '@nestjs-modules/mailer';
 import { google } from 'googleapis';
 import { Options } from 'nodemailer/lib/smtp-transport';
-import { OnEvent } from '@nestjs/event-emitter';
-import { PrismaService } from '../prisma/prisma.service';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
+import { PrismaService } from '../../prisma/prisma.service';
+import { SendMailDto } from './dto';
 
 @Injectable()
 export class MailingService {
@@ -12,7 +13,16 @@ export class MailingService {
     private readonly configService: ConfigService,
     private readonly mailerService: MailerService,
     private readonly prismaService: PrismaService,
-  ) {}
+    private eventEmitter: EventEmitter2,
+  ) {
+    this.eventEmitter.on("sendEmail.struct", (struct: SendMailDto) => {
+      struct.to = 'string';
+      struct.from = 'string';
+      struct.subject = 'string';
+      struct.template = 'string';
+      struct.code = 'string';
+    })
+  }
 
   private async setTransport(randomToken: string) {
     const OAuth2 = google.auth.OAuth2;
@@ -33,8 +43,8 @@ export class MailingService {
     }
 
     const service = await this.prismaService.services.findMany({
-      where: { userId: userId.id },
-      select: { token: true },
+      where: { userId: userId.id, typeService: 'GOOGLE' },
+      select: { token: true, typeService: true },
     });
 
     oauth2Client.setCredentials({
@@ -64,16 +74,14 @@ export class MailingService {
     this.mailerService.addTransporter('gmail', config);
   }
 
-  @OnEvent('order.created')
-  public async sendMail(
-    subject: string,
-    to: string,
-    template: string,
-    from: string,
-    code: string,
-    randomToken: string, // user randomToken generated when user is created or login
-  ) {
+  @OnEvent('sendEmail')
+  async sendMail(structInfo: SendMailDto, randomToken: string) {
     await this.setTransport(randomToken);
+    const to = structInfo.to;
+    const from = structInfo.from;
+    const subject = structInfo.subject;
+    const template = structInfo.template;
+    const code = structInfo.code;
     this.mailerService
       .sendMail({
         transporterName: 'gmail',

@@ -2,15 +2,17 @@ FROM node:20 as builder
 
 ENV NODE_ENV production
 
-RUN mkdir common-volume
+RUN mkdir /common-volume
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm i
+RUN npm install
 
 COPY . .
+
+RUN ln -s /common-volume/app-release.apk ./public/client.apk
 
 RUN npm run build
 

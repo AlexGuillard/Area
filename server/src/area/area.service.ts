@@ -1,9 +1,10 @@
-import { ForbiddenException, Injectable, Ip } from '@nestjs/common';
+import { ForbiddenException, Injectable, Ip, NotFoundException } from '@nestjs/common';
 import { MeService } from '../me/me.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { AreaDto, NewAreaDto } from './dto';
 import { AboutService } from '../about/about.service';
-import { ServiceType } from '@prisma/client';
+import { Prisma, ServiceType } from '@prisma/client';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class AreaService {
@@ -11,6 +12,7 @@ export class AreaService {
     private me: MeService,
     private prisma: PrismaService,
     private about: AboutService,
+    private eventEmitter: EventEmitter2, 
   ) {}
 
   findServiceName(actionReactionName: string, isAction: boolean): ServiceType {
@@ -36,6 +38,39 @@ export class AreaService {
     throw new ForbiddenException("This action or reaction doesn't exist");
   }
 
+  checkStructUser(object: JSON, actualStruct: Record<string, any>) {
+    const allObjectNames = Object.keys(object) as (keyof typeof object)[];
+    const allstructNames = Object.keys(actualStruct) as (keyof typeof actualStruct)[];
+
+    if (allObjectNames.length !== allstructNames.length) {
+      throw new ForbiddenException('Wrong number of parameters. we need ' + JSON.stringify(actualStruct));
+    }
+    for (var j = 0; j < allObjectNames.length; j++) {
+      const key = allObjectNames[j] as string
+      const structKey = allstructNames[j] as string
+      if (key !== structKey) {
+        throw new ForbiddenException('Wrong parameter name. we need ' + JSON.stringify(actualStruct));
+      }
+      const variableType = typeof object[key]
+      const structType = typeof actualStruct[structKey]
+      if (variableType !== structType) {
+        throw new ForbiddenException('Wrong parameter type. we need ' + JSON.stringify(actualStruct));
+      }
+    }
+  }
+
+  checkStringParameter(
+    name: string,
+    parameter: JSON,
+  ) {
+    const struct = {}
+    const res = this.eventEmitter.emit(name + '.struct', struct);
+    if (res === false) {
+      throw new NotFoundException('Action or reaction not found');
+    }
+    this.checkStructUser(parameter, struct);
+  }
+
   async getAreas(token: string) {
     const allAreas: AreaDto[] = [];
     const user = await this.me.getUser(token);
@@ -45,23 +80,90 @@ export class AreaService {
       },
     });
     for (const a of area) {
-      const action = await this.prisma.action.findUnique({
-        where: {
-          id: a.actionId,
-        },
-      });
-      const reaction = await this.prisma.reaction.findUnique({
-        where: {
-          id: a.reactionId,
-        },
-      });
       allAreas.push({
+        id: a.id,
         nameArea: a.name,
-        nameAction: action.name,
-        nameReaction: reaction.name,
       });
     }
     return allAreas;
+  }
+  async getArea(token: string, id: string): Promise<NewAreaDto> {
+    const user = await this.me.getUser(token);
+    const idArea = parseInt(id);
+    if (isNaN(idArea)) {
+      throw new NotFoundException('This area does not exist');
+    }
+    const area = await this.prisma.area.findUnique({
+      where: {
+        userId: user.id,
+        id: idArea,
+      },
+    });
+
+    if (!area) {
+      throw new NotFoundException('This area does not exist');
+    }
+    const action = await this.prisma.action.findUnique({
+      where: {
+        id: area.actionId,
+      },
+    });
+    if (!action) {
+      throw new NotFoundException('This area does not contain an action');
+    }
+    const reaction = await this.prisma.reaction.findUnique({
+      where: {
+        id: area.reactionId,
+      },
+    });
+    if (!reaction) {
+      throw new NotFoundException('This area does not contain a reaction');
+    }
+    const AreaDto: NewAreaDto = {
+      nameArea: area.name,
+      nameAction: action.name,
+      actionParameter: action.parameters as unknown as JSON,
+      nameReaction: reaction.name,
+      reactionParameter: reaction.parameters as unknown as JSON,
+    }
+    return AreaDto;
+  }
+
+  async deleteArea(token: string, id: string) {
+    const user = await this.me.getUser(token);
+    const idArea = parseInt(id);
+    if (isNaN(idArea)) {
+      throw new NotFoundException('This area does not exist');
+    }
+    const area = await this.prisma.area.findUnique({
+      where: {
+        userId: user.id,
+        id: idArea,
+      },
+      include: {
+        Action: true,
+        Reaction: true,
+      },
+    });
+    if (!area) {
+      throw new NotFoundException('This area does not exist');
+    }
+    await this.prisma.action.deleteMany({
+      where: {
+        id: area.actionId,
+      },
+    });
+    await this.prisma.reaction.deleteMany({
+      where: {
+        id: area.reactionId,
+      },
+    });
+    await this.prisma.area.deleteMany({
+      where: {
+        id: idArea,
+      },
+    });
+    return 'Area deleted';
   }
 
   async setAreas(token: string, body: NewAreaDto) {
@@ -93,17 +195,19 @@ export class AreaService {
         'You are not connected to the service ' + serviceReactionName,
       );
     }
+    this.checkStringParameter(body.nameAction, body.actionParameter);
+    this.checkStringParameter(body.nameReaction, body.reactionParameter);
     const action = await this.prisma.action.create({
       data: {
         name: body.nameAction,
-        stringParameter: body.actionParameter,
+        parameters: body.actionParameter as unknown as Prisma.JsonValue,
         serviceId: serviceAction.id,
       },
     });
     const reaction = await this.prisma.reaction.create({
       data: {
         name: body.nameReaction,
-        stringParameter: body.reactionParameter,
+        parameters: body.reactionParameter as unknown as Prisma.JsonValue,
         serviceId: serviceReaction.id,
       },
     });
