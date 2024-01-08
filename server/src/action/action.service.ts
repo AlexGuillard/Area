@@ -35,7 +35,7 @@ export class ActionService {
     return action;
   }
 
-  async updateAction(id: number, saveParams: {}) {
+  async updateAction(id: number, saveParams: any) {
     const action = await this.prisma.action.update({
       where: {
         id: id,
@@ -69,8 +69,8 @@ export class ActionService {
 
   async getActionInfo(token: string, nameAction: string) {
     await this.me.getUser(token);
-    let structInfo = {};
-    const res = this.eventEmitter.emit(nameAction + ".struct", structInfo)
+    const structInfo = {};
+    const res = this.eventEmitter.emit(nameAction + '.struct', structInfo);
     if (res === false) {
       throw new NotFoundException('Action not found');
     }
@@ -115,7 +115,10 @@ export class ActionService {
       });
       if (JSON.stringify(action.parameters) === JSON.stringify(structInfo)) {
         this.eventEmitter.emit(
-          reaction.name, reaction.parameters, user.randomToken);
+          reaction.name,
+          reaction.parameters,
+          user.randomToken,
+        );
       }
     }
   }
