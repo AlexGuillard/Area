@@ -56,10 +56,11 @@ services:
 
   client_mobile:
     restart: on-failure
+    image: client_mobile_prod
     container_name: client_mobile
     build:
       context: ./mobile
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     volumes:
       - common-volume:/common-volume
 
