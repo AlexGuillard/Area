@@ -11,5 +11,10 @@ export class DiscordMessagesDto {
   @IsNotEmpty()
   @IsString()
   name_channel: string;
+}
 
+export class LastMessageDto {
+  @ApiProperty()
+  @IsString()
+  last_message_id: number;
 }

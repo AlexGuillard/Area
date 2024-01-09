@@ -55,6 +55,10 @@ export class AboutService {
           {
             name: 'DISCORD',
             actions: [
+              {
+                name: 'NewMessage',
+                description: 'trigger reaction when a new message appear on a channel',
+              },
             ],
             reactions: [
               {
