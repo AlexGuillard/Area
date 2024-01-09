@@ -5,8 +5,6 @@ services:
     restart: always
     container_name: db
     image: postgres:13
-    ports:
-      - 5432:5432
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -27,15 +25,13 @@ services:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
-      WEB_URL: ${WEB_URL}
-      REFRESH_TOKEN: ${REFRESH_TOKEN}
-      EMAIL: ${EMAIL}
+      WEB_URL: "${WEB_IP}:${WEB_PORT}"
       GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
       GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
       SERVER_URL: ${SERVER_URL}
       DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
       DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
-      DISCORD_REDIRECT_URI: ${DISCORD_REDIRECT_URI}
+      DISCORD_REDIRECT_URI: "${SERVER_IP}:${SERVER_PORT}/${DISCORD_REDIRECT_URI}"
       SPOTIFY_CLIENT_ID: ${SPOTIFY_CLIENT_ID}
       SPOTIFY_CLIENT_SECRET: ${SPOTIFY_CLIENT_SECRET}
     ports:
@@ -79,7 +75,7 @@ services:
       - server
       - client_mobile
     environment:
-      REACT_APP_SERVER_URL: ${SERVER_URL}
+      REACT_APP_SERVER_URL: "${SERVER_IP}:${SERVER_PORT}"
       REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     volumes:
       - common-volume:/common-volume
@@ -94,13 +90,11 @@ services:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - '8083:80'
+      - '8082:80'
     depends_on:
       - db
     networks:
       - db
-
-
 
 networks:
   db:
