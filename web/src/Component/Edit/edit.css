@@ -77,7 +77,7 @@
     padding-top: 10px;
     padding-bottom: 20px;
     margin-top: 30px;
-    margin-right: 25px;
+    width: 175px;
 }
 
 .editComponentActionList {
@@ -128,7 +128,7 @@
     padding-top: 10px;
     padding-bottom: 20px;
     margin-top: 50px;
-    margin-right: 25px;
+    width: 175px;
 }
 
 .editComponentReactionList {
