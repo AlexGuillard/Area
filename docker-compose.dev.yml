@@ -36,6 +36,7 @@ services:
       DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
       DISCORD_REDIRECT_URI: ${DISCORD_REDIRECT_URI}
       SERVER_URL: ${SERVER_URL}
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
     volumes:
       - ./server/src:/app/src
     ports:
