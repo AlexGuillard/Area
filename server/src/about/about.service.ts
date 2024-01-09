@@ -52,6 +52,17 @@ export class AboutService {
             ],
             reactions: [],
           },
+          {
+            name: 'DISCORD',
+            actions: [
+            ],
+            reactions: [
+              {
+                name: 'sendMessageDiscord',
+                description: 'send a message on a channel',
+              }
+            ],
+          },
         ],
       },
     };
