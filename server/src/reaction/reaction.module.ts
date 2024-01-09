@@ -8,9 +8,10 @@ import { AboutService } from '../about/about.service';
 import { MailingModule } from './mailing/mailing.module';
 import { MailingService } from './mailing/mailing.service';
 import { ConfigModule } from '@nestjs/config';
+import { DiscordModule } from './discord/discord.module';
 
 @Module({
-  imports: [HttpModule, PrismaModule, MailingModule, ConfigModule.forRoot()],
+  imports: [HttpModule, PrismaModule, MailingModule, ConfigModule.forRoot(), DiscordModule],
   providers: [ReactionService, MeService, AboutService, MailingService],
   controllers: [ReactionController],
 })
