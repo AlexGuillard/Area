@@ -15,8 +15,8 @@ export class AboutService {
             name: 'GITHUB',
             actions: [
               {
-                name: 'getRepositories',
-                description: 'Get a list of repositories for a user',
+                name: 'NewIssue',
+                description: 'Check if a new issue has been created in a repository',
               },
             ],
             reactions: [

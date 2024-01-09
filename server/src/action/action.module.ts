@@ -4,10 +4,11 @@ import { ActionController } from './action.controller';
 import { PrismaModule } from '../prisma/prisma.module';
 import { MeService } from '../me/me.service';
 import { AboutService } from '../about/about.service';
+import { GithubModule } from './github/github.module';
 
 @Global()
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, GithubModule],
   providers: [ActionService, MeService, AboutService],
   controllers: [ActionController],
   exports: [ActionService],
