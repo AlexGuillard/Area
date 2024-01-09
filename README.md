@@ -83,3 +83,29 @@ After that you can add a new server with the following informations:
 - Port: `5432`
 - Username: `It should be defined in the .env file as POSTGRES_USER`
 - Password: `It should be defined in the .env file as POSTGRES_PASSWORD`
+
+## Deployement
+
+### Setup
+
+/!\ This setup use free tier on [Oracle Cloud Infrastructure](cloud.oracle.com) /!\
+
+You need to have [Ansible](https://www.ansible.com/) installed on your computer.
+You also need to have a Compute instance on [Oracle Cloud Infrastructure](cloud.oracle.com) with Ampere A1 Compute shape with Oracle Linux 8.9 as operating system. (You should use all the ram and all OCPUs available for free tier (24GB and 4 OCPUs) to have a good performance). You also need to have a public IP address on this instance. (You can use the free tier to have a public IP address). You also need to register your ssh public key on the instance.
+
+You need to create a `inventory` file like `inventory.example` file with corresponding informations:
+
+```ini
+[area]
+YOUR_PUBLIC_IP_ADDRESS ansible_user=YOUR_USERNAME
+```
+
+After that, you just need to run the following command:
+
+```bash
+./deploy.sh
+```
+
+It will clone the project on the remote server, copy local `.env`, install docker and docker-compose, build the images and start the project.
+
+/!\ Don't forget that it will copy local `.env` file, so you need to have the `.env` file with the correct informations on your computer /!\
