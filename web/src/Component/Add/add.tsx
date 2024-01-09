@@ -7,6 +7,12 @@ import SelectInput from '../../Image/SelectInput.png'
 
 function Add() {
 
+  interface ParamItem {
+    nameParam: string;
+    typeParam: string;
+    param: any;
+  }
+
   const [nameArea, setNameArea] = useState("");
   const [selectedAction, setSelectedAction] = useState("Action");
   const [selectedReaction, setSelectedReaction] = useState("Reaction");
@@ -15,6 +21,9 @@ function Add() {
   const [showlistReaction, setShowListReaction] = useState(false);
   const [listAction, setListAction] = useState<string []>();
   const [listReaction, setListReaction] = useState<string []>();
+
+  const [listParamAction, setListParamAction] = useState<ParamItem []>([]);
+  const [listParamReaction, setListParamReaction] = useState<ParamItem []>([]);
 
   const handleNameAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameArea(event.target.value);
@@ -30,20 +39,93 @@ function Add() {
     setShowListAction(false)
   }
 
-  const handleActionAreaChange = (event: string) => {
+  const handleActionAreaChange = async(event: string) => {
     setSelectedAction(event);
-    setShowListAction(false)
-  };
+    setListParamAction([])
+      try {
+        const storedToken = Cookies.get('token');
+  
+        const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/actions/" + event);
+  
+        const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
+  
+        const updatedList = allPropertyNames.map(async (key) => {
+          const data = response.data[key];
+          const variableType = typeof data;
+  
+          return {
+            nameParam: String(key),
+            typeParam: variableType,
+            param: null
+          };
+        });
+  
+        const resolvedList = await Promise.all(updatedList);
+  
+        setListParamAction(await resolvedList);
+      } catch (error) {
+        console.error(error);
+      }
+      setShowListAction(false)
+    };
 
-  const handleReactionAreaChange = (event: string) => {
+  const handleReactionAreaChange = async(event: string) => {
     setSelectedReaction(event);
-    setShowListReaction(false)
-  };
+    setListParamReaction([])
+      try {
+        const storedToken = Cookies.get('token');
+  
+        const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/reactions/" + event);
+  
+        const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
+  
+        const updatedList = allPropertyNames.map(async (key) => {
+          const data = response.data[key];
+          const variableType = typeof data;
+  
+          return {
+            nameParam: String(key),
+            typeParam: variableType,
+            param: null
+          };
+        });
+  
+        const resolvedList = await Promise.all(updatedList);
+  
+        setListParamReaction(await resolvedList);
+      } catch (error) {
+        console.error(error);
+      }
+      setShowListReaction(false)
+    };
 
+    const handleParamActionChange = (event: React.ChangeEvent<HTMLInputElement>, nameParam: string) => {
+      const updatedList = listParamAction.map(param => {
+        if (param.nameParam === nameParam) {
+          return {
+            ...param,
+            variableType: event.target.value,
+          };
+        }
+        return param;
+      });
+  
+      setListParamAction(updatedList);
+    };
 
-  const handleParamAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setParamArea(event.target.value);
-  };
+    const handleParamReactionChange = (event: React.ChangeEvent<HTMLInputElement>, nameParam: string) => {
+      const updatedList = listParamReaction.map(param => {
+        if (param.nameParam === nameParam) {
+          return {
+            ...param,
+            variableType: event.target.value,
+          };
+        }
+        return param;
+      });
+  
+      setListParamReaction(updatedList);
+    };
 
   const handleCallActionList = () => {
     const storedToken = Cookies.get('token');
@@ -81,6 +163,7 @@ function Add() {
       nameReaction: selectedReaction,
       reactionParameter: paramArea
     };
+    console.log(data)
     const storedToken = Cookies.get('token');
     axios.post(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/areas", data)
     .then(response => {
@@ -93,6 +176,7 @@ function Add() {
   useEffect(() => {
     handleCallActionList()
     handleCallReactionList()
+    console.log(Cookies.get('token'))
   }, []);
 
   return (
@@ -108,7 +192,7 @@ function Add() {
           className='addComponentNameInput'
         />
         <div className='addComponentActionInput'>
-          <span>{selectedAction}</span>
+          <span className='addComponentActionTitle'>{selectedAction}</span>
           <div className='addComponentActionLine'/>
           <img src={SelectInput} className='addComponentActionButton' onClick={() => handleClickActionList()} alt="click action list"/>
           {showlistAction &&
@@ -125,8 +209,53 @@ function Add() {
             )
           }
         </div>
+        {listParamAction &&
+        (
+          <ul className='addComponentParamArea'>
+            {
+              listParamAction && listParamAction.map((item) =>
+                <li key={item.nameParam} className='addComponentParamList' >
+                  {item.typeParam === "string" &&
+                    (
+                      <input
+                        type="text"
+                        id="text-input"
+                        value={item.param}
+                        onChange={(event) => handleParamActionChange(event, item.nameParam)}
+                        placeholder={item.nameParam}
+                        className='addComponentParamInput'
+                      />
+                    )
+                  }
+                  {item.typeParam === "int" &&
+                    (
+                      <input
+                        type="number"
+                        id="number-input"
+                        value={item.param}
+                        onChange={(event) => handleParamActionChange(event, item.nameParam)}
+                        placeholder={item.nameParam}
+                      />
+                    )
+                  }
+                  {item.typeParam === "boolean" &&
+                    (
+                      <input
+                        type="checkbox"
+                        id="checkbox-input"
+                        value={item.param}
+                        onChange={(event) => handleParamActionChange(event, item.nameParam)}
+                        placeholder={item.nameParam}
+                      />
+                    )
+                  }
+                </li>
+              )
+            }
+          </ul>)
+        }
         <div className='addComponentReactionInput'>
-          <span>{selectedReaction}</span>
+          <span className='addComponentReactionTitle'>{selectedReaction}</span>
           <div className='addComponentReactionLine'/>
           <img src={SelectInput} className='addComponentReactionButton'  onClick={() => handleClickReactionList()} alt="click reaction list"/>
           {showlistReaction &&
@@ -143,14 +272,51 @@ function Add() {
             )
           }
         </div>
-        <input
-          type="text"
-          id="text-input"
-          value={paramArea}
-          onChange={handleParamAreaChange}
-          placeholder="Reaction parameter"
-          className='addComponentParamInput'
-        />
+        {listParamReaction &&
+        (
+          <ul className='addComponentParamArea'>
+            {
+              listParamReaction && listParamReaction.map((item) =>
+                <li key={item.nameParam} className='addComponentParamList' >
+                  {item.typeParam === "string" &&
+                    (
+                      <input
+                        type="text"
+                        id="text-input"
+                        value={item.param}
+                        onChange={(event) => handleParamReactionChange(event, item.nameParam)}
+                        placeholder={item.nameParam}
+                        className='addComponentParamInput'
+                      />
+                    )
+                  }
+                  {item.typeParam === "int" &&
+                    (
+                      <input
+                        type="number"
+                        id="number-input"
+                        value={item.param}
+                        onChange={(event) => handleParamReactionChange(event, item.nameParam)}
+                        placeholder={item.nameParam}
+                      />
+                    )
+                  }
+                  {item.typeParam === "boolean" &&
+                    (
+                      <input
+                        type="checkbox"
+                        id="checkbox-input"
+                        value={item.param}
+                        onChange={(event) => handleParamReactionChange(event, item.nameParam)}
+                        placeholder={item.nameParam}
+                      />
+                    )
+                  }
+                </li>
+              )
+            }
+          </ul>)
+        }
       </div>
       <div className='addComponentButton'>
         <span className='addComponentButtonText' onClick={handleCreateArea}>Create</span>
