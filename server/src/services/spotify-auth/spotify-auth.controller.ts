@@ -1,9 +1,8 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, ForbiddenException, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { SpotifyOauthGuard } from './spotify-oauth.guard';
 import { Profile } from 'passport-spotify';
 import { SpotifyAuthService } from './spotify-auth.service';
-import { SpotifyOauthStrategy } from 'src/strategy/spotify.strategy';
 
 @Controller('auth/spotify')
 export class SpotifyAuthController {
@@ -34,11 +33,8 @@ export class SpotifyAuthController {
       }
     } = req;
 
-    console.log('my super user', user);
-
     if (!user) {
-      res.redirect('/');
-      return;
+      throw new ForbiddenException('mail not found while creating Google service');
     }
 
     try {
@@ -47,6 +43,5 @@ export class SpotifyAuthController {
     } catch (error) {
       throw error;
     }
-
   }
 }
