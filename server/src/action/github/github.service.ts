@@ -14,6 +14,10 @@ export class GithubService {
             struct.owner = "string";
             struct.repository = "string";
         })
+        this.eventEmitter.on("NewCommit.struct", (struct: GithubIssueDto) => {
+            struct.owner = "string";
+            struct.repository = "string";
+        })
     }
 
     @OnEvent('NewIssue')
@@ -34,6 +38,29 @@ export class GithubService {
         if (saveParams.numberIssues !== undefined && 
             saveParams.numberIssues < res.data.length) {
             this.actionService.executeReaction('NewIssue', structInfo);
+        }
+        saveParams.numberIssues = res.data.length;
+        await this.actionService.updateAction(actionId, saveParams);
+    }
+
+    @OnEvent('NewCommit')
+    async ActionNewCommit(structInfo: GithubIssueDto, actionId: number) {
+        const action = await this.actionService.getAction(actionId);
+        const service = await this.actionService.getServiceActions(actionId);
+        let saveParams = action.saveParams as unknown as IssueDto;
+        const octokit = new Octokit({
+            auth: service.token,
+          })
+        const res = await octokit.request('GET /repos/{owner}/{repo}/commits', {
+          owner: structInfo.owner,
+          repo:  structInfo.repository,
+          headers: {
+            'X-GitHub-Api-Version': '2022-11-28'
+          }
+        })
+        if (saveParams.numberIssues !== undefined && 
+            saveParams.numberIssues !== res.data.length) {
+            this.actionService.executeReaction('NewCommit', structInfo);
         }
         saveParams.numberIssues = res.data.length;
         await this.actionService.updateAction(actionId, saveParams);

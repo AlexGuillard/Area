@@ -18,6 +18,10 @@ export class AboutService {
                 name: 'NewIssue',
                 description: 'Check if a new issue has been created in a repository',
               },
+              {
+                name: 'NewCommit',
+                description: 'Check if a new commit has been made in a repository',
+              },
             ],
             reactions: [
               {
