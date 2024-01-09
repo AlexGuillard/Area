@@ -5,8 +5,6 @@ services:
     restart: always
     container_name: db
     image: postgres:13
-    ports:
-      - 5432:5432
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -27,15 +25,15 @@ services:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}?schema=public"
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
-      WEB_URL: ${WEB_URL}
+      WEB_URL: "${WEB_IP}:${WEB_PORT}"
       REFRESH_TOKEN: ${REFRESH_TOKEN}
       EMAIL: ${EMAIL}
       GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
       GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
       DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
       DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
-      DISCORD_REDIRECT_URI: ${DISCORD_REDIRECT_URI}
-      SERVER_URL: ${SERVER_URL}
+      DISCORD_REDIRECT_URI: "${SERVER_IP}:${SERVER_PORT}/${DISCORD_REDIRECT_URI}"
+      SERVER_URL: "${SERVER_IP}:${SERVER_PORT}"
       SPOTIFY_CLIENT_ID: ${SPOTIFY_CLIENT_ID}
       SPOTIFY_CLIENT_SECRET: ${SPOTIFY_CLIENT_SECRET}
     volumes:
@@ -86,7 +84,7 @@ services:
       - server
       - client_mobile
     environment:
-      REACT_APP_SERVER_URL: ${SERVER_URL}
+      REACT_APP_SERVER_URL: "${SERVER_IP}:${SERVER_PORT}"
       REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     volumes:
       - ./web/src:/app/src
