@@ -49,8 +49,6 @@ It will start each part of the projects in this order:
 You can stop the project with the following command:
 
 ```bash
-docker-compose down
-# or if you want to remove it clean
 docker-compose -f docker-compose[.dev|.prod].yml down [--volumes] [--remove-orphans] [--rmi local]
 # --volumes to remove the volumes
 # --remove-orphans to remove the containers that are not in the docker-compose.yml file
@@ -108,6 +106,14 @@ After that, you just need to run the following command:
 ./deploy.sh
 ```
 
-It will clone the project on the remote server, copy local `.env`, install docker and docker-compose, build the images and start the project.
+It will clone the project on the remote server, copy local `.env` and install docker and docker-compose.
+
+After that you need to connect to the remote server, move to Area folder and run the following command:
+
+```bash
+docker-compose -f docker-compose.prod.yml up -d --build
+```
+
+It will start each part of the projects.
 
 /!\ Don't forget that it will copy local `.env` file, so you need to have the `.env` file with the correct informations on your computer /!\
