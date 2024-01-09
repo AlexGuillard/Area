@@ -37,6 +37,8 @@ services:
       DISCORD_REDIRECT_URI: ${DISCORD_REDIRECT_URI}
       SERVER_URL: ${SERVER_URL}
       DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+      SPOTIFY_CLIENT_ID: ${SPOTIFY_CLIENT_ID}
+      SPOTIFY_CLIENT_SECRET: ${SPOTIFY_CLIENT_SECRET}
     volumes:
       - ./server/src:/app/src
     ports:
