@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { DiscordSendMessageDto } from './dto';
-import { PrismaService } from '../../prisma/prisma.service';
 import axios from 'axios';
 
 @Injectable()
 export class DiscordService {
     constructor(
         private eventEmitter: EventEmitter2,
-        private readonly prismaservice: PrismaService,
     ) {
     this.eventEmitter.on("sendMessageDiscord.struct", (struct: DiscordSendMessageDto) => {
         struct.name_server = 'string';
