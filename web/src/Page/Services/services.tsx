@@ -31,7 +31,7 @@ function Services() {
         </span>
         <img src={User} className='UserLogo' alt="user logo"/>
       </div>
-      <form action="http://localhost:8080/myauth/google-redirect" method="get">
+      <form action={`${process.env.REACT_APP_SERVER_URL}/myauth/google-redirect`} method="get">
         <input type="submit" value="Press to log in"/>
       </form>
       <ServiceCard name="Google" status='Not Connected' user='User name' image={Google}/>
