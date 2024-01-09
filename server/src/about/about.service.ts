@@ -21,7 +21,7 @@ export class AboutService {
             ],
             reactions: [
               {
-                name: 'createIssue',
+                name: 'CreateIssue',
                 description: 'Create an issue in a repository',
               },
             ],
