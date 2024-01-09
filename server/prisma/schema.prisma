@@ -50,6 +50,7 @@ model Action {
   id                  Int      @id @default(autoincrement())
   name                String
   parameters          Json?
+  saveParams          Json?
   serviceId           Int
   area                Area[]
   Services            Services @relation("Actionlink", fields: [serviceId], references: [id])

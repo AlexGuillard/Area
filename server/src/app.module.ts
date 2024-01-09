@@ -8,7 +8,6 @@ import { ServicesModule } from './services/services.module';
 import { ActionModule } from './action/action.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AreaModule } from './area/area.module';
-import { MailingModule } from './reaction/mailing/mailing.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { EventEmitterModule } from '@nestjs/event-emitter';
@@ -30,7 +29,6 @@ import { SpotifyAuthModule } from './services/spotify-auth/spotify-auth.module';
     ActionModule,
     ScheduleModule.forRoot(),
     AreaModule,
-    MailingModule,
     EventEmitterModule.forRoot(),
     MailerModule.forRoot({
       transport: 'smtps://user@domain.com:pass@smtp.domain.com',

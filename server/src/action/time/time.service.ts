@@ -25,11 +25,20 @@ export class TimeService {
     }
 
     @OnEvent('ExecuteTime')
-    async ActionExecuteTime(structInfo: TimeDto) {
+    async ActionExecuteTime(structInfo: TimeDto, actionId: number) {
+        const action = await this.actionService.getAction(actionId);
+        let saveParams = action.saveParams as unknown as TimeDto;
         const stringDate = await this.getTime();
         const date = new Date(stringDate).getMinutes();
-        if (date === structInfo.MinutesTime) {
-            this.actionService.executeReaction('ExecuteTime', structInfo);
+        if (saveParams.MinutesTime === undefined) {
+            saveParams.MinutesTime = date;
         }
+        if (date === structInfo.MinutesTime && saveParams.MinutesTime !== structInfo.MinutesTime) {
+            saveParams.MinutesTime = date;
+            this.actionService.executeReaction('ExecuteTime', structInfo);
+        } else if (date !== structInfo.MinutesTime) {
+            saveParams.MinutesTime = date;
+        }
+        await this.actionService.updateAction(actionId, saveParams);
     }
 }

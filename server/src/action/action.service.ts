@@ -19,8 +19,32 @@ export class ActionService {
   private async executeActions() {
     const actions = await this.prisma.action.findMany();
     for (const action of actions) {
-      this.eventEmitter.emit(action.name, action.parameters);
+      this.eventEmitter.emit(action.name, action.parameters, action.id);
     }
+  }
+
+  async getAction(id: number) {
+    const action = await this.prisma.action.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    if (action === null) {
+      throw new NotFoundException('Action not found');
+    }
+    return action;
+  }
+
+  async updateAction(id: number, saveParams: any) {
+    const action = await this.prisma.action.update({
+      where: {
+        id: id,
+      },
+      data: {
+        saveParams: saveParams,
+      },
+    });
+    return action;
   }
 
   async getActions(token: string) {
@@ -45,8 +69,8 @@ export class ActionService {
 
   async getActionInfo(token: string, nameAction: string) {
     await this.me.getUser(token);
-    let structInfo = {};
-    const res = this.eventEmitter.emit(nameAction + ".struct", structInfo)
+    const structInfo = {};
+    const res = this.eventEmitter.emit(nameAction + '.struct', structInfo);
     if (res === false) {
       throw new NotFoundException('Action not found');
     }
@@ -91,7 +115,10 @@ export class ActionService {
       });
       if (JSON.stringify(action.parameters) === JSON.stringify(structInfo)) {
         this.eventEmitter.emit(
-          reaction.name, reaction.parameters, user.randomToken);
+          reaction.name,
+          reaction.parameters,
+          user.randomToken,
+        );
       }
     }
   }
