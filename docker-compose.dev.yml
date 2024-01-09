@@ -62,12 +62,17 @@ services:
 
   client_mobile:
     restart: on-failure
+    image: client_mobile_dev
     container_name: client_mobile
     build:
       context: ./mobile
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     volumes:
-      - common-volume:/common-volume
+      - ./mobile/src:/app/src
+    networks:
+      - back-tier
+    ports:
+      - 8081:8081
 
   client_web:
     restart: always
@@ -86,9 +91,8 @@ services:
       REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     volumes:
       - ./web/src:/app/src
-      - common-volume:/common-volume
     ports:
-      - 8081:8081
+      - 8084:8081
 
   pgadmin:
     image: dpage/pgadmin4
@@ -107,6 +111,3 @@ services:
 networks:
   db:
   back-tier:
-
-volumes:
-  common-volume:
