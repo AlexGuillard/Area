@@ -72,15 +72,32 @@
     git:
       repo: https://github.com/AlexGuillard/Area.git
       dest: /home/Area
-      # version: 65-docker-compose-dev-and-prod
+      version: 65-docker-compose-dev-and-prod
 
   - name: Copy .env file
     copy:
       src: ../../.env
       dest: /home/Area/.env
 
-  - name: Run docker compose
-    command: docker compose -f docker-compose.dev.yml up --build -d
+  - name: Replace server ip address in .env file
+    replace:
+      path: /home/Area/.env
+      regexp: 'SERVER_IP=.*'
+      replace: "SERVER_IP=http://{{ hostvars['area']['ansible_host'] }}"
+
+  - name: Replace web ip address in .env file
+    replace:
+      path: /home/Area/.env
+      regexp: 'WEB_IP=.*'
+      replace: "WEB_IP=http://{{ hostvars['area']['ansible_host'] }}"
+
+  - name: Compose down if already up
+    command: docker compose -f docker-compose.dev.yml down --volumes --remove-orphans
     args:
       chdir: /home/Area
+
+  # - name: Run docker compose
+  #   command: docker compose -f docker-compose.dev.yml up --build -d
+  #   args:
+  #     chdir: /home/Area
 
