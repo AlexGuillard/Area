@@ -7,9 +7,10 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { AboutService } from '../about/about.service';
 import { MailingModule } from './mailing/mailing.module';
 import { ConfigModule } from '@nestjs/config';
+import { GithubModule } from './github/github.module';
 
 @Module({
-  imports: [HttpModule, PrismaModule, MailingModule, ConfigModule.forRoot()],
+  imports: [HttpModule, PrismaModule, MailingModule, ConfigModule.forRoot(), GithubModule],
   providers: [ReactionService, MeService, AboutService],
   controllers: [ReactionController],
 })
