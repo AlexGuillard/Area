@@ -71,7 +71,7 @@ services:
     networks:
       - back-tier
     ports:
-      - 8081:8081
+      - 8083:8083
 
   client_web:
     restart: always
@@ -91,7 +91,7 @@ services:
     volumes:
       - ./web/src:/app/src
     ports:
-      - 8084:8081
+      - 8081:8081
 
   pgadmin:
     image: dpage/pgadmin4
@@ -101,7 +101,7 @@ services:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - '8083:80'
+      - '8082:80'
     depends_on:
       - db
     networks:

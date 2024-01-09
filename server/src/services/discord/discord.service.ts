@@ -18,7 +18,7 @@ export class DiscordService {
     });
 
     if (!user) {
-      res.redirect('http://localhost:8081/Area');
+      res.redirect(`${process.env.WEB_URL}/Area`);
       throw new ForbiddenException(
         'mail not found. Please register with the same email as the one you are connected',
       );
@@ -40,6 +40,6 @@ export class DiscordService {
         },
       });
     }
-    res.redirect('http://localhost:8081/Area');
+    res.redirect(`${process.env.WEB_URL}/Area`);
   }
 }

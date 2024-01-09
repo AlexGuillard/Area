@@ -70,7 +70,7 @@ describe('DiscordService', () => {
         },
       });
 
-      expect(res.redirect).toHaveBeenCalledWith('http://localhost:8081/Area');
+      expect(res.redirect).toHaveBeenCalledWith(`${process.env.WEB_URL}/Area`);
     });
 
 
@@ -93,7 +93,7 @@ describe('DiscordService', () => {
         expect(error).toBeInstanceOf(ForbiddenException);
       }    
       expect(prismaService.services.create).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith('http://localhost:8081/Area');
+      expect(res.redirect).toHaveBeenCalledWith(`${process.env.WEB_URL}/Area`);
     });
   });
 });
