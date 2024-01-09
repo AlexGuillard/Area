@@ -21,6 +21,8 @@ DISCORD_CLIENT_SECRET=Your DISCORD_CLIENT_SECRET
 DISCORD_REDIRECT_URI=Your redirect url from the Redirects in the applications of Discord
 PGADMIN_DEFAULT_EMAIL=Email of the pgadmin user like 'admin@admin.com'
 PGADMIN_DEFAULT_PASSWORD=Password of the pgadmin user like '123'
+SPOTIFY_CLIENT_ID=Your SPOTIFY_CLIENT_ID
+SPOTIFY_CLIENT_SECRET=Your SPOTIFY_CLIENT_SECRET
 ```
 
 You can start the project with the following command:
