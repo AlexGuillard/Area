@@ -26,7 +26,7 @@ function ServiceCard(props: ServiceCardProps) {
     <form ref={formRef} action={props.link} method="get">
       <div 
         className='serviceCard' 
-        role='input'
+        role='button'
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             handleSubmit(e);

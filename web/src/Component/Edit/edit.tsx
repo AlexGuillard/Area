@@ -216,7 +216,7 @@ function Edit(props: editProps) {
     if (listReaction === undefined) {
       handleCallReactionList()
     }
-  }, [infoArea]);
+  }, [infoArea, handleCallAreaInfo, listAction, listReaction]);
 
   return (
     <div className='editComponent'>
