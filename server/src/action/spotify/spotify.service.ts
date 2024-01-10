@@ -23,7 +23,10 @@ export class SpotifyService {
     @OnEvent('ExecuteSpotify')
     async getPlaybackState(structInfo: SpotifyPlaybackStateDto, actionId: number): Promise<any> {
 
-        const serviceId = this.actionService.getServiceActions(actionId);
+        const serviceId = await this.actionService.getServiceActions(actionId);
+
+
+        console.log("this is the service id", (await serviceId).id);
 
         const userToken = await this.prisma.services.findFirst({
             where: {
