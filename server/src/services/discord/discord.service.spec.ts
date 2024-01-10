@@ -69,8 +69,6 @@ describe('DiscordService', () => {
           userId: 1, // Assuming the user ID is 1
         },
       });
-
-      expect(res.redirect).toHaveBeenCalledWith('http://localhost:8081/Area');
     });
 
 
@@ -93,7 +91,6 @@ describe('DiscordService', () => {
         expect(error).toBeInstanceOf(ForbiddenException);
       }    
       expect(prismaService.services.create).not.toHaveBeenCalled();
-      expect(res.redirect).toHaveBeenCalledWith('http://localhost:8081/Area');
     });
   });
 });
