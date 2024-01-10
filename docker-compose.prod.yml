@@ -36,6 +36,9 @@ services:
       DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
       DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
       DISCORD_REDIRECT_URI: ${DISCORD_REDIRECT_URI}
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
+      SPOTIFY_CLIENT_ID: ${SPOTIFY_CLIENT_ID}
+      SPOTIFY_CLIENT_SECRET: ${SPOTIFY_CLIENT_SECRET}
     ports:
       - 8080:8080
     networks:
@@ -56,10 +59,11 @@ services:
 
   client_mobile:
     restart: on-failure
+    image: client_mobile_prod
     container_name: client_mobile
     build:
       context: ./mobile
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     volumes:
       - common-volume:/common-volume
 
