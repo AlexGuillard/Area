@@ -10,15 +10,17 @@ You also need to have a `.env` file in the root folder of the project with the f
 POSTGRES_USER=The user you want to use to connect to the database like 'postgres'
 POSTGRES_PASSWORD=The password you want to use to connect to the database like '123'
 POSTGRES_DB=Name of the database you want to use like 'nest'
-SERVER_URL=Url of the server like 'http://localhost:8080'
-WEB_URL=Url of the web app like 'http://localhost:8081'
+SERVER_IP=Ip of the server like 'http://localhost'
+SERVER_PORT=Port of the server like '8080'
+WEB_IP=Ip of the web app like 'http://localhost'
+WEB_PORT=Port of the web app like '8081'
 GOOGLE_CLIENT_ID=Your GOOGLE_CLIENT_ID
 GOOGLE_CLIENT_SECRET=Your GOOGLE_CLIENT_SECRET
 GITHUB_CLIENT_ID=Your GITHUB_CLIENT_ID
 GITHUB_CLIENT_SECRET=Your GITHUB_CLIENT_SECRET
 DISCORD_CLIENT_ID=Your DISCORD_CLIENT_ID
 DISCORD_CLIENT_SECRET=Your DISCORD_CLIENT_SECRET
-DISCORD_REDIRECT_URI=Your redirect url from the Redirects in the applications of Discord
+DISCORD_REDIRECT_URI=Your redirect url from the Redirects in the applications of Discord like 'services/discord/callback'
 PGADMIN_DEFAULT_EMAIL=Email of the pgadmin user like 'admin@admin.com'
 PGADMIN_DEFAULT_PASSWORD=Password of the pgadmin user like '123'
 SPOTIFY_CLIENT_ID=Your SPOTIFY_CLIENT_ID
@@ -47,8 +49,6 @@ It will start each part of the projects in this order:
 You can stop the project with the following command:
 
 ```bash
-docker-compose down
-# or if you want to remove it clean
 docker-compose -f docker-compose[.dev|.prod].yml down [--volumes] [--remove-orphans] [--rmi local]
 # --volumes to remove the volumes
 # --remove-orphans to remove the containers that are not in the docker-compose.yml file
@@ -83,3 +83,37 @@ After that you can add a new server with the following informations:
 - Port: `5432`
 - Username: `It should be defined in the .env file as POSTGRES_USER`
 - Password: `It should be defined in the .env file as POSTGRES_PASSWORD`
+
+## Deployement
+
+### Setup
+
+/!\ This setup use free tier on [Oracle Cloud Infrastructure](cloud.oracle.com) /!\
+
+You need to have [Ansible](https://www.ansible.com/) installed on your computer.
+You also need to have a Compute instance on [Oracle Cloud Infrastructure](cloud.oracle.com) with Ampere A1 Compute shape with Oracle Linux 8.9 as operating system. (You should use all the ram and all OCPUs available for free tier (24GB and 4 OCPUs) to have a good performance). You also need to have a public IP address on this instance. (You can use the free tier to have a public IP address). You also need to register your ssh public key on the instance.
+
+You need to create a `inventory` file like `inventory.example` file with corresponding informations:
+
+```ini
+[area]
+YOUR_PUBLIC_IP_ADDRESS ansible_user=YOUR_USERNAME
+```
+
+After that, you just need to run the following command:
+
+```bash
+./deploy.sh
+```
+
+It will clone the project on the remote server, copy local `.env` and install docker and docker-compose.
+
+After that you need to connect to the remote server, move to Area folder and run the following command:
+
+```bash
+docker-compose -f docker-compose.prod.yml up -d --build
+```
+
+It will start each part of the projects.
+
+/!\ Don't forget that it will copy local `.env` file, so you need to have the `.env` file with the correct informations on your computer /!\
