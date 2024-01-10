@@ -1,8 +1,6 @@
 ---
 - hosts: area
   become: true
-  vars_files:
-  - ../vars.yml
   tasks:
   - name: Install python3-pip
     dnf:
@@ -42,43 +40,15 @@
       state: started
       enabled: true
 
-  # - name: Index new repo into the cache
-  #   apt:
-  #     name: "*"
-  #     state: latest
-  #     update_cache: yes
-  #     force_apt_get: yes
-
-  # - name: Install docker
-  #   apt:
-  #     name: "{{ packages }}"
-  #   vars:
-  #     packages:
-  #     - docker-ce
-  #     - docker-ce-cli
-  #     - containerd.io
-
-  # - name: Install docker-pip
-  #   pip:
-  #     name:
-  #     - setuptools
-  #     - docker
-
-  # - name: Ensure group "docker" exists
-  #   group:
-  #     name: docker
-  #     state: present
-
   - name: install git
     yum:
       name: git
       state: latest
 
-  - name: Clone area repository # https://github.com/AlexGuillard/Area.git branch 65-docker-compose-dev-and-prod
+  - name: Clone area repository
     git:
       repo: https://github.com/AlexGuillard/Area.git
       dest: /home/Area
-      version: 2-build-and-deploy
 
   - name: Copy .env file
     copy:
@@ -101,9 +71,3 @@
     command: docker compose -f docker-compose.dev.yml down --volumes --remove-orphans
     args:
       chdir: /home/Area
-
-  # - name: Run docker compose
-  #   command: docker compose -f docker-compose.dev.yml up --build -d
-  #   args:
-  #     chdir: /home/Area
-
