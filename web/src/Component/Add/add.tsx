@@ -195,7 +195,6 @@ function Add() {
   useEffect(() => {
     handleCallActionList()
     handleCallReactionList()
-    console.log(Cookies.get('token'))
   }, []);
 
   return (

@@ -71,9 +71,9 @@ function Services() {
         <img src={User} className='UserLogo' alt="user logo"/>
       </div>
       <div className='servicesCardArea'>
-        <ServiceCard name="Google" status={stateGoogle} user='' image={Google} link='http://localhost:8080/myauth/google-redirect'/>
-        <ServiceCard name="Discord" status={stateDiscord} user='' image={Discord} link='http://localhost:8080/services/discord/login'/>
-        <ServiceCard name="Github" status={stateGithub} user='' image={Github} link='http://localhost:8080/auth/github'/>
+        <ServiceCard name="Google" status={stateGoogle} user='' image={Google} link={`${process.env.REACT_APP_SERVER_URL}/myauth/google-redirect`}/>
+        <ServiceCard name="Discord" status={stateDiscord} user='' image={Discord} link={`${process.env.REACT_APP_SERVER_URL}/services/discord/login`}/>
+        <ServiceCard name="Github" status={stateGithub} user='' image={Github} link={`${process.env.REACT_APP_SERVER_URL}/auth/github`}/>
       </div>
     </div>
   );
