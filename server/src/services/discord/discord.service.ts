@@ -1,24 +1,45 @@
-import { Injectable, Res } from '@nestjs/common';
+import { ForbiddenException, Injectable, Res } from '@nestjs/common';
 import { Request } from '@nestjs/common';
 import { ServiceType } from '@prisma/client';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class DiscordService {
-  constructor() {}
+  constructor(private prisma: PrismaService) {}
 
-  async discordValidate(@Request() req: any, @Res() response: any) {
-    try {
-      const accessToken = req.user.accessToken;
-      const refreshToken = req.user.refreshToken;
+  async discordValidate(@Request() req: any, @Res() res: any) {
+    const email = req.user.email;
+    const accessToken = req.user.accessToken;
+    const refreshToken = req.user.refreshToken;
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
 
-      response.cookie('tokenService', accessToken, { maxAge: 900000, httpOnly: true, sameSite: 'strict' });
-      response.cookie('RefreshToken', refreshToken, { maxAge: 900000, httpOnly: true, sameSite: 'strict' });
-      response.cookie('ServiceType', ServiceType.DISCORD, { maxAge: 900000, httpOnly: true, sameSite: 'strict' });
-      response.redirect(`${process.env.WEB_URL}/ServicesConnexion`);
-    } catch (error) {
-      // Handle errors appropriately
-      console.error(error);
-      response.status(500).send('Internal Server Error');
+    if (!user) {
+      res.redirect(`${process.env.WEB_URL}/Area`);
+      throw new ForbiddenException(
+        'mail not found. Please register with the same email as the one you are connected',
+      );
     }
+
+    const service = await this.prisma.services.findUnique({
+      where: {
+        userId: user.id,
+        token: accessToken,
+      },
+    });
+    if (!service) {
+      await this.prisma.services.create({
+        data: {
+          token: accessToken,
+          refreshToken: refreshToken,
+          typeService: ServiceType.DISCORD,
+          userId: user.id,
+        },
+      });
+    }
+    res.redirect(`${process.env.WEB_URL}/Area`);
   }
 }

@@ -1,0 +1,73 @@
+---
+- hosts: area
+  become: true
+  tasks:
+  - name: Install python3-pip
+    dnf:
+      name: python3-pip
+      state: latest
+
+  - name: set mydistribution
+    ansible.builtin.set_fact:
+      mydistribution: "centos"
+
+  - name: Add signing key
+    ansible.builtin.rpm_key:
+      key: "https://download.docker.com/linux/{{ mydistribution }}/gpg"
+      state: present
+
+  - name: Add repository into repo.d list
+    ansible.builtin.yum_repository:
+      name: docker
+      description: docker repository
+      baseurl: "https://download.docker.com/linux/{{ mydistribution }}/$releasever/$basearch/stable"
+      enabled: true
+      gpgcheck: true
+      gpgkey: "https://download.docker.com/linux/{{ mydistribution }}/gpg"
+
+  - name: Install Docker
+    ansible.builtin.yum:
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+      state: latest
+      update_cache: true
+
+  - name: Start and enable service docker
+    ansible.builtin.service:
+      name: docker
+      state: started
+      enabled: true
+
+  - name: install git
+    yum:
+      name: git
+      state: latest
+
+  - name: Clone area repository
+    git:
+      repo: https://github.com/AlexGuillard/Area.git
+      dest: /home/Area
+
+  - name: Copy .env file
+    copy:
+      src: ../../.env
+      dest: /home/Area/.env
+
+  - name: Replace server ip address in .env file
+    replace:
+      path: /home/Area/.env
+      regexp: 'SERVER_IP=.*'
+      replace: "SERVER_IP=http://{{ hostvars['area']['ansible_host'] }}"
+
+  - name: Replace web ip address in .env file
+    replace:
+      path: /home/Area/.env
+      regexp: 'WEB_IP=.*'
+      replace: "WEB_IP=http://{{ hostvars['area']['ansible_host'] }}"
+
+  - name: Compose down if already up
+    command: docker compose -f docker-compose.dev.yml down --volumes --remove-orphans
+    args:
+      chdir: /home/Area
