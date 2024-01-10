@@ -64,7 +64,11 @@ export class AboutService {
               {
                 name: 'sendMessageDiscord',
                 description: 'send a message on a channel',
-              }
+              },
+              {
+                name: 'send message user',
+                description: 'send a message to a user',
+              },
             ],
           },
         ],
