@@ -45,6 +45,6 @@ export class GoogleAuthController {
     });
 
     // return token;
-    return res.redirect('http://localhost:8081/Area');
+    return res.redirect(`${process.env.WEB_URL}/Area`);
   }
 }
