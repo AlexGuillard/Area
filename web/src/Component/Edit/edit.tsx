@@ -243,6 +243,7 @@ function Edit(props: editProps) {
     if (listReaction === undefined) {
       handleCallReactionList()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [infoArea, handleCallAreaInfo, listAction, listReaction]);
   
   return (
