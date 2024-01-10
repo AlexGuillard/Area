@@ -104,6 +104,7 @@ export class DiscordService {
 
   @OnEvent('send message user')
   async sendMessageUser(struct: DiscordSendMessageUserDto, token: string) {
+    void token;
     const res = await axios
       .post(
         `https://discord.com/api/v10/users/@me/channels`,
