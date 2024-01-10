@@ -4,7 +4,6 @@ import { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import SelectInput from '../../Image/SelectInput.png'
-import { info } from 'console';
 
 interface editProps {
   name: string;
@@ -33,8 +32,6 @@ function Edit(props: editProps) {
   const [nameArea, setNameArea] = useState("");
   const [selectedAction, setSelectedAction] = useState("");
   const [selectedReaction, setSelectedReaction] = useState("");
-
-  const [paramArea, setParamArea] = useState("");
 
   const [showlistAction, setShowListAction] = useState(false);
   const [showlistReaction, setShowListReaction] = useState(false);
@@ -193,12 +190,12 @@ function Edit(props: editProps) {
         modelParamAction[listParamAction[i].nameParam] = listParamAction[i].param
       }
     }
-  
-    for (var i = 0; i < listParamReaction.length; i++) {
-      if (listParamReaction[i].typeParam === "number") {
-        modelParamReaction[listParamReaction[i].nameParam] = Number(listParamReaction[i].param)
+
+    for (var y = 0; y < listParamReaction.length; y++) {
+      if (listParamReaction[y].typeParam === "number") {
+        modelParamReaction[listParamReaction[y].nameParam] = Number(listParamReaction[y].param)
       } else {
-        modelParamReaction[listParamReaction[i].nameParam] = listParamReaction[i].param
+        modelParamReaction[listParamReaction[y].nameParam] = listParamReaction[y].param
       }
     }
 
@@ -233,10 +230,10 @@ function Edit(props: editProps) {
       handleCallAreaInfo()
     } else {
       setNameArea(infoArea.nameArea)
-      if (listParamAction.length == 0) {
+      if (listParamAction.length === 0) {
         handleActionAreaChange(infoArea.nameAction)
       }
-      if (listParamReaction.length == 0) {
+      if (listParamReaction.length === 0) {
         handleReactionAreaChange(infoArea.nameReaction)
       }
     }
@@ -247,7 +244,7 @@ function Edit(props: editProps) {
       handleCallReactionList()
     }
   }, [infoArea, handleCallAreaInfo, listAction, listReaction]);
-
+  
   return (
     <div className='editComponent'>
       <div className='editComponentBody'>

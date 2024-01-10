@@ -16,7 +16,6 @@ function Add() {
   const [nameArea, setNameArea] = useState("");
   const [selectedAction, setSelectedAction] = useState("Action");
   const [selectedReaction, setSelectedReaction] = useState("Reaction");
-  const [paramArea, setParamArea] = useState("");
   const [showlistAction, setShowListAction] = useState(false);
   const [showlistReaction, setShowListReaction] = useState(false);
   const [listAction, setListAction] = useState<string []>();
@@ -162,20 +161,18 @@ function Add() {
 
   const handleCreateArea = () => {
     for (var i = 0; i < listParamAction.length; i++) {
-      console.log(i)
       if (listParamAction[i].typeParam === "number") {
         modelParamAction[listParamAction[i].nameParam] = Number(listParamAction[i].param)
       } else {
         modelParamAction[listParamAction[i].nameParam] = listParamAction[i].param
       }
-      console.log(i)
     }
   
-    for (var i = 0; i < listParamReaction.length; i++) {
-      if (listParamReaction[i].typeParam === "number") {
-        modelParamReaction[listParamReaction[i].nameParam] = Number(listParamReaction[i].param)
+    for (var y = 0; y < listParamReaction.length; y++) {
+      if (listParamReaction[y].typeParam === "number") {
+        modelParamReaction[listParamReaction[y].nameParam] = Number(listParamReaction[y].param)
       } else {
-        modelParamReaction[listParamReaction[i].nameParam] = listParamReaction[i].param
+        modelParamReaction[listParamReaction[y].nameParam] = listParamReaction[y].param
       }
     }
 
