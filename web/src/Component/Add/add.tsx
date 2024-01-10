@@ -25,6 +25,9 @@ function Add() {
   const [listParamAction, setListParamAction] = useState<ParamItem []>([]);
   const [listParamReaction, setListParamReaction] = useState<ParamItem []>([]);
 
+  const [modelParamAction, setModelParamAction] = useState<any>([])
+  const [modelParamReaction, setModelParamReaction] = useState<any>([])
+
   const handleNameAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameArea(event.target.value);
   };
@@ -61,8 +64,9 @@ function Add() {
         });
   
         const resolvedList = await Promise.all(updatedList);
-  
+
         setListParamAction(await resolvedList);
+        setModelParamAction(await response.data)
       } catch (error) {
         console.error(error);
       }
@@ -93,6 +97,7 @@ function Add() {
         const resolvedList = await Promise.all(updatedList);
   
         setListParamReaction(await resolvedList);
+        setModelParamReaction(await response.data)
       } catch (error) {
         console.error(error);
       }
@@ -104,7 +109,7 @@ function Add() {
         if (param.nameParam === nameParam) {
           return {
             ...param,
-            variableType: event.target.value,
+            param: event.target.value,
           };
         }
         return param;
@@ -118,7 +123,7 @@ function Add() {
         if (param.nameParam === nameParam) {
           return {
             ...param,
-            variableType: event.target.value,
+            param: event.target.value,
           };
         }
         return param;
@@ -156,14 +161,31 @@ function Add() {
   }
 
   const handleCreateArea = () => {
+    for (var i = 0; i < listParamAction.length; i++) {
+      console.log(i)
+      if (listParamAction[i].typeParam === "number") {
+        modelParamAction[listParamAction[i].nameParam] = Number(listParamAction[i].param)
+      } else {
+        modelParamAction[listParamAction[i].nameParam] = listParamAction[i].param
+      }
+      console.log(i)
+    }
+  
+    for (var i = 0; i < listParamReaction.length; i++) {
+      if (listParamReaction[i].typeParam === "number") {
+        modelParamReaction[listParamReaction[i].nameParam] = Number(listParamReaction[i].param)
+      } else {
+        modelParamReaction[listParamReaction[i].nameParam] = listParamReaction[i].param
+      }
+    }
+
     const data = {
       nameArea: nameArea,
       nameAction: selectedAction,
-      actionParameter: "",
+      actionParameter: modelParamAction,
       nameReaction: selectedReaction,
-      reactionParameter: paramArea
+      reactionParameter: modelParamReaction
     };
-    console.log(data)
     const storedToken = Cookies.get('token');
     axios.post(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/areas", data)
     .then(response => {
@@ -227,7 +249,7 @@ function Add() {
                       />
                     )
                   }
-                  {item.typeParam === "int" &&
+                  {item.typeParam === "number" &&
                     (
                       <input
                         type="number"
@@ -290,7 +312,7 @@ function Add() {
                       />
                     )
                   }
-                  {item.typeParam === "int" &&
+                  {item.typeParam === "number" &&
                     (
                       <input
                         type="number"
@@ -318,8 +340,8 @@ function Add() {
           </ul>)
         }
       </div>
-      <div className='addComponentButton'>
-        <span className='addComponentButtonText' onClick={handleCreateArea}>Create</span>
+      <div className='addComponentButton' onClick={handleCreateArea}>
+        <span className='addComponentButtonText'>Create</span>
       </div>
     </div>
   );
