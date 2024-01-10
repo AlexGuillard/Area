@@ -6,16 +6,19 @@
     position: absolute;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 500px;
 }
 
 .editComponentBody {
     width: 325px;
-    height: 410px; 
+    height: 80%;
     background-color: #C7C4DC;
     border-radius: 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: scroll;
 }
 
 .editComponentTitle {
@@ -32,7 +35,7 @@
     border: 2px #423B8E solid;
     border-radius: 16px;
     color: #2B2277;
-    font-size: 12px; 
+    font-size: 12px;
     padding-left: 18px;
 }
 
@@ -47,33 +50,43 @@
     justify-content: center;
 }
 
-.editCompoentActionLine {
+.editComponentActionTitle {
+  flex-grow: 1;
+  text-align: center;
+  margin-right: -45px;
+}
+
+.editComponentActionLine {
     width: 1px;
     height: 62px;
     background-color: #000;
-    position: absolute;
-    left: 260px;
 }
 
 .editComponentActionButton {
-    position:absolute;
-    left: 275px;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 .editComponentActionListArea {
     position: absolute;
     background-color: var(--secondary-container);
     top: 154px;
-    width: 46%;
+    width: 10%;
     border: 1px solid #000;
     border-radius: 16px 0px 16px 16px;
     padding-top: 10px;
     padding-bottom: 20px;
+    margin-top: 30px;
+    width: 175px;
 }
 
 .editComponentActionList {
     list-style: none;
     margin-top: 10px;
+}
+
+.editComponentActionListName {
+    cursor: pointer;
 }
 
 .editComponentReactionInput {
@@ -87,28 +100,35 @@
     justify-content: center;
 }
 
-.editCompoentReactionLine {
+.editComponentReactionTitle {
+    flex-grow: 1;
+    text-align: center;
+    margin-right: -45px;
+}
+
+.editComponentReactionLine {
     width: 1px;
     height: 62px;
     background-color: #000;
-    position: absolute;
-    left: 260px;
 }
 
 .editComponentReactionButton {
-    position:absolute;
-    left: 275px;
+    margin-right: 10px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .editComponentReactionListArea {
     position: absolute;
     background-color: var(--secondary-container);
     top: 246px;
-    width: 46%;
+    width: 10%;
     border: 1px solid #000;
     border-radius: 16px 0px 16px 16px;
     padding-top: 10px;
     padding-bottom: 20px;
+    margin-top: 50px;
+    width: 175px;
 }
 
 .editComponentReactionList {
@@ -116,15 +136,27 @@
     margin-top: 10px;
 }
 
+.editComponentParamArea {
+    margin: 0px;
+    margin-top: 10px;
+    padding: 0px;
+    height: 0%;
+    margin-bottom: 10px;
+}
+
+.editComponentParamList {
+    list-style: none;
+}
+
 .editComponentParamInput {
     margin-top: 15px;
-    height: 44px;
-    width: 262px;
+    height: 35px;
+    width: 250px;
     background-color: #C5C0FF;
     border: 2px #423B8E solid;
     border-radius: 16px;
     color: #2B2277;
-    font-size: 12px; 
+    font-size: 12px;
     padding-left: 18px;
 }
 
@@ -136,11 +168,17 @@
     align-items: center;
     justify-content: center;
     width: 222px;
-    height: 47px; 
+    height: 47px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
 }
 
 .editComponentButtonText {
     color: #E4DFF9;
-    font-size: 20px; 
+    font-size: 20px;
     font-weight: 400;
+}
+
+.editComponentButton:hover {
+    scale: 1.05;
 }
