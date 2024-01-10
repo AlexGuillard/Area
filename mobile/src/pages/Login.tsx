@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, createContext} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -8,8 +8,9 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
-// import axios from 'axios';
+import axios from 'axios';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {useAuth} from '../context/UserContext';
 
 const Login = ({navigation}) => {
   const [mail, setMail] = useState('');
@@ -18,6 +19,7 @@ const Login = ({navigation}) => {
     backgroundColor: Colors.darker,
     flex: 1,
   };
+  const { setAuthData } = useAuth();
 
   const handleTextChangeUser = (text: string) => {
     setMail(text);
@@ -26,20 +28,21 @@ const Login = ({navigation}) => {
     setPassword(text);
   };
 
-  // const handleClickConnection = () => {
-  //   const data = {
-  //     mail: mail,
-  //     password: password,
-  //   };
-  //   axios
-  //     .post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
-  //     .then(() => {
-  //       navigation.navigate('Area');
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // };
+  const handleClickConnection = () => {
+    const data = {
+      mail: mail,
+      password: password,
+    };
+    axios
+      .post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
+      .then(async (response) => {
+        setAuthData(response.data.email, response.data.randomToken, response.data.id);
+        navigation.navigate('Area');
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -68,9 +71,7 @@ const Login = ({navigation}) => {
         <View style={{paddingHorizontal: 50}}>
           <Pressable
             style={styles.primaryButton}
-            onPress={() => {
-              navigation.navigate('Area');
-            }}>
+            onPress={handleClickConnection}>
             <Text style={styles.primaryButtonText}>Login</Text>
           </Pressable>
           <Pressable

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Appbar} from 'react-native-paper';
-import ServiceList from '../components/ServiceList/serviceList.tsx';
+import ServiceList from '../components/ServiceList/serviceList';
 
 function Service(): React.JSX.Element {
   const backgroundStyle = {
@@ -31,7 +31,6 @@ function Service(): React.JSX.Element {
         <Appbar.Action
           icon="arrow-left"
           onPress={() => {
-            console.log('pressed return');
           }}
         />
         <Appbar.Content title="Area" />

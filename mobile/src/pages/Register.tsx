@@ -10,11 +10,13 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
+import {useAuth} from '../context/UserContext';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const Register = ({navigation}) => {
   const [textEmail, setTextEmail] = useState('');
   const [textPassWord, setTextPassWord] = useState('');
+  const { setAuthData } = useAuth();
 
   const handleTextChangeUser = (text: string) => {
     setTextEmail(text);
@@ -29,8 +31,9 @@ const Register = ({navigation}) => {
       password: textPassWord,
     };
     axios
-      .post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
-      .then(() => {
+      .post(process.env.REACT_APP_SERVER_URL + '/auth/signup', data)
+      .then(async (response) => {
+        setAuthData(response.data.email, response.data.randomToken, response.data.id);
         navigation.navigate('Area');
       })
       .catch(error => {

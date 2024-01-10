@@ -15,6 +15,7 @@ import {Appbar} from 'react-native-paper';
 import AddComponent from '../components/addComponent';
 import EditComponent from '../components/editComponent';
 import {data_reaction} from '../constants/test_data';
+import { useAuth } from '../context/UserContext';
 
 interface ReactionItem {
   id: string;
@@ -26,6 +27,7 @@ const AreaPage = () => {
   const [showEditArea, setShowEditArea] = useState(false);
   const [areaSelected, setAreaSelected] = useState('');
   const [listArea, setListArea] = useState<ReactionItem[]>([]);
+  const { email, token, id } = useAuth();
 
   const backgroundStyle = {
     backgroundColor: Colors.darker,
