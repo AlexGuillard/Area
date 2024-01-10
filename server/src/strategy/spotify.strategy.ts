@@ -12,7 +12,7 @@ export class SpotifyOauthStrategy extends PassportStrategy(
         clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
         callbackURL: `${process.env.SERVER_URL}/auth/spotify/redirect`,
         scope:
-          'user-read-private user-read-email playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public',
+          'user-read-private user-read-email playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public user-read-playback-state',
       },
       (
         accessToken: string,
