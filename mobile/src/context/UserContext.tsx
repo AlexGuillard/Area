@@ -3,17 +3,17 @@ import { createContext, useContext, useState } from 'react';
 const AuthContext = createContext({
   email: '',
   token: '',
-  id: null,
-  setAuthData: (email: string, token: string, id: number) => {},
+  id: '',
+  setAuthData: (email: string, token: string, id: string) => {},
   clearAuthData: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [email, setEmail] = useState('');
   const [token, setToken] = useState('');
-  const [id, setId] = useState(null);
+  const [id, setId] = useState('');
 
-  const setAuthData = (email: string, token: string, id: number) => {
+  const setAuthData = (email: string, token: string, id: string) => {
     setEmail(email);
     setToken(token);
     setId(id);
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const clearAuthData = () => {
     setEmail('');
     setToken('');
-    setId(null);
+    setId('');
   };
 
   return (

@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {useAuth} from '../context/UserContext';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { REACT_APP_SERVER_URL } from '@env'
 
 const Register = ({navigation}) => {
   const [textEmail, setTextEmail] = useState('');

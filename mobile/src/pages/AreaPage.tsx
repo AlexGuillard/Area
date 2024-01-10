@@ -10,11 +10,11 @@ import {
   FlatList,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import Reaction from '../components/ReactionList/reactionList';
+import AreaCard from '../components/areaCard';
 import {Appbar} from 'react-native-paper';
 import AddComponent from '../components/addComponent';
 import EditComponent from '../components/editComponent';
-import {data_reaction} from '../constants/test_data';
+import axios from 'axios';
 import { useAuth } from '../context/UserContext';
 
 interface ReactionItem {
@@ -22,12 +22,14 @@ interface ReactionItem {
   icon: string;
   title: string;
 }
-const AreaPage = () => {
+const AreaPage = ({navigation}) => {
   const [showAddArea, setShowAddArea] = useState(false);
   const [showEditArea, setShowEditArea] = useState(false);
   const [areaSelected, setAreaSelected] = useState('');
+  const [actionSelected, setActionSelected] = useState("");
+  const [reactionSelected, setReactionSelected] = useState("");
   const [listArea, setListArea] = useState<ReactionItem[]>([]);
-  const { email, token, id } = useAuth();
+  const { email, token, id , clearAuthData} = useAuth();
 
   const backgroundStyle = {
     backgroundColor: Colors.darker,
@@ -45,10 +47,26 @@ const AreaPage = () => {
     setShowEditArea(true);
     setShowAddArea(false);
     setAreaSelected(item);
+    setActionSelected("");
+    setReactionSelected("");
   };
 
+  const handleCallAreaList = () => {
+    axios.get(process.env.REACT_APP_SERVER_URL + "/" + token + "/areas")
+      .then(response => {
+        setListArea(response.data)
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
   useEffect(() => {
-    setListArea(data_reaction);
+    if (token === "undefined") {
+      clearAuthData();
+      navigation.navigate('Login')
+    }
+    handleCallAreaList()
   }, []);
 
   return (
@@ -75,7 +93,7 @@ const AreaPage = () => {
         <FlatList
           data={listArea}
           renderItem={({item}) => (
-            <Reaction
+            <AreaCard
               title={item.title}
               image_url={item.icon}
               on_press={() => handleClickEdit(item.title)}
