@@ -73,8 +73,8 @@ export class AboutService {
             ],
             reactions: [
               {
-                name: 'createIssue',
-                description: 'Create an issue in a repository',
+                name: 'followArtistSpotify',
+                description: 'follow an artist on spotify with his id',
               },
             ],
           },
