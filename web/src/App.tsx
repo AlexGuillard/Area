@@ -6,8 +6,12 @@ import Services from './Page/Services/services';
 import ServicesConnexion from './Page/Services/serviceConnexion';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 function App() {
+  Cookies.set('tokenService', 'testservice')
+  Cookies.set('RefreshToken', 'testRefreshToken')
+  Cookies.set('ServiceType', 'testServiceType')
   return (
     <Router>
         <nav>
