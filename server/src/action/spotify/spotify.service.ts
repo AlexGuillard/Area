@@ -2,21 +2,37 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ServiceType } from '@prisma/client';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
+import { ActionService } from '../action.service';
+import { SpotifyPlaybackStateDto } from './dto/spotify.dto';
 
 @Injectable()
 export class SpotifyService {
     private readonly spotifyApiBaseUrl = 'https://api.spotify.com/v1';
 
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(
+        private readonly prisma: PrismaService,
+        private eventEmitter: EventEmitter2,
+        private actionService: ActionService,
+    ) {
+        this.eventEmitter.on('ExecuteSpotify.struct', (struct: SpotifyPlaybackStateDto) => {
+            struct.is_playing = false;
+        });
+    }
 
-    async getPlaybackState(userId: number): Promise<any> {
+    @OnEvent('ExecuteSpotify')
+    async getPlaybackState(structInfo: SpotifyPlaybackStateDto, actionId: number): Promise<any> {
+
+        const serviceId = this.actionService.getServiceActions(actionId);
+
         const userToken = await this.prisma.services.findFirst({
             where: {
-                userId: userId,
+                id: (await serviceId).id,
                 typeService: ServiceType.SPOTIFY,
             },
         });
 
+        console.log("this is the user token", userToken);
 
         if (!userToken) {
             throw new ForbiddenException("User doesn't have a Spotify token");
@@ -36,10 +52,12 @@ export class SpotifyService {
 
             console.log("this is the playback", playbackState);
 
-            if (playbackState.is_playing) {
-                console.log('User is playing something');
-            } else {
-                console.log('User is not playing anything');
+            if (playbackState.is_playing && structInfo.is_playing) {
+                console.log('User is playing something and want to execute something');
+                this.actionService.executeReaction('ExecuteSpotify', structInfo);
+            } else if (playbackState.is_playing && !structInfo.is_playing) {
+                console.log('User is not playing anything and want to execute something');
+                this.actionService.executeReaction('ExecuteSpotify', structInfo);
             }
 
             return playbackState;
