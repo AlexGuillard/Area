@@ -67,6 +67,16 @@ export class ActionService {
     return allActions;
   }
 
+  async getServiceActions(actionId: number) {
+    const action = await this.getAction(actionId);
+    const service = await this.prisma.services.findUnique({
+      where: {
+        id: action.serviceId,
+      },
+    });
+    return service;
+  }
+
   async getActionInfo(token: string, nameAction: string) {
     await this.me.getUser(token);
     const structInfo = {};

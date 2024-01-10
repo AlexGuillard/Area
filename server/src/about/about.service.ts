@@ -63,6 +63,21 @@ export class AboutService {
               }
             ],
           },
+          {
+            name: 'SPOTIFY',
+            actions: [
+              {
+                name: 'ExecuteSpotify',
+                description: 'check if user is playing something or not',
+              },
+            ],
+            reactions: [
+              {
+                name: 'createIssue',
+                description: 'Create an issue in a repository',
+              },
+            ],
+          },
         ],
       },
     };
