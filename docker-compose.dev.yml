@@ -76,7 +76,7 @@ services:
     image: client_web_dev
     build:
       context: ./web
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     networks:
       - back-tier
     depends_on:
