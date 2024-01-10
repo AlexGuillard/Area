@@ -41,6 +41,7 @@ export class SpotifyAuthService {
     await this.prisma.services.create({
       data: {
         token: spotifyUserDto.accessToken,
+        refreshToken: spotifyUserDto.refreshToken,
         typeService: ServiceType.SPOTIFY,
         userId: userDB.id,
       },
