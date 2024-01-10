@@ -36,6 +36,12 @@
       state: latest
       update_cache: true
 
+  - name: Start and enable service docker
+    ansible.builtin.service:
+      name: docker
+      state: started
+      enabled: true
+
   # - name: Index new repo into the cache
   #   apt:
   #     name: "*"
@@ -72,7 +78,7 @@
     git:
       repo: https://github.com/AlexGuillard/Area.git
       dest: /home/Area
-      version: 65-docker-compose-dev-and-prod
+      version: 2-build-and-deploy
 
   - name: Copy .env file
     copy:
