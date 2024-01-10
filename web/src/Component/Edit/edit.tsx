@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import SelectInput from '../../Image/SelectInput.png'
+import { info } from 'console';
 
 interface editProps {
   name: string;
@@ -16,9 +17,9 @@ function Edit(props: editProps) {
   interface AreaItem {
     nameArea: string;
     nameAction: string;
-    actionParameter: string;
+    actionParameter: any;
     nameReaction: string;
-    reactionParameter: string;
+    reactionParameter: any;
   }
 
   interface ParamItem {
@@ -44,6 +45,12 @@ function Edit(props: editProps) {
   const [listParamAction, setListParamAction] = useState<ParamItem []>([]);
   const [listParamReaction, setListParamReaction] = useState<ParamItem []>([]);
 
+  const [modelParamAction, setModelParamAction] = useState<any>([])
+  const [modelParamReaction, setModelParamReaction] = useState<any>([])
+
+  const [paramAction, setParamAction] = useState<any>([])
+  const [paramReaction, setParamReaction] = useState<any>([])
+
   const handleNameAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameArea(event.target.value);
   };
@@ -61,11 +68,12 @@ function Edit(props: editProps) {
   const handleActionAreaChange = async(event: string) => {
     setSelectedAction(event);
     setListParamAction([])
+    setParamAction(infoArea?.actionParameter)
     try {
       const storedToken = Cookies.get('token');
 
       const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/actions/" + event);
-
+  
       const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
 
       const updatedList = allPropertyNames.map(async (key) => {
@@ -75,13 +83,14 @@ function Edit(props: editProps) {
         return {
           nameParam: String(key),
           typeParam: variableType,
-          param: null
+          param: paramAction[key]
         };
       });
 
       const resolvedList = await Promise.all(updatedList);
 
       setListParamAction(await resolvedList);
+      setModelParamAction(await response.data)
     } catch (error) {
       console.error(error);
     }
@@ -91,6 +100,7 @@ function Edit(props: editProps) {
   const handleReactionAreaChange = async(event: string) => {
     setSelectedReaction(event);
     setListParamReaction([])
+    setParamReaction(infoArea?.reactionParameter)
     try {
       const storedToken = Cookies.get('token');
 
@@ -105,13 +115,14 @@ function Edit(props: editProps) {
         return {
           nameParam: String(key),
           typeParam: variableType,
-          param: null
+          param: paramReaction[key]
         };
       });
 
       const resolvedList = await Promise.all(updatedList);
 
       setListParamReaction(await resolvedList);
+      setModelParamReaction(await response.data)
     } catch (error) {
       console.error(error);
     }
@@ -123,7 +134,7 @@ function Edit(props: editProps) {
       if (param.nameParam === nameParam) {
         return {
           ...param,
-          variableType: event.target.value,
+          param: event.target.value,
         };
       }
       return param;
@@ -136,7 +147,7 @@ function Edit(props: editProps) {
       if (param.nameParam === nameParam) {
         return {
           ...param,
-          variableType: event.target.value,
+          param: event.target.value,
         };
       }
       return param;
@@ -175,16 +186,31 @@ function Edit(props: editProps) {
   }
 
   const handleUpdateArea = () => {
+    for (var i = 0; i < listParamAction.length; i++) {
+      if (listParamAction[i].typeParam === "number") {
+        modelParamAction[listParamAction[i].nameParam] = Number(listParamAction[i].param)
+      } else {
+        modelParamAction[listParamAction[i].nameParam] = listParamAction[i].param
+      }
+    }
+  
+    for (var i = 0; i < listParamReaction.length; i++) {
+      if (listParamReaction[i].typeParam === "number") {
+        modelParamReaction[listParamReaction[i].nameParam] = Number(listParamReaction[i].param)
+      } else {
+        modelParamReaction[listParamReaction[i].nameParam] = listParamReaction[i].param
+      }
+    }
+
     const data = {
       nameArea: nameArea,
       nameAction: selectedAction,
-      actionParameter: "",
+      actionParameter: modelParamAction,
       nameReaction: selectedReaction,
-      reactionParameter: paramArea
+      reactionParameter: modelParamReaction
     };
-    console.log(data)
     const storedToken = Cookies.get('token');
-    axios.put(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/areas", data)
+    axios.put(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/areas/" + props.name, data)
     .then(response => {
     })
     .catch(error => {
@@ -207,8 +233,12 @@ function Edit(props: editProps) {
       handleCallAreaInfo()
     } else {
       setNameArea(infoArea.nameArea)
-      handleActionAreaChange(infoArea.nameAction)
-      handleReactionAreaChange(infoArea.nameReaction)
+      if (listParamAction.length == 0) {
+        handleActionAreaChange(infoArea.nameAction)
+      }
+      if (listParamReaction.length == 0) {
+        handleReactionAreaChange(infoArea.nameReaction)
+      }
     }
     if (listAction === undefined) {
       handleCallActionList()
@@ -266,7 +296,7 @@ function Edit(props: editProps) {
                       />
                     )
                   }
-                  {item.typeParam === "int" &&
+                  {item.typeParam === "number" &&
                     (
                       <input
                         type="number"
@@ -329,7 +359,7 @@ function Edit(props: editProps) {
                       />
                     )
                   }
-                  {item.typeParam === "int" &&
+                  {item.typeParam === "number" &&
                     (
                       <input
                         type="number"
@@ -357,8 +387,8 @@ function Edit(props: editProps) {
           </ul>)
         }
       </div>
-      <div className='editComponentButton'>
-        <span className='editComponentButtonText' onClick={handleUpdateArea}>Edit</span>
+      <div className='editComponentButton'  onClick={handleUpdateArea}>
+        <span className='editComponentButtonText'>Edit</span>
       </div>
     </div>
   );
