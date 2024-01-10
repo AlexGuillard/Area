@@ -61,6 +61,9 @@ export class GithubService {
             'X-GitHub-Api-Version': '2022-11-28'
           }
         })
+        if (saveParams === null) {
+          saveParams = { numberIssues: res.data.length };
+        }
         if (saveParams.numberIssues !== undefined && 
             saveParams.numberIssues !== res.data.length) {
             this.actionService.executeReaction('NewCommit', structInfo);
