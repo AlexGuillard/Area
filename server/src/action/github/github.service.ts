@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ActionService } from '../action.service';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { GithubIssueDto, IssueDto } from './dto';
+import { CommitDto, GithubIssueDto, IssueDto } from './dto';
 import { Octokit } from 'octokit';
 
 @Injectable()
@@ -50,7 +50,7 @@ export class GithubService {
     async ActionNewCommit(structInfo: GithubIssueDto, actionId: number) {
         const action = await this.actionService.getAction(actionId);
         const service = await this.actionService.getServiceActions(actionId);
-        let saveParams = action.saveParams as unknown as IssueDto;
+        let saveParams = action.saveParams as unknown as CommitDto;
         const octokit = new Octokit({
             auth: service.token,
           })
@@ -62,13 +62,13 @@ export class GithubService {
           }
         })
         if (saveParams === null) {
-          saveParams = { numberIssues: res.data.length };
+          saveParams = { numberCommit: res.data[0].sha };
         }
-        if (saveParams.numberIssues !== undefined && 
-            saveParams.numberIssues !== res.data.length) {
+        if (saveParams.numberCommit !== undefined && 
+            saveParams.numberCommit !== res.data[0].sha) {
             this.actionService.executeReaction('NewCommit', structInfo);
         }
-        saveParams.numberIssues = res.data.length;
+        saveParams.numberCommit = res.data[0].sha;
         await this.actionService.updateAction(actionId, saveParams);
     }
 }

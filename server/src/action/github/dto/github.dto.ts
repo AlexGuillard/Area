@@ -19,3 +19,10 @@ export class IssueDto {
   @IsInt()
   numberIssues: number;
 }
+
+export class CommitDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  numberCommit: string;
+}
