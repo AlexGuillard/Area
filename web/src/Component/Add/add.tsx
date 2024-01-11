@@ -8,13 +8,17 @@ import GoogleIcon from '../../Image/Google.png'
 import GithubIcon from '../../Image/Github.png'
 import SpotifyIcon from '../../Image/Spotify.png'
 import DiscordIcon from '../../Image/Discord.png'
+import ClockIcon from '../../Image/Clock.png'
+import WeatherIcon from '../../Image/Weather.png'
 
 function GetIcon(type: string) {
   const iconMap: { [key: string]: string } = {
     "GOOGLE": GoogleIcon,
     "GITHUB": GithubIcon,
     "SPOTIFY": SpotifyIcon,
-    "DISCORD": DiscordIcon
+    "DISCORD": DiscordIcon,
+    "TIME": ClockIcon,
+    "WEATHER": WeatherIcon
   }
 
   if (!iconMap[type]) {
@@ -161,34 +165,6 @@ function Add() {
       setListParamReaction(updatedList);
     };
 
-  const handleCallActionList = () => {
-    const storedToken = Cookies.get('token');
-    axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/actions")
-      .then(response => {
-        setListAction((prevState: Action [] | undefined) => [
-          ...(prevState || []),
-          ...response.data.map((item: Action) => item)
-        ]);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-
-  const handleCallReactionList = () => {
-    const storedToken = Cookies.get('token');
-    axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/reactions")
-      .then(response => {
-        setListReaction((prevState: Reaction[] | undefined) => [
-          ...(prevState || []),
-          ...response.data.map((item: Reaction) => item)
-        ]);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-
   const handleCreateArea = () => {
     for (var i = 0; i < listParamAction.length; i++) {
       if (listParamAction[i].typeParam === "number") {
@@ -223,6 +199,34 @@ function Add() {
   }
 
   useEffect(() => {
+    const handleCallActionList = () => {
+      const storedToken = Cookies.get('token');
+      axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/actions")
+        .then(response => {
+          setListAction((prevState: Action [] | undefined) => [
+            ...(prevState || []),
+            ...response.data.map((item: Action) => item)
+          ]);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
+    const handleCallReactionList = () => {
+      const storedToken = Cookies.get('token');
+      axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/reactions")
+        .then(response => {
+          setListReaction((prevState: Reaction[] | undefined) => [
+            ...(prevState || []),
+            ...response.data.map((item: Reaction) => item)
+          ]);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
     handleCallActionList()
     handleCallReactionList()
   }, []);
