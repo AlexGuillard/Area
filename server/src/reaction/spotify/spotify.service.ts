@@ -97,7 +97,6 @@ export class SpotifyService {
                 throw new Error('Artist not followed');
             }
         } catch (error) {
-            console.log(error);
             throw new Error('Artist not followed');
         }
     }
@@ -133,7 +132,6 @@ export class SpotifyService {
                 throw new Error('Artist not followed');
             }
         } catch (error) {
-            console.log(error);
             throw new Error('Artist not followed');
         }
     }
@@ -175,7 +173,6 @@ export class SpotifyService {
                 throw new Error('Track not liked');
             }
         } catch (error) {
-            console.log(error);
             throw new Error('Track not liked');
         }
     }
@@ -216,7 +213,6 @@ export class SpotifyService {
                 throw new Error('Track not liked');
             }
         } catch (error) {
-            console.log(error);
             throw new Error('Track not liked');
         }
     }

@@ -55,7 +55,7 @@ export class SpotifyService {
 
             return playbackState;
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
