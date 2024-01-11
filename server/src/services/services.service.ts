@@ -35,8 +35,10 @@ export class ServicesService {
     }
     const service = await this.prisma.services.findUnique({
       where: {
-        userId: user.id,
-        token: body.token,
+        UniqueUserService: {
+          userId: user.id,
+          typeService: body.typeService,
+        },
       },
     });
     if (!service) {

@@ -1,5 +1,4 @@
-import { ForbiddenException, Injectable, Res, Request } from '@nestjs/common';
-import { SpotifyUserDto } from './dto';
+import { Injectable, Res, Request } from '@nestjs/common';
 import { ServiceType } from '.prisma/client';
 
 @Injectable()
@@ -19,6 +18,7 @@ export class SpotifyAuthService {
       // Handle errors appropriately
       console.error(error);
       response.status(500).send('Internal Server Error');
+      response.redirect(`${process.env.WEB_URL}/Area`);
     }
   }
 }

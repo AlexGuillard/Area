@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate} from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
@@ -32,6 +32,7 @@ function ServicesConnexion() {
         navigate("/Area")
       });
   }
+  const registerServiceCallback = useCallback(registerService, [storedRefreshTokenService, storedTokenService, storedServiceType, navigate]);
 
   useEffect(() => {
     const storedToken = Cookies.get('token');
@@ -40,8 +41,8 @@ function ServicesConnexion() {
     setstoredRefreshTokenService(Cookies.get('RefreshToken'))
     setstoredTokenService(Cookies.get('tokenService'))
     setstoredServiceType(Cookies.get('ServiceType'))
-    registerService();
-  }, []);
+    registerServiceCallback()
+  }, [navigate]);
 
   return (
     <div>

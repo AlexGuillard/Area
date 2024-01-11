@@ -1,7 +1,6 @@
 import { Injectable, Res } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
 import { ServiceType } from '@prisma/client';
-import { ForbiddenException, Request } from '@nestjs/common';
+import { Request } from '@nestjs/common';
 import { GithubDto } from './dto/github.dto';
 
 @Injectable()
@@ -21,6 +20,7 @@ export class GithubAuthService {
       // Handle errors appropriately
       console.error(error);
       response.status(500).send('Internal Server Error');
+      response.redirect(`${process.env.WEB_URL}/Area`);
     }
   }
 

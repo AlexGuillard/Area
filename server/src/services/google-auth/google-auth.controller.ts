@@ -1,9 +1,6 @@
 import { GoogleOAuthGuard } from './google-oauth.guard';
 import { Controller, Get, Request, Res, UseGuards } from '@nestjs/common';
 import { GoogleAuthService } from './google-auth.service';
-import { PrismaService } from '../../prisma/prisma.service';
-import { ForbiddenException } from '@nestjs/common';
-import { ServiceType } from '@prisma/client';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('services')
@@ -11,7 +8,6 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 export class GoogleAuthController {
   constructor(
     private readonly appService: GoogleAuthService,
-    private prisma: PrismaService,
   ) {}
 
   @Get()

@@ -16,6 +16,7 @@ export class GoogleAuthService {
       // Handle errors appropriately
       console.error(error);
       response.status(500).send('Internal Server Error');
+      response.redirect(`${process.env.WEB_URL}/Area`);
     }
   }
 }

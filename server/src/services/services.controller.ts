@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Headers, Body, Post } from '@nestjs/common';
+import { Controller, Get, Headers, Body, Post } from '@nestjs/common';
 import { ServicesService } from './services.service';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ServiceDto } from './dto';
@@ -25,8 +25,11 @@ export class ServicesController {
     return this.servicesService.getServices(token);
   }
 
-  @Post("connexion")
-  connexionService(@Headers('token') randomToken: string, @Body() body: ServiceDto) {
+  @Post('connexion')
+  connexionService(
+    @Headers('token') randomToken: string,
+    @Body() body: ServiceDto,
+  ) {
     return this.servicesService.connexionService(randomToken, body);
   }
 }
