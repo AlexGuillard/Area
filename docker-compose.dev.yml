@@ -35,6 +35,7 @@ services:
       DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN}
       SPOTIFY_CLIENT_ID: ${SPOTIFY_CLIENT_ID}
       SPOTIFY_CLIENT_SECRET: ${SPOTIFY_CLIENT_SECRET}
+      OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY}
     volumes:
       - ./server/src:/app/src
     ports:
