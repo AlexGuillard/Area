@@ -22,16 +22,16 @@ function ServiceCard(props: ServiceCardProps) {
   };
 
   return (
-    
+
     <form ref={formRef} action={props.link} method="get">
-      <div 
-        className='serviceCard' 
+      <div
+        className='serviceCard'
         role='button'
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             handleSubmit(e);
           }
-        }} 
+        }}
         onClick={handleSubmit}>
         <div className='serviceCardHeader'>
           <span className='serviceCardName'>
@@ -47,7 +47,6 @@ function ServiceCard(props: ServiceCardProps) {
             {props.user}
           </span>
         </div>
-        {/* <input type="submit" value="Press to log in"/> */}
       </div>
     </form>
   );
