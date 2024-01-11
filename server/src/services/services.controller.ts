@@ -1,14 +1,15 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Headers, Body, Post } from '@nestjs/common';
 import { ServicesService } from './services.service';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ServiceDto } from './dto';
 
 @ApiTags('services')
-@Controller(':token/')
+@Controller('services')
 export class ServicesController {
   constructor(private servicesService: ServicesService) {}
 
-  @Get('services')
-  @ApiParam({
+  @Get()
+  @ApiHeader({
     name: 'token',
     required: true,
     description: 'Token of the user',
@@ -20,7 +21,15 @@ export class ServicesController {
     status: 200,
     description: 'Return every services of the connected user',
   })
-  getServices(@Param('token') token: string) {
+  getServices(@Headers('token') token: string) {
     return this.servicesService.getServices(token);
+  }
+
+  @Post('connexion')
+  connexionService(
+    @Headers('token') randomToken: string,
+    @Body() body: ServiceDto,
+  ) {
+    return this.servicesService.connexionService(randomToken, body);
   }
 }
