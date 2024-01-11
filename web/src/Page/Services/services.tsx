@@ -9,6 +9,7 @@ import ServiceCard from '../../Component/ServiceCard/serviceCard';
 import Google from '../../Image/Google.png'
 import Discord from '../../Image/Discord.png'
 import Github from '../../Image/Github.png'
+import Spotify from '../../Image/Spotify.png'
 
 function Services() {
 
@@ -22,6 +23,7 @@ function Services() {
   const [stateGoogle, setStateGoogle] = useState("Not Connected")
   const [stateDiscord, setStateDiscord] = useState("Not Connected")
   const [stateGithub, setStateGithub] = useState("Not Connected")
+  const [stateSpotify, setStateSpotify] = useState("Not Connected")
 
   const handleCallServicesList = () => {
     const storedToken = Cookies.get('token');
@@ -50,6 +52,8 @@ function Services() {
           setStateDiscord("Connected")
         } else if (listServices[i].typeService === "GITHUB") {
           setStateGithub("Connected")
+        } else if (listServices[i].typeService === "SPOTIFY") {
+          setStateSpotify("Connected")
         }
         i = i + 1
       }
@@ -74,6 +78,7 @@ function Services() {
         <ServiceCard name="Google" status={stateGoogle} user='' image={Google} link={`${process.env.REACT_APP_SERVER_URL}/myauth/google-redirect`}/>
         <ServiceCard name="Discord" status={stateDiscord} user='' image={Discord} link={`${process.env.REACT_APP_SERVER_URL}/services/discord/login`}/>
         <ServiceCard name="Github" status={stateGithub} user='' image={Github} link={`${process.env.REACT_APP_SERVER_URL}/auth/github`}/>
+        <ServiceCard name="Spotify" status={stateSpotify} user='' image={Spotify} link={`${process.env.REACT_APP_SERVER_URL}/auth/spotify`}/>
       </div>
     </div>
   );
