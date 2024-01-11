@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { ServiceType } from '@prisma/client';
+import { IsEnum, IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class ActionDto {
   @ApiProperty()
@@ -38,4 +39,8 @@ export class ActionDescriptionDto {
   @IsNotEmpty()
   @IsString()
   description: string;
+
+  @ApiProperty()
+  @IsEnum(ServiceType)
+  typeService: ServiceType;
 }
