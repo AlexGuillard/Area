@@ -37,35 +37,38 @@ function Register() {
 
   return (
     <div className='registerPageBody'>
-        <input
-          type="email"
-          id="text-input"
-          value={textEmail}
-          onChange={handleTextChangeUser}
-          placeholder="Email"
-          className='emailRegisterArea'
-          minLength={8} maxLength={128}
-        />
-        <input
-          type="password"
-          id="text-input"
-          value={textPassWord}
-          onChange={handleTextChangePassWord}
-          placeholder="Password"
-          className='passwordRegisterArea'
-          minLength={8} maxLength={64}
-        />
-        <div className='connectionButon' onClick={handleClickRegister}>
-          <span>
-            Register
-          </span>
-        </div>
+      <h1 className='titleRegisterArea'>
+        Register
+      </h1>
+      <input
+        type="email"
+        id="text-input"
+        value={textEmail}
+        onChange={handleTextChangeUser}
+        placeholder="Email"
+        className='emailRegisterArea'
+        minLength={8} maxLength={128}
+      />
+      <input
+        type="password"
+        id="text-input"
+        value={textPassWord}
+        onChange={handleTextChangePassWord}
+        placeholder="Password"
+        className='passwordRegisterArea'
+        minLength={8} maxLength={64}
+      />
+      <div className='connectionButon' onClick={handleClickRegister}>
+        <span>
+          Register
+        </span>
+      </div>
 
-        <GoogleButton />
+      <GoogleButton />
 
-        <Link to="/" className='registerButon'>
-          Login
-        </Link>
+      <Link to="/" className='registerButon'>
+        Login
+      </Link>
     </div>
   );
 }
