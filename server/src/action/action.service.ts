@@ -61,7 +61,14 @@ export class ActionService {
         (s) => s.name === service.typeService,
       );
       if (actions != undefined) {
-        allActions.push(...actions.actions);
+        for (const action of actions.actions) {
+          const newAction: ActionDescriptionDto = {
+            name: action.name,
+            description: action.description,
+            typeService: service.typeService,
+          };
+          allActions.push(newAction);
+        }
       }
     }
     return allActions;
