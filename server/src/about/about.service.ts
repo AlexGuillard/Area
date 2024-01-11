@@ -55,12 +55,20 @@ export class AboutService {
           {
             name: 'DISCORD',
             actions: [
+              {
+                name: 'NewMessage',
+                description: 'trigger reaction when a new message appear on a channel',
+              },
             ],
             reactions: [
               {
                 name: 'sendMessageDiscord',
                 description: 'send a message on a channel',
-              }
+              },
+              {
+                name: 'send message user',
+                description: 'send a message to a user',
+              },
             ],
           },
           {
