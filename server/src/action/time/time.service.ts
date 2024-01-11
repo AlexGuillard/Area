@@ -30,7 +30,8 @@ export class TimeService {
         let saveParams = action.saveParams as unknown as TimeDto;
         const stringDate = await this.getTime();
         const date = new Date(stringDate).getMinutes();
-        if (saveParams.MinutesTime === undefined) {
+        if (saveParams == null) {
+            saveParams = new TimeDto();
             saveParams.MinutesTime = date;
         }
         if (date === structInfo.MinutesTime && saveParams.MinutesTime !== structInfo.MinutesTime) {
