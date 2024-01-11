@@ -19,6 +19,7 @@ enum ServiceType {
   MICROSOFT
   TWITCH
   TIME
+  WEATHER
 }
 
 model User {
