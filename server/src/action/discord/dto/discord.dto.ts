@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class DiscordSendMessageDto {
+export class DiscordMessagesDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
@@ -11,21 +11,10 @@ export class DiscordSendMessageDto {
   @IsNotEmpty()
   @IsString()
   name_channel: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  content: string;
 }
 
-export class DiscordSendMessageUserDto {
+export class LastMessageDto {
   @ApiProperty()
-  @IsNotEmpty()
   @IsString()
-  id_user: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  content: string;
+  last_message_id: number;
 }
