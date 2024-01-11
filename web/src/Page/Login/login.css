@@ -52,10 +52,11 @@
     color: #E5E1E6;
 }
 
-/* create transition for button ease out */
-
-
 .registerButon {
     color: #E5E1E6;
-    font-size: 10px; 
+    font-size: 10px;
+}
+
+.titleLoginArea {
+    color: #E5E1E6;
 }
