@@ -5,10 +5,11 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { MeService } from '../me/me.service';
 import { AboutService } from '../about/about.service';
 import { DiscordModule } from './discord/discord.module';
+import { GithubModule } from './github/github.module';
 
 @Global()
 @Module({
-  imports: [PrismaModule, DiscordModule],
+  imports: [PrismaModule, DiscordModule, GithubModule],
   providers: [ActionService, MeService, AboutService],
   controllers: [ActionController],
   exports: [ActionService],
