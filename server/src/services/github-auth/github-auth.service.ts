@@ -1,33 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Res } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ServiceType } from '@prisma/client';
-import { ForbiddenException } from '@nestjs/common';
+import { ForbiddenException, Request } from '@nestjs/common';
 import { GithubDto } from './dto/github.dto';
 
 @Injectable()
 export class GithubAuthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor() {}
 
-  async handleGithubAuthCallback(user: any): Promise<void> {
-    const githubOAuthDto = this.mapToGithubDto(user);
+  async handleGithubAuthCallback(@Request() req: any, @Res() response: any) {
+    try {
+      const accessToken = req.user.accessToken;
+      const refreshToken = req.user.refreshToken;
 
-    const userDB = await this.prisma.user.findUnique({
-      where: {
-        email: githubOAuthDto._json.email,
-      },
-    });
-
-    if (!userDB) {
-      throw new ForbiddenException('Mail not found while creating Github service');
+      response.cookie('tokenService', accessToken);
+      response.cookie('RefreshToken', refreshToken);
+      response.cookie('ServiceType', ServiceType.GITHUB);
+      response.redirect(`${process.env.WEB_URL}/ServicesConnexion`);
+    } catch (error) {
+      // Handle errors appropriately
+      console.error(error);
+      response.status(500).send('Internal Server Error');
     }
-
-    await this.prisma.services.create({
-      data: {
-        token: githubOAuthDto.accessToken,
-        typeService: ServiceType.GITHUB,
-        userId: userDB.id,
-      },
-    });
   }
 
   private mapToGithubDto(user: any): GithubDto {
