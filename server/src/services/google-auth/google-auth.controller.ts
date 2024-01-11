@@ -23,28 +23,7 @@ export class GoogleAuthController {
   @ApiOperation({
     summary: 'Google Auth Redirect',
   })
-  async googleAuthRedirect(@Request() req, @Res() res) {
-    const token = await this.appService.googleLogin(req);
-
-    const user = await this.prisma.user.findUnique({
-      where: {
-        email: token.user.email,
-      },
-    });
-
-    if (!user) {
-      throw new ForbiddenException('mail not found while creating Google service');
-    }
-
-    await this.prisma.services.create({
-      data: {
-        token: token.user.refreshToken,
-        typeService: ServiceType.GOOGLE,
-        userId: user.id,
-      },
-    });
-
-    // return token;
-    return res.redirect(`${process.env.WEB_URL}/Area`);
+  async googleAuthRedirect(@Request() req: any, @Res() res: any) {
+    this.appService.googleLogin(req, res);
   }
 }
