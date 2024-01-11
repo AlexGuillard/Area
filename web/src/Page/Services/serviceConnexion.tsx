@@ -10,45 +10,38 @@ function ServicesConnexion() {
   const [storedTokenService, setstoredTokenService] = useState(Cookies.get('tokenService'));
   const [storedServiceType, setstoredServiceType] = useState(Cookies.get('ServiceType'));
 
-  useEffect(() => {
-    console.log(Cookies.get('tokenService'))
+  const registerService = async () => {
     const storedToken = Cookies.get('token');
-    if (storedToken == null)
-      navigate("/")
-    const storedTokenService = Cookies.get('tokenService');
-    const storedRefreshTokenService = Cookies.get('RefreshToken');
-    const storedServiceType = Cookies.get('ServiceType');
     const data = {
-        token: storedTokenService,
-        refresh_token: storedRefreshTokenService,
-        typeService: storedServiceType,
+      token: storedTokenService,
+      refresh_token: storedRefreshTokenService,
+      typeService: storedServiceType,
     }
-    // axios
-    //   .get(process.env.REACT_APP_SERVER_URL + 'services/discord/callback', {
-    //     withCredentials: true,
-    //   })
-    //   .then(() => {
-    //     console.log("cookie " + Cookies.attributes)
-    //     setstoredRefreshTokenService(Cookies.get('RefreshToken'))
-    //     setstoredTokenService(Cookies.get('tokenService'))
-    //     setstoredServiceType(Cookies.get('ServiceType'))
-    //   })
-    //   .catch(error => {
-    //     console.error("error here " + error.data);
-    //   });
-    axios
-      .post(process.env.REACT_APP_SERVER_URL + '/connexion', data, {
+    await axios
+      .post(process.env.REACT_APP_SERVER_URL + '/services/connexion', data, {
         headers: {
-            randomToken: storedToken,
+          token: storedToken,
         },
       }) 
       .then(() => {
         navigate("/Area")
       })
       .catch(error => {
+        console.error("error at services/connexion");
         console.error(error.data);
+        navigate("/Area")
       });
-  }, [navigate]);
+  }
+
+  useEffect(() => {
+    const storedToken = Cookies.get('token');
+    if (storedToken == null)
+      navigate("/")
+    setstoredRefreshTokenService(Cookies.get('RefreshToken'))
+    setstoredTokenService(Cookies.get('tokenService'))
+    setstoredServiceType(Cookies.get('ServiceType'))
+    registerService();
+  }, []);
 
   return (
     <div>

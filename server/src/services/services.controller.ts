@@ -4,11 +4,11 @@ import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ServiceDto } from './dto';
 
 @ApiTags('services')
-@Controller(':token/')
+@Controller('services')
 export class ServicesController {
   constructor(private servicesService: ServicesService) {}
 
-  @Get('services')
+  @Get()
   @ApiParam({
     name: 'token',
     required: true,
@@ -21,12 +21,12 @@ export class ServicesController {
     status: 200,
     description: 'Return every services of the connected user',
   })
-  getServices(@Param('token') token: string) {
+  getServices(@Headers('token') token: string) {
     return this.servicesService.getServices(token);
   }
 
   @Post("connexion")
-  connexionService(@Headers('randomToken') randomToken: string, @Body() body: ServiceDto) {
+  connexionService(@Headers('token') randomToken: string, @Body() body: ServiceDto) {
     return this.servicesService.connexionService(randomToken, body);
   }
 }

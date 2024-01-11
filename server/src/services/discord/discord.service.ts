@@ -11,9 +11,9 @@ export class DiscordService {
       const accessToken = req.user.accessToken;
       const refreshToken = req.user.refreshToken;
 
-      response.cookie('tokenService', accessToken, { maxAge: 900000, httpOnly: true, sameSite: 'strict' });
-      response.cookie('RefreshToken', refreshToken, { maxAge: 900000, httpOnly: true, sameSite: 'strict' });
-      response.cookie('ServiceType', ServiceType.DISCORD, { maxAge: 900000, httpOnly: true, sameSite: 'strict' });
+      response.cookie('tokenService', accessToken);
+      response.cookie('RefreshToken', refreshToken);
+      response.cookie('ServiceType', ServiceType.DISCORD);
       response.redirect(`${process.env.WEB_URL}/ServicesConnexion`);
     } catch (error) {
       // Handle errors appropriately
