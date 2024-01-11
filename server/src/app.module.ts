@@ -14,6 +14,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ReactionModule } from './reaction/reaction.module';
 import { TimeModule } from './action/time/time.module';
 import { SpotifyAuthModule } from './services/spotify-auth/spotify-auth.module';
+import { SpotifyModule } from './action/spotify/spotify.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { SpotifyAuthModule } from './services/spotify-auth/spotify-auth.module';
     }),
     ReactionModule,
     SpotifyAuthModule,
+    SpotifyModule,
   ],
   controllers: [],
 })

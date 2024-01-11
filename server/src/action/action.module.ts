@@ -6,11 +6,12 @@ import { MeService } from '../me/me.service';
 import { AboutService } from '../about/about.service';
 import { DiscordModule } from './discord/discord.module';
 import { GithubModule } from './github/github.module';
+import { SpotifyModule } from './spotify/spotify.module';
 import { OpenweatherModule } from './openweather/openweather.module';
 
 @Global()
 @Module({
-  imports: [PrismaModule, DiscordModule, GithubModule, OpenweatherModule],
+  imports: [PrismaModule, DiscordModule, GithubModule, SpotifyModule, OpenweatherModule],
   providers: [ActionService, MeService, AboutService],
   controllers: [ActionController],
   exports: [ActionService],
