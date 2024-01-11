@@ -1,31 +1,31 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, Param, Post, Put } from '@nestjs/common';
 import { AreaService } from './area.service';
 import { NewAreaDto } from './dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('areas')
-@Controller(':token/')
+@Controller('areas')
 export class AreaController {
   constructor(private areaService: AreaService) {}
 
-  @Get('areas')
-  getAreas(@Param('token') token: string) {
+  @Get()
+  getAreas(@Headers('token') token: string) {
     return this.areaService.getAreas(token);
   }
-  @Get('areas/:id')
-  getArea(@Param('token') token: string, @Param('id') id: string) {
+  @Get(':id')
+  getArea(@Headers('token') token: string, @Param('id') id: string) {
     return this.areaService.getArea(token, id);
   }
-  @Post('areas')
-  setAreas(@Param('token') token: string, @Body() body: NewAreaDto) {
+  @Post()
+  setAreas(@Headers('token') token: string, @Body() body: NewAreaDto) {
     return this.areaService.setAreas(token, body);
   }
-  @Delete('areas/:id')
-  deleteArea(@Param('token') token: string, @Param('id') id: string) {
+  @Delete(':id')
+  deleteArea(@Headers('token') token: string, @Param('id') id: string) {
     return this.areaService.deleteArea(token, id);
   }
-  @Put('areas/:id')
-  changeArea(@Param('token') token: string, @Param('id') id: string, @Body() body: NewAreaDto) {
+  @Put(':id')
+  changeArea(@Headers('token') token: string, @Param('id') id: string, @Body() body: NewAreaDto) {
     return this.areaService.changeArea(token, id, body);
   }
 }
