@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SpotifyArtistNameDto } from './dto/spotify.dto';
+import { SpotifyArtistNameDto, SpotifyMusicDto } from './dto/spotify.dto';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { AxiosResponse } from 'axios';
 import axios from 'axios';
@@ -81,8 +81,6 @@ export class SpotifyService {
 
         const accessToken = await this.getAccessToken(userId.id);
 
-        //TODO use the refresh token to create access token
-
         const endPoint = `${this.spotifyApiBaseUrl}/me/following?type=artist&ids=${artistId.id}`;
         const headers = {
             Authorization: `Bearer ${accessToken}`,
@@ -101,6 +99,125 @@ export class SpotifyService {
         } catch (error) {
             console.log(error);
             throw new Error('Artist not followed');
+        }
+    }
+
+    @OnEvent('unFollowArtistSpotify')
+    async unFollowArtist(artistId: SpotifyArtistNameDto, randomToken: string) {
+
+        const userId = await this.prismaService.user.findFirst({
+            where: {
+              randomToken: randomToken,
+            },
+          });
+
+        if (!userId) {
+          throw new Error('User not found, or Spotify services not configured');
+        }
+
+        const accessToken = await this.getAccessToken(userId.id);
+
+        const endPoint = `${this.spotifyApiBaseUrl}/me/following?type=artist&ids=${artistId.id}`;
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+        };
+
+        try {
+            const response: AxiosResponse = await axios.delete(endPoint, { headers });
+
+            if (response.status === 204) {
+                console.log('Artist followed');
+                return true;
+            } else {
+                console.log('Artist not followed');
+                throw new Error('Artist not followed');
+            }
+        } catch (error) {
+            console.log(error);
+            throw new Error('Artist not followed');
+        }
+    }
+
+
+    @OnEvent('likeMusic')
+    async likeMusic(musicId: SpotifyMusicDto, randomToken: string) {
+        
+        const userId = await this.prismaService.user.findFirst({
+            where: {
+              randomToken: randomToken,
+            },
+          });
+
+        if (!userId) {
+          throw new Error('User not found, or Spotify services not configured');
+        }
+
+        const accessToken = await this.getAccessToken(userId.id);
+
+        const endPoint = `${this.spotifyApiBaseUrl}/me/tracks`;
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        };
+
+        const body = {
+            ids: [musicId.id]
+        }
+
+        try {
+            const response: AxiosResponse = await axios.put(endPoint, body, { headers });
+
+            if (response.status === 200) {
+                console.log('Track liked');
+                return true;
+            } else {
+                console.log('Track not liked');
+                throw new Error('Track not liked');
+            }
+        } catch (error) {
+            console.log(error);
+            throw new Error('Track not liked');
+        }
+    }
+
+    @OnEvent('unLikeMusic')
+    async unLikeMusic(musicId: SpotifyMusicDto, randomToken: string) {
+        
+        const userId = await this.prismaService.user.findFirst({
+            where: {
+              randomToken: randomToken,
+            },
+          });
+
+        if (!userId) {
+          throw new Error('User not found, or Spotify services not configured');
+        }
+
+        const accessToken = await this.getAccessToken(userId.id);
+
+        const endPoint = `${this.spotifyApiBaseUrl}/me/tracks`;
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        };
+
+        const body = {
+            ids: [musicId.id]
+        }
+
+        try {
+            const response: AxiosResponse = await axios.delete(endPoint, { headers, data: body });
+
+            if (response.status === 200) {
+                console.log('Track liked');
+                return true;
+            } else {
+                console.log('Track not liked');
+                throw new Error('Track not liked');
+            }
+        } catch (error) {
+            console.log(error);
+            throw new Error('Track not liked');
         }
     }
 
