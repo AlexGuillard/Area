@@ -76,6 +76,18 @@ export class AboutService {
                 name: 'followArtistSpotify',
                 description: 'follow an artist on spotify with his id',
               },
+              {
+                name: 'unFollowArtistSpotify',
+                description: 'unfollow an artist on spotify with his id',
+              },
+              {
+                name: 'likeMusic',
+                description: 'like a song on spotify with his id',
+              },
+              {
+                name: 'unLikeMusic',
+                description: 'unlike a song on spotify with his id',
+              },
             ],
           },
         ],
