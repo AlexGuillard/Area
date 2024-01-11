@@ -1,6 +1,6 @@
 import { Controller, Get, Headers } from '@nestjs/common';
 import { MeService } from './me.service';
-import { ApiHeader, ApiParam } from '@nestjs/swagger';
+import { ApiHeader } from '@nestjs/swagger';
 
 @Controller('me')
 export class MeController {
