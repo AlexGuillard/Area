@@ -24,7 +24,7 @@ export class SpotifyOauthStrategy extends PassportStrategy(
     profile: Profile,
     done: VerifyCallback,
   ): Promise<any> {
-    const { id, displayName, photos } = profile;
+    const { id, displayName } = profile;
     const user = {
       spotifyId: id,
       displayName,
