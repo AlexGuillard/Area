@@ -17,7 +17,6 @@ export class GithubAuthService {
       response.cookie('ServiceType', ServiceType.GITHUB);
       response.redirect(`${process.env.WEB_URL}/ServicesConnexion`);
     } catch (error) {
-      // Handle errors appropriately
       console.error(error);
       response.status(500).send('Internal Server Error');
       response.redirect(`${process.env.WEB_URL}/Area`);
