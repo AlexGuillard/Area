@@ -10,6 +10,11 @@
     flex-direction: column;
 }
 
+.serviceCard:hover {
+    background-color: #B3B0C9;
+    cursor: pointer;
+}
+
 .serviceCardHeader {
     display: flex;
     gap: 75px;
