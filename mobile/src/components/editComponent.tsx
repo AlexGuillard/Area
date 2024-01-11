@@ -14,7 +14,8 @@ interface editProps {
   nameReaction: string;
 }
 import axios from 'axios';
-import { useAuth } from 'src/context/UserContext';
+import { useAuth } from '../context/UserContext';
+import { palette } from '../constants/Palette.ts';
 
 function EditComponent(props: editProps) {
   interface AreaItem {
@@ -303,7 +304,7 @@ const styles = StyleSheet.create({
   },
   editComponentActionListArea: {
     position: 'absolute',
-    backgroundColor: 'var(--secondary-container)',
+    backgroundColor: palette.secondaryContainer,
     top: 154,
     width: '46%',
     borderWidth: 1,
@@ -341,7 +342,7 @@ const styles = StyleSheet.create({
   },
   editComponentReactionListArea: {
     position: 'absolute',
-    backgroundColor: 'var(--secondary-container)',
+    backgroundColor: palette.secondaryContainer,
     top: 246,
     width: '46%',
     borderWidth: 1,

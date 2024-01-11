@@ -7,9 +7,13 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  Switch,
+  Pressable
 } from 'react-native';
 import axios from 'axios';
-import { useAuth } from 'src/context/UserContext';
+import { useAuth } from '../context/UserContext';
+import { palette } from '../constants/Palette.ts';
+import { white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 const AddComponent = () => {
 
@@ -97,7 +101,7 @@ const AddComponent = () => {
       setShowListReaction(false)
     };
 
-    const handleParamActionChange = (event: string, nameParam: string) => {
+    const handleParamActionChange = (event: string | number | boolean, nameParam: string) => {
       const updatedList = listParamAction.map(param => {
         if (param.nameParam === nameParam) {
           return {
@@ -188,6 +192,110 @@ const AddComponent = () => {
 
   return (
     <View style={styles.addComponent}>
+      <View style={styles.addComponentBody}>
+        <Text style={styles.addComponentTitle}>Create Area</Text>
+        <TextInput
+          style={styles.addComponentNameInput}
+          onChangeText={handleNameAreaChange}
+          value={nameArea}
+          placeholder="Area name"
+          inputMode='text'
+        />
+        <View style={styles.addComponentActionInput}>
+          <Text style={styles.addComponentActionTitle}>{selectedAction}</Text>
+          <View style={styles.addComponentActionLine} />
+          <Image
+            style={styles.addComponentActionButton}
+            source={require('../../assets/SelectInput.png')}
+          />
+          {showlistAction && (
+          <FlatList
+            style={styles.addComponentActionListArea}
+            data={listAction}
+            keyExtractor={(item) => item}
+            renderItem={({item}) => (
+              <TouchableOpacity
+                style={styles.addComponentActionList}
+                onPress={() => handleActionAreaChange(item)}>
+                <Text>{item}</Text>
+              </TouchableOpacity>
+            )}
+          />
+        )}
+        </View>
+        {listParamAction && (
+        <FlatList
+          data={listParamAction}
+          style={styles.addComponentParamArea}
+          keyExtractor={(item) => item.nameParam}
+          renderItem={({ item }) => (
+            <View key={item.nameParam}>
+              {item.typeParam === 'string' && (
+                <TextInput
+                  style={styles.addComponentParamInput}
+                  value={item.param}
+                  onChangeText={(text) => handleParamActionChange(text, item.nameParam)}
+                  placeholder={item.nameParam}
+                  inputMode='text'
+                />
+              )}
+              {item.typeParam === 'number' && (
+                <TextInput
+                  style={styles.addComponentParamInput}
+                  value={item.param}
+                  onChangeText={(text) => handleParamActionChange(text, item.nameParam)}
+                  keyboardType="numeric"
+                  placeholder={item.nameParam}
+                  inputMode='numeric'
+                />
+              )}
+              {item.typeParam === 'boolean' && (
+                <Switch
+                  value={item.param}
+                  onValueChange={(value) => handleParamActionChange(value, item.nameParam)}
+                />
+              )}
+            </View>
+          )}
+        />
+      )}
+        <View>
+          <Pressable onPress={handleClickReactionList} style={styles.addComponentReactionInput}>
+          <Text style={styles.addComponentReactionTitle}>{selectedReaction}</Text>
+          <View style={styles.addComponentReactionLine} />
+            <Image
+              style={styles.addComponentReactionButton}
+              source={require('../../assets/SelectInput.png')}
+            />
+          </Pressable>
+          {showlistReaction && (
+            <FlatList
+             style={styles.addComponentReactionListArea}
+              data={listReaction}
+              renderItem={({item}) => (
+                <TouchableOpacity
+                  style={styles.addComponentReactionList}
+                  onPress={() => handleReactionAreaChange(item)}>
+                  <Text>{item}</Text>
+                </TouchableOpacity>
+              )}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          )}
+        </View>
+        {listParamReaction.map(param => (
+          <TextInput
+            key={param.nameParam}
+            style={styles.addComponentParamInput}
+            onChangeText={text => handleParamReactionChange(text, param.nameParam)}
+            value={param.param}
+            placeholder={param.nameParam}
+          />
+        ))}
+        </View>
+        <TouchableOpacity style={styles.addComponentButton} onPress={handleCreateArea}>
+          <Text style={styles.addComponentButtonText}>Create</Text>
+        </TouchableOpacity>
     </View>
   );
 };
@@ -196,14 +304,17 @@ export default AddComponent;
 
 const styles = StyleSheet.create({
   addComponent: {
+    display: 'flex',
     flex: 1,
+    position: 'absolute',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    // height: 500,
   },
   addComponentBody: {
     width: 325,
-    height: 410,
+    height: '80%',
     backgroundColor: '#C7C4DC',
     borderRadius: 16,
     flexDirection: 'column',
@@ -215,7 +326,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   addComponentNameInput: {
-    marginTop: 40,
+    marginTop: 10,
     height: 50,
     width: 280,
     backgroundColor: '#C5C0FF',
@@ -227,61 +338,104 @@ const styles = StyleSheet.create({
     paddingLeft: 18,
   },
   addComponentActionInput: {
-    marginTop: 20,
+    marginTop: 30,
+    marginBottom: 0,
     width: 300,
     height: 62,
     borderRadius: 16,
     backgroundColor: '#464559',
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  addComponentActionTitle: {
+    flexGrow: 1,
+    color: 'white',
+    textAlign: 'center',
+    marginRight: -45,
   },
   addComponentActionLine: {
     width: 1,
     height: 62,
     backgroundColor: '#000',
-    position: 'absolute',
-    left: 260,
   },
   addComponentActionButton: {
+    marginHorizontal: 10,
+  },
+  addComponentActionListArea: {
     position: 'absolute',
-    left: 275,
+    backgroundColor: palette.secondaryContainer,
+    top: 154,
+    width: '10%',
+    borderWidth: 1,
+    borderColor: '#000',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 16,
+    borderBottomLeftRadius: 16,
+    paddingTop: 10,
+    paddingBottom: 20,
+    marginTop: 30,
+    //width: 175???
   },
   addComponentActionList: {
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    color: '#000',
+    marginTop: 10,
   },
   addComponentReactionInput: {
-    marginTop: 30,
+    marginTop: 0,
+    marginBottom: 30,
     width: 300,
     height: 62,
     borderRadius: 16,
     backgroundColor: '#464559',
-    flexDirection: 'row',
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  addComponentReactionTitle: {
+    flexGrow: 1,
+    textAlign: 'center',
+    marginRight: -45,
+    color: 'white',
   },
   addComponentReactionLine: {
     width: 1,
     height: 62,
     backgroundColor: '#000',
-    position: 'absolute',
-    left: 260,
   },
   addComponentReactionButton: {
+    marginRight: 10,
+    marginLeft: 10,
+  },
+  addComponentReactionListArea: {
     position: 'absolute',
-    left: 275,
+    backgroundColor: palette.secondaryContainer,
+    top: 246,
+    width: '10%',
+    borderWidth: 1,
+    borderColor: '#000',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 16,
+    borderBottomLeftRadius: 16,
+    paddingTop: 10,
+    paddingBottom: 20,
+    marginTop: 50,
+    zIndex: 1,
+    //width: 175???
   },
   addComponentReactionList: {
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    color: '#000',
+    marginTop: 10,
+  },
+  addComponentParamArea: {
+    marginTop: 30,
+    marginBottom: 10,
   },
   addComponentParamInput: {
     marginTop: 15,
-    height: 44,
-    width: 262,
+    height: 35,
+    width: 250,
     backgroundColor: '#C5C0FF',
     borderWidth: 2,
     borderColor: '#423B8E',
@@ -294,6 +448,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
     borderRadius: 16,
     backgroundColor: '#464559',
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     width: 222,
