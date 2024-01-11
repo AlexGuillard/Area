@@ -12,7 +12,7 @@ export class OpenweatherService {
     ) {
         this.eventEmitter.on("Weather.struct", (struct: OpenweatherDto) => {
             struct.city = "Nantes";
-            struct.operation = true;
+            struct.superior = true;
             struct.temperature = 20;
         })
     }
@@ -23,10 +23,10 @@ export class OpenweatherService {
             const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${struct.city}&appid=${process.env.OPENWEATHER_API_KEY}&units=metric&lang=fr`);
             const  weatherData = response.data;
             
-            if (struct.operation && weatherData.main.temp > struct.temperature) {
+            if (struct.superior && weatherData.main.temp > struct.temperature) {
                 console.log("superior");
                 this.actionService.executeReaction('Weather', actionId);
-            } else if (!struct.operation && weatherData.main.temp < struct.temperature) {
+            } else if (!struct.superior && weatherData.main.temp < struct.temperature) {
                 console.log("inferior");
                 this.actionService.executeReaction('Weather', actionId);
             } else {
