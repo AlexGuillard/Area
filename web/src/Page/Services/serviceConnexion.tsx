@@ -42,7 +42,7 @@ function ServicesConnexion() {
     setstoredTokenService(Cookies.get('tokenService'))
     setstoredServiceType(Cookies.get('ServiceType'))
     registerServiceCallback()
-  }, [navigate]);
+  }, [navigate, registerServiceCallback]);
 
   return (
     <div>
