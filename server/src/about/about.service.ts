@@ -15,13 +15,17 @@ export class AboutService {
             name: 'GITHUB',
             actions: [
               {
-                name: 'getRepositories',
-                description: 'Get a list of repositories for a user',
+                name: 'NewIssue',
+                description: 'Check if a new issue has been created in a repository',
+              },
+              {
+                name: 'NewCommit',
+                description: 'Check if a new commit has been made in a repository',
               },
             ],
             reactions: [
               {
-                name: 'createIssue',
+                name: 'CreateIssue',
                 description: 'Create an issue in a repository',
               },
             ],
