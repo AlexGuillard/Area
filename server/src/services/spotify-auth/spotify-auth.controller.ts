@@ -3,7 +3,9 @@ import { Response } from 'express';
 import { SpotifyOauthGuard } from './spotify-oauth.guard';
 import { Profile } from 'passport-spotify';
 import { SpotifyAuthService } from './spotify-auth.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('services')
 @Controller('auth/spotify')
 export class SpotifyAuthController {
   constructor(private readonly authService: SpotifyAuthService) {}
