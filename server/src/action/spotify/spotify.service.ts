@@ -25,9 +25,6 @@ export class SpotifyService {
 
         const serviceId = await this.actionService.getServiceActions(actionId);
 
-
-        console.log("this is the service id", (await serviceId).id);
-
         const userToken = await this.prisma.services.findFirst({
             where: {
                 id: (await serviceId).id,
@@ -35,16 +32,11 @@ export class SpotifyService {
             },
         });
 
-        console.log("this is the user token", userToken);
-
         if (!userToken) {
             throw new ForbiddenException("User doesn't have a Spotify token");
         }
 
-        console.log(userToken);
-
         try {
-            console.log("the baseurl is:", `${this.spotifyApiBaseUrl}/me/player`)
             const response = await axios.get(`${this.spotifyApiBaseUrl}/me/player`, {
                 headers: {
                     Authorization: `Bearer ${userToken.token}`,
@@ -52,8 +44,6 @@ export class SpotifyService {
             });
 
             const playbackState = response.data;
-
-            console.log("this is the playback", playbackState);
 
             if (playbackState.is_playing && structInfo.is_playing) {
                 console.log('User is playing something and want to execute something');
