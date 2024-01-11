@@ -28,7 +28,14 @@ export class ReactionService {
         (s) => s.name === service.typeService,
       );
       if (reactions != undefined) {
-        allReactions.push(...reactions.reactions);
+        for (const action of reactions.reactions) {
+          const newAction: ReactionDescriptionDto = {
+            name: action.name,
+            description: action.description,
+            typeService: service.typeService,
+          };
+          allReactions.push(newAction);
+        }
       }
     }
     return allReactions;
