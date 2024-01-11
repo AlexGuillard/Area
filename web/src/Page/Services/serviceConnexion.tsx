@@ -45,9 +45,6 @@ function ServicesConnexion() {
 
   return (
     <div>
-      <p>storedTokenService: { storedTokenService }</p>
-      <p>storedRefreshTokenService: { storedRefreshTokenService }</p>
-      <p>storedServiceType: { storedServiceType }</p>
     </div>
   );
 }
