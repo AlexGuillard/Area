@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SpotifyService } from './spotify.service';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaModule } from '../../prisma/prisma.module';
 
 @Module({
     imports: [PrismaModule],
