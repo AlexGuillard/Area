@@ -1,6 +1,6 @@
 import { Controller, Get, Headers, Body, Post } from '@nestjs/common';
 import { ServicesService } from './services.service';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ServiceDto } from './dto';
 
 @ApiTags('services')
@@ -9,7 +9,7 @@ export class ServicesController {
   constructor(private servicesService: ServicesService) {}
 
   @Get()
-  @ApiParam({
+  @ApiHeader({
     name: 'token',
     required: true,
     description: 'Token of the user',
