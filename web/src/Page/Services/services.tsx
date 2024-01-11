@@ -27,7 +27,11 @@ function Services() {
 
   const handleCallServicesList = () => {
     const storedToken = Cookies.get('token');
-    axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/services")
+    axios.get(process.env.REACT_APP_SERVER_URL + "/services", {
+      headers: {
+        token: storedToken,
+      }
+    })
       .then(response => {
         setListServices(response.data)
       })
@@ -38,6 +42,9 @@ function Services() {
 
 
   useEffect(() => {
+    document.cookie = "tokenService=testservice; samesite=strict";
+    document.cookie = "RefreshToken=testRefreshToken; samesite=strict";
+    document.cookie = "ServiceType=testServiceType; samesite=strict";
     const storedToken = Cookies.get('token');
     if (storedToken === "undefined")
       navigate("/")
