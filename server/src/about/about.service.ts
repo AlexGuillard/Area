@@ -57,6 +57,16 @@ export class AboutService {
             reactions: [],
           },
           {
+            name: 'WEATHER',
+            actions: [
+              {
+                name: 'Weather',
+                description: 'trigger reaction when the temperatures is superior or inferior to the one given in args, need a city',
+              },
+            ],
+            reactions: [],
+          },
+          {
             name: 'DISCORD',
             actions: [
               {
