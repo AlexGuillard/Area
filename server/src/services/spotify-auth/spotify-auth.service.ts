@@ -1,50 +1,24 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
-import { Profile } from 'passport-spotify';
-import { PrismaService } from '../../prisma/prisma.service';
+import { ForbiddenException, Injectable, Res, Request } from '@nestjs/common';
 import { SpotifyUserDto } from './dto';
 import { ServiceType } from '.prisma/client';
 
 @Injectable()
 export class SpotifyAuthService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor() {}
 
-  async handleSpotifyAuthCallback(user: Profile, authInfo: any) {
+  async handleSpotifyAuthCallback(@Request() req: any, @Res() response: any) {
+    try {
+      const accessToken = req.user.accessToken;
+      const refreshToken = req.user.refreshToken;
 
-    const userEmail = user.emails && user.emails.length > 0 ? user.emails[0].value : undefined;
-
-    const spotifyUserDto = new SpotifyUserDto({
-      provider: 'spotify',
-      id: user.id,
-      username: user.username,
-      displayName: user.displayName,
-      profileUrl: user.profileUrl,
-      photos: user.photos,
-      country: user.country,
-      followers: user.followers,
-      product: user.product,
-      email: userEmail,
-      accessToken: authInfo.accessToken,
-      refreshToken: authInfo.refreshToken,
-      expires_in: authInfo.expires_in,
-    });
-
-    const userDB = await this.prisma.user.findUnique({
-      where: {
-        email: spotifyUserDto.email,
-      },
-    });
-
-    if (!userDB) {
-      throw new ForbiddenException('Mail not found while creating Spotify service');
+      response.cookie('tokenService', accessToken);
+      response.cookie('RefreshToken', refreshToken);
+      response.cookie('ServiceType', ServiceType.SPOTIFY);
+      response.redirect(`${process.env.WEB_URL}/ServicesConnexion`);
+    } catch (error) {
+      // Handle errors appropriately
+      console.error(error);
+      response.status(500).send('Internal Server Error');
     }
-
-    await this.prisma.services.create({
-      data: {
-        token: spotifyUserDto.accessToken,
-        typeService: ServiceType.SPOTIFY,
-        userId: userDB.id,
-      },
-    });
-
   }
 }
