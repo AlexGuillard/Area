@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {IconButton} from 'react-native-paper';
-
+import { AuthProvider } from '../context/UserContext';
 import Login from './Login';
 import AreaPage from './AreaPage';
 import Service from './Service';
@@ -13,7 +13,8 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerStyle: styles.header,
@@ -44,6 +45,7 @@ const App = () => {
         <Stack.Screen name="Register" component={Register} />
       </Stack.Navigator>
     </NavigationContainer>
+    </AuthProvider>
   );
 };
 
