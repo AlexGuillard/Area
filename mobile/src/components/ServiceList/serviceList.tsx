@@ -1,135 +1,83 @@
 import React from 'react';
-import {Avatar} from 'react-native-elements';
-import {SafeAreaView, View, FlatList, StyleSheet, Text} from 'react-native';
-
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    image_url: 'https://picsum.photos/id/237/200/300',
-    userName: 'User 1',
-    status: 'Active',
-    serviceName: 'Service 1',
-  },
-  {
-    id: '41cabac8-9701-43e6-b862-45bb0ed222c9',
-    image_url: 'https://picsum.photos/id/237/200/300',
-    userName: 'User 2',
-    status: 'Active',
-    serviceName: 'Service 2',
-  },
-  {
-    id: '8eb6869c-9f08-11ee-8c90-0242ac120002',
-    image_url: 'https://picsum.photos/id/237/200/300',
-    userName: 'User 3',
-    status: 'Active',
-    serviceName: 'Service 3',
-  },
-  {
-    id: '92bbcbd0-9f08-11ee-8c90-0242ac120002',
-    image_url: 'https://picsum.photos/id/237/200/300',
-    userName: 'User 4',
-    status: 'Active',
-    serviceName: 'Service 4',
-  },
-  {
-    id: '980ed3fc-9f08-11ee-8c90-0242ac120002',
-    image_url: 'https://picsum.photos/id/237/200/300',
-    userName: 'User 5',
-    status: 'Active',
-    serviceName: 'Service 5',
-  },
-  {
-    id: '9b78d84e-9f08-11ee-8c90-0242ac120002',
-    image_url: 'https://picsum.photos/id/237/200/300',
-    userName: 'User 6',
-    status: 'Active',
-    serviceName: 'Service 6',
-  },
-];
+import {Avatar, Image} from 'react-native-elements';
+import {SafeAreaView, View, FlatList, StyleSheet, Text, TouchableOpacity, Linking} from 'react-native';
 
 type ServiceProps = {
   serviceName: string;
   status: string;
-  image_url: string;
+  image: any;
   userName: string;
+  link: string;
 };
 
-const ServiceCard = (props: ServiceProps) => {
-  return (
-    <View style={styles.card}>
-      <View style={styles.infoPart}>
-        <Text style={{fontSize: 20, color: 'black'}}>{props.serviceName}</Text>
-        <View style={{flex: 1}} />
-        <Text
-          style={{
-            marginLeft: 50,
-            fontSize: 10,
-            color: props.status === 'Active' ? 'green' : 'red',
-          }}>
-          {props.status}
-        </Text>
-      </View>
-      <View style={styles.userPart}>
-        <Avatar rounded size="large" source={{uri: props.image_url}} />
-        <Text style={styles.userNameText}>{props.userName}</Text>
-      </View>
-    </View>
-  );
-};
+const ServiceCard: React.FC<ServiceProps> = (props) => {
+  const handleSubmit = () => {
+    console.log('Formulaire soumis !');
+    Linking.openURL(props.link);
+  };
 
-const ServiceList = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={DATA}
-        renderItem={({item}) => (
-          <ServiceCard
-            serviceName={item.serviceName}
-            status={item.status}
-            image_url={item.image_url}
-            userName={item.userName}
-          />
-        )}
-        keyExtractor={item => item.id}
-      />
-    </SafeAreaView>
+    <TouchableOpacity style={styles.serviceCard} onPress={handleSubmit} accessibilityRole="button">
+      <View style={styles.serviceCardHeader}>
+        <Text style={styles.serviceCardName}>{props.serviceName}</Text>
+        <Text style={styles.serviceCardStatus}>{props.status}</Text>
+      </View>
+      <View style={styles.serviceCardBody}>
+        <Image style={styles.serviceLogo} source={props.image}/>
+        <Text style={styles.serviceCardUser}>{props.userName}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    width: '80%',
-  },
-  card: {
-    paddingHorizontal: 24,
-    borderRadius: 16,
-    padding: 10,
-    marginBottom: 20,
+  serviceCard: {
+    marginTop: 25,
+    paddingTop: '2%',
+    height: '17%',
+    width: '70%',
     backgroundColor: 'rgba(199, 196, 220, 1)',
+    borderRadius: 16,
+    display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignContent: 'center',
   },
-  infoPart: {
+
+  serviceCardHeader: {
+    display: 'flex',
     flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
   },
-  userPart: {
-    marginTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'center',
+
+  serviceCardName: {
+    fontSize: 20,
+    color: '#000000',
+    marginLeft: '10%'
+  },
+
+  serviceCardStatus: {
+    fontSize: 10,
+    marginLeft: 'auto',
+    marginRight: '10%',
+  },
+
+  serviceCardBody: {
+    display: 'flex',
     alignContent: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '85%'
   },
-  cardImage: {
-    width: 65,
-    height: 65,
-    borderRadius: 100,
-  },
-  userNameText: {
-    fontSize: 30,
+
+  serviceLogo: {
+    width: 50,
+    height: 52,
     marginLeft: 20,
-    color: 'black',
   },
+
+  serviceCardUser: {
+
+  }
 });
 
-export default ServiceList;
+export default ServiceCard;
