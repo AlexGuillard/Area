@@ -111,7 +111,6 @@ export class AuthService {
       });
 
       if (!existingUser) {
-        console.log('create new user');
         const hashpass = await argon.hash(uid(16));
         const newUser = await this.prisma.user.create({
           data: {
@@ -152,7 +151,6 @@ export class AuthService {
           updatedAt: newUser.updatedAt,
         };
       }
-      console.log('update existing user');
 
       const newRandomToken = uid(16);
       existingUser.randomToken = newRandomToken;
