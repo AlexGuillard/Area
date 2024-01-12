@@ -27,7 +27,7 @@ function GetIcon(type: string) {
   return iconMap[type]
 }
 
-function Add() {
+function Add(props: {refreshAreas: () => void, closeAddArea: () => void}) {
 
   interface ParamItem {
     nameParam: string;
@@ -203,6 +203,8 @@ function Add() {
       }
     })
     .then(response => {
+      props.refreshAreas();
+      props.closeAddArea();
     })
     .catch(error => {
       console.error(error);
