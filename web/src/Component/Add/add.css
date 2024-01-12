@@ -20,6 +20,12 @@
     overflow-y: scroll;
 }
 
+.addComponentListIcon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
 .addComponentTitle {
     font-size: 32px;
     color: #000;
@@ -75,6 +81,7 @@
     border-radius: 16px 0px 16px 16px;
     padding-top: 10px;
     padding-bottom: 20px;
+    padding-left: 10px;
     margin-top: 30px;
     width: 175px;
 }
@@ -126,6 +133,7 @@
     border-radius: 16px 0px 16px 16px;
     padding-top: 10px;
     padding-bottom: 20px;
+    padding-left: 10px;
     margin-top: 50px;
     width: 175px;
 }
