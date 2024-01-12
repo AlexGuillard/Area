@@ -81,7 +81,11 @@ function Add() {
       try {
         const storedToken = Cookies.get('token');
   
-        const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/actions/" + event);
+        const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/actions/" + event, {
+          headers: {
+            token: storedToken
+          }
+        });
   
         const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
   
@@ -112,7 +116,11 @@ function Add() {
       try {
         const storedToken = Cookies.get('token');
   
-        const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/reactions/" + event);
+        const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/reactions/" + event, {
+          headers: {
+            token: storedToken
+          }
+        });
   
         const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
   
@@ -164,7 +172,6 @@ function Add() {
   
       setListParamReaction(updatedList);
     };
-
   const handleCreateArea = () => {
     for (var i = 0; i < listParamAction.length; i++) {
       if (listParamAction[i].typeParam === "number") {
@@ -190,7 +197,11 @@ function Add() {
       reactionParameter: modelParamReaction
     };
     const storedToken = Cookies.get('token');
-    axios.post(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/areas", data)
+    axios.post(process.env.REACT_APP_SERVER_URL + "/areas", data, {
+      headers: {
+        token: storedToken
+      }
+    })
     .then(response => {
     })
     .catch(error => {
@@ -201,9 +212,13 @@ function Add() {
   useEffect(() => {
     const handleCallActionList = () => {
       const storedToken = Cookies.get('token');
-      axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/actions")
+      axios.get(process.env.REACT_APP_SERVER_URL + "/actions", {
+        headers: {
+          token: storedToken
+        }
+      })
         .then(response => {
-          setListAction((prevState: Action [] | undefined) => [
+          setListAction((prevState: Action[] | undefined) => [
             ...(prevState || []),
             ...response.data.map((item: Action) => item)
           ]);
@@ -215,7 +230,11 @@ function Add() {
 
     const handleCallReactionList = () => {
       const storedToken = Cookies.get('token');
-      axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/reactions")
+      axios.get(process.env.REACT_APP_SERVER_URL + "/reactions", {
+        headers: {
+          token: storedToken
+        }
+      })
         .then(response => {
           setListReaction((prevState: Reaction[] | undefined) => [
             ...(prevState || []),
