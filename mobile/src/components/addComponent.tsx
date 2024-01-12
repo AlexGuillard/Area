@@ -13,7 +13,6 @@ import {
 import axios from 'axios';
 import { useAuth } from '../context/UserContext';
 import { palette } from '../constants/Palette.ts';
-import { white } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 const AddComponent = () => {
 
@@ -130,10 +129,11 @@ const AddComponent = () => {
   const handleCallActionList = () => {
     axios.get(process.env.REACT_APP_SERVER_URL + "/" + token + "/actions")
       .then(response => {
-        setListAction((prevState: string[] | undefined) => [
-          ...(prevState || []),
-          ...response.data.map((item: { name: string }) => item.name)
-        ]);
+        setListAction((prevState: string[] | undefined) => {
+          const newActions = response.data.map((item: { name: string }) => item.name);
+          const uniqueActions = new Set([...(prevState || []), ...newActions]);
+          return Array.from(uniqueActions);
+        });
       })
       .catch(error => {
         console.error(error);
@@ -143,10 +143,11 @@ const AddComponent = () => {
   const handleCallReactionList = () => {
     axios.get(process.env.REACT_APP_SERVER_URL + "/" + token + "/reactions")
       .then(response => {
-        setListReaction((prevState: string[] | undefined) => [
-          ...(prevState || []),
-          ...response.data.map((item: { name: string }) => item.name)
-        ]);
+        setListReaction((prevState: string[] | undefined) => {
+          const newActions = response.data.map((item: { name: string }) => item.name);
+          const uniqueActions = new Set([...(prevState || []), ...newActions]);
+          return Array.from(uniqueActions);
+        });
       })
       .catch(error => {
         console.error(error);
@@ -201,13 +202,15 @@ const AddComponent = () => {
           placeholder="Area name"
           inputMode='text'
         />
-        <View style={styles.addComponentActionInput}>
+        <View>
+         <Pressable onPress={handleClickActionList} style={styles.addComponentActionInput}>
           <Text style={styles.addComponentActionTitle}>{selectedAction}</Text>
           <View style={styles.addComponentActionLine} />
           <Image
             style={styles.addComponentActionButton}
             source={require('../../assets/SelectInput.png')}
           />
+          </Pressable>
           {showlistAction && (
           <FlatList
             style={styles.addComponentActionListArea}
@@ -283,15 +286,21 @@ const AddComponent = () => {
             />
           )}
         </View>
-        {listParamReaction.map(param => (
+        {listParamReaction &&  
+        <FlatList
+        data={listParamReaction}
+        style={styles.addComponentParamArea}
+        keyExtractor={(item) => item.nameParam}
+        renderItem={({ item }) => (
           <TextInput
-            key={param.nameParam}
+            key={item.nameParam}
             style={styles.addComponentParamInput}
-            onChangeText={text => handleParamReactionChange(text, param.nameParam)}
-            value={param.param}
-            placeholder={param.nameParam}
+            onChangeText={text => handleParamReactionChange(text, item.nameParam)}
+            value={item.param}
+            placeholder={item.nameParam}
           />
-        ))}
+        )}
+      />}
         </View>
         <TouchableOpacity style={styles.addComponentButton} onPress={handleCreateArea}>
           <Text style={styles.addComponentButtonText}>Create</Text>
@@ -310,11 +319,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    // height: 500,
   },
   addComponentBody: {
     width: 325,
-    height: '80%',
+    height: '90%',
     backgroundColor: '#C7C4DC',
     borderRadius: 16,
     flexDirection: 'column',
@@ -364,9 +372,9 @@ const styles = StyleSheet.create({
   },
   addComponentActionListArea: {
     position: 'absolute',
-    backgroundColor: palette.secondaryContainer,
-    top: 154,
-    width: '10%',
+    backgroundColor: 'white',
+    top: 0,
+    width: '50%',
     borderWidth: 1,
     borderColor: '#000',
     borderTopLeftRadius: 16,
@@ -375,6 +383,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 16,
     paddingTop: 10,
     paddingBottom: 20,
+    paddingHorizontal: 10,
     marginTop: 30,
     //width: 175???
   },
@@ -410,9 +419,9 @@ const styles = StyleSheet.create({
   },
   addComponentReactionListArea: {
     position: 'absolute',
-    backgroundColor: palette.secondaryContainer,
-    top: 246,
-    width: '10%',
+    backgroundColor: 'white',
+    top: 0,
+    width: '50%',
     borderWidth: 1,
     borderColor: '#000',
     borderTopLeftRadius: 16,
@@ -422,8 +431,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 20,
     marginTop: 50,
-    zIndex: 1,
-    //width: 175???
   },
   addComponentReactionList: {
     marginTop: 10,
