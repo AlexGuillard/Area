@@ -127,16 +127,21 @@ export class AuthService {
           },
         });
 
-        // Here filled with bad infos caus its another funcitonnality so on another branch
-        const service = await this.prisma.services.findUnique({
-          where: {
+        await this.prisma.services.create({
+          data: {
             userId: newUser.id,
-            token: newUser.randomToken, // bad token to change
-            typeService: ServiceType.GOOGLE,
+            typeService: ServiceType.TIME,
+            token: uid(16),
           },
         });
 
-        console.log(service);
+        await this.prisma.services.create({
+          data: {
+            userId: newUser.id,
+            typeService: ServiceType.WEATHER,
+            token: uid(16),
+          },
+        });
 
         return {
           user: {
