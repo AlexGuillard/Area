@@ -8,9 +8,11 @@ import { AboutService } from '../about/about.service';
 import { MailingModule } from './mailing/mailing.module';
 import { ConfigModule } from '@nestjs/config';
 import { DiscordModule } from './discord/discord.module';
+import { GithubModule } from './github/github.module';
+import { SpotifyModule } from './spotify/spotify.module';
 
 @Module({
-  imports: [HttpModule, PrismaModule, MailingModule, ConfigModule.forRoot(), DiscordModule],
+  imports: [HttpModule, PrismaModule, MailingModule, ConfigModule.forRoot(), DiscordModule, GithubModule, SpotifyModule],
   providers: [ReactionService, MeService, AboutService],
   controllers: [ReactionController],
 })

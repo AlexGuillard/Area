@@ -37,33 +37,36 @@ function Login() {
 
   return (
     <div className='loginPageBody'>
-        <input
-          type="email"
-          id="text-input"
-          value={textEmail}
-          onChange={handleTextChangeUser}
-          placeholder="Email"
-          className='emailLoginArea'
-          minLength={8} maxLength={128}
-        />
-        <input
-          type="password"
-          id="text-input"
-          value={textPassWord}
-          onChange={handleTextChangePassWord}
-          placeholder="Password"
-          className='passwordLoginArea'
-          minLength={8} maxLength={64}
-        />
-        <div className='connectionButon' onClick={handleClickConnection}>
-          <span>
-            Connection
-          </span>
-        </div>
-        <GoogleButton />
-        <Link to="/Register" className='registerButon'>
-          Register
-        </Link>
+      <h1 className='titleLoginArea'>
+        Login
+      </h1>
+      <input
+        type="email"
+        id="text-input"
+        value={textEmail}
+        onChange={handleTextChangeUser}
+        placeholder="Email"
+        className='emailLoginArea'
+        minLength={8} maxLength={128}
+      />
+      <input
+        type="password"
+        id="text-input"
+        value={textPassWord}
+        onChange={handleTextChangePassWord}
+        placeholder="Password"
+        className='passwordLoginArea'
+        minLength={8} maxLength={64}
+      />
+      <div className='connectionButon' onClick={handleClickConnection}>
+        <span>
+          Connection
+        </span>
+      </div>
+      <GoogleButton />
+      <Link to="/Register" className='registerButon'>
+        Register
+      </Link>
     </div>
   );
 }

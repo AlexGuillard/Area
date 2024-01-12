@@ -1,18 +1,18 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Headers } from '@nestjs/common';
 import { MeService } from './me.service';
-import { ApiParam } from '@nestjs/swagger';
+import { ApiHeader } from '@nestjs/swagger';
 
-@Controller(':token/')
+@Controller('me')
 export class MeController {
   constructor(private authService: MeService) {}
 
-  @Get('me')
-  @ApiParam({
+  @Get()
+  @ApiHeader({
     name: 'token',
     required: true,
     description: 'Token of the user',
   })
-  getMe(@Param('token') token: string) {
+  getMe(@Headers('token') token: string) {
     return this.authService.getMe(token);
   }
 }

@@ -21,6 +21,7 @@ GITHUB_CLIENT_SECRET=Your GITHUB_CLIENT_SECRET
 DISCORD_CLIENT_ID=Your DISCORD_CLIENT_ID
 DISCORD_CLIENT_SECRET=Your DISCORD_CLIENT_SECRET
 DISCORD_REDIRECT_URI=Your redirect url from the Redirects in the applications of Discord like 'services/discord/callback'
+DISCORD_BOT_TOKEN=Your DISCORD_BOT_TOKEN
 PGADMIN_DEFAULT_EMAIL=Email of the pgadmin user like 'admin@admin.com'
 PGADMIN_DEFAULT_PASSWORD=Password of the pgadmin user like '123'
 SPOTIFY_CLIENT_ID=Your SPOTIFY_CLIENT_ID
@@ -88,10 +89,8 @@ After that you can add a new server with the following informations:
 
 ### Setup
 
-/!\ This setup use free tier on [Oracle Cloud Infrastructure](cloud.oracle.com) /!\
-
 You need to have [Ansible](https://www.ansible.com/) installed on your computer.
-You also need to have a Compute instance on [Oracle Cloud Infrastructure](cloud.oracle.com) with Ampere A1 Compute shape with Oracle Linux 8.9 as operating system. (You should use all the ram and all OCPUs available for free tier (24GB and 4 OCPUs) to have a good performance). You also need to have a public IP address on this instance. (You can use the free tier to have a public IP address). You also need to register your ssh public key on the instance.
+You also need to have a Compute instance on [Oracle Cloud Infrastructure](cloud.oracle.com) with VM.Standard3.Flex (Intel) shape with Oracle Linux 8.9 as operating system (We currently use 2 OCPU with 10GB of memory and it works very well). You also need to have a public IP address on this instance. (You can use the free tier to have a public IP address). You also need to register your ssh public key on the instance.
 
 You need to create a `inventory` file like `inventory.example` file with corresponding informations:
 

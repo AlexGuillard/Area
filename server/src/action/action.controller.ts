@@ -1,18 +1,18 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Headers, Param } from '@nestjs/common';
 import { ActionService } from './action.service';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('actions')
-@Controller(':token/')
+@Controller('actions')
 export class ActionController {
   constructor(private authService: ActionService) {}
 
-  @Get('actions')
-  getActions(@Param('token') token: string) {
+  @Get()
+  getActions(@Headers('token') token: string) {
     return this.authService.getActions(token);
   }
-  @Get('actions/:nameAction')
-  getReactionInfo(@Param('token') token: string, @Param('nameAction') nameAction: string) {
+  @Get(':nameAction')
+  getReactionInfo(@Headers('token') token: string, @Param('nameAction') nameAction: string) {
     return this.authService.getActionInfo(token, nameAction);
   }
 }

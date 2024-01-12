@@ -69,7 +69,11 @@ function Edit(props: editProps) {
     try {
       const storedToken = Cookies.get('token');
 
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/actions/" + event);
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/actions/" + event, {
+        headers: {
+          token: storedToken
+        }
+      });
   
       const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
 
@@ -101,7 +105,11 @@ function Edit(props: editProps) {
     try {
       const storedToken = Cookies.get('token');
 
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/reactions/" + event);
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/reactions/" + event, {
+        headers: {
+          token: storedToken
+        }
+      });
 
       const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
 
@@ -155,7 +163,11 @@ function Edit(props: editProps) {
   const handleCallActionList = () => {
     setListAction([])
     const storedToken = Cookies.get('token');
-    axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/actions")
+    axios.get(process.env.REACT_APP_SERVER_URL + "/actions", {
+      headers: {
+        token: storedToken
+      }
+    })
       .then(response => {
         setListAction((prevState: string[] | undefined) => [
           ...(prevState || []),
@@ -170,7 +182,11 @@ function Edit(props: editProps) {
   const handleCallReactionList = () => {
     setListReaction([])
     const storedToken = Cookies.get('token');
-    axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/reactions")
+    axios.get(process.env.REACT_APP_SERVER_URL + "/reactions", {
+      headers: {
+        token: storedToken
+      }
+    })
       .then(response => {
         setListReaction((prevState: string[] | undefined) => [
           ...(prevState || []),
@@ -207,7 +223,11 @@ function Edit(props: editProps) {
       reactionParameter: modelParamReaction
     };
     const storedToken = Cookies.get('token');
-    axios.put(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/areas/" + props.name, data)
+    axios.put(process.env.REACT_APP_SERVER_URL + "/areas/" + props.name, data, {
+      headers: {
+        token: storedToken
+      }
+    })
     .then(response => {
     })
     .catch(error => {
@@ -218,7 +238,11 @@ function Edit(props: editProps) {
   const handleCallAreaInfo = async () => {
     try {
       const storedToken = Cookies.get('token');
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/areas/" + props.name);
+      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/areas/" + props.name, {
+        headers: {
+          token: storedToken
+        }
+      });
       await setInfoArea(await response.data);
     } catch (error) {
       console.error(error);

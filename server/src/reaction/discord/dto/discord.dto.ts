@@ -17,3 +17,15 @@ export class DiscordSendMessageDto {
   @IsString()
   content: string;
 }
+
+export class DiscordSendMessageUserDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  id_user: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  content: string;
+}

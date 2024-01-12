@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "ServiceType" AS ENUM ('SPOTIFY', 'GITHUB', 'GOOGLE', 'DISCORD', 'MICROSOFT', 'TWITCH', 'TIME');
+CREATE TYPE "ServiceType" AS ENUM ('SPOTIFY', 'GITHUB', 'GOOGLE', 'DISCORD', 'MICROSOFT', 'TWITCH', 'TIME', 'WEATHER');
 
 -- CreateTable
 CREATE TABLE "users" (
