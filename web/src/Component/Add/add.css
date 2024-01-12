@@ -34,7 +34,8 @@
 
 .addComponentNameInput {
     margin-top: 40px;
-    height: 50px;
+    padding-bottom: 10px;
+    padding-top: 10px;
     width: 280px;
     background-color: #C5C0FF;
     border: 2px #423B8E solid;
@@ -45,6 +46,7 @@
 }
 
 .addComponentActionInput {
+    position: relative;
     margin-top: 20px;
     width: 300px;
     height: 62px;
@@ -74,16 +76,16 @@
 
 .addComponentActionListArea {
     position: absolute;
+    top: -16px;
+    z-index: 2;
     background-color: var(--secondary-container);
-    top: 154px;
-    width: 10%;
     border: 1px solid #000;
     border-radius: 16px 0px 16px 16px;
     padding-top: 10px;
     padding-bottom: 20px;
+    width: 244px;
+    transform: translate(-22px);
     padding-left: 10px;
-    margin-top: 30px;
-    width: 175px;
 }
 
 .addComponentActionList {
@@ -96,7 +98,8 @@
 }
 
 .addComponentReactionInput {
-    margin-top: 30px;
+    position: relative;
+    margin-top: 15px;
     width: 300px;
     height: 62px;
     border-radius: 16px;
@@ -104,6 +107,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+input[type="checkbox"] {
+    background-color: #C5C0FF;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    border: 2px #423B8E solid;
+    border-radius: 16px
+}
+
+.addComponentNameParam {
+    float: left;
+    margin-right: 5px;
 }
 
 .addComponentReactionTitle {
@@ -126,16 +143,17 @@
 
 .addComponentReactionListArea {
     position: absolute;
+    top: -16px;
+    z-index: 2;
     background-color: var(--secondary-container);
-    top: 246px;
     width: 10%;
     border: 1px solid #000;
     border-radius: 16px 0px 16px 16px;
     padding-top: 10px;
     padding-bottom: 20px;
+    width: 244px;
+    transform: translate(-22px);
     padding-left: 10px;
-    margin-top: 50px;
-    width: 175px;
 }
 
 .addComponentReactionList {
@@ -147,16 +165,15 @@
     margin: 0px;
     margin-top: 10px;
     padding: 0px;
-    height: 0%;
     margin-bottom: 10px;
 }
 
 .addComponentParamList {
     list-style: none;
+    margin-top: 10px;
 }
 
 .addComponentParamInput {
-    margin-top: 15px;
     height: 35px;
     width: 250px;
     background-color: #C5C0FF;
