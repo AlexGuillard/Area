@@ -314,13 +314,17 @@ function Add(props: {refreshAreas: () => void, closeAddArea: () => void}) {
                   }
                   {item.typeParam === "boolean" &&
                     (
-                      <input
-                        type="checkbox"
-                        id="checkbox-input"
-                        value={item.param}
-                        onChange={(event) => handleParamActionChange(event, item.nameParam)}
-                        placeholder={item.nameParam}
-                      />
+                      <div>
+                        <span className="addComponentNameParam">{item.nameParam}</span>
+                        <input
+                          type="checkbox"
+                          id="checkbox-input"
+                          value={item.param}
+                          onChange={(event) => handleParamActionChange(event, item.nameParam)}
+                          placeholder={item.nameParam}
+                          className='addComponentParamBoolean'
+                        />
+                      </div>
                     )
                   }
                 </li>
