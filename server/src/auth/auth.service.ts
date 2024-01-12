@@ -90,6 +90,77 @@ export class AuthService {
     };
   }
 
+  async signOut(token: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        randomToken: token,
+      },
+      select: {
+        id: true,
+        email: true,
+        randomToken: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    if (!user) {
+      throw new ForbiddenException('user not found');
+    }
+    user.randomToken = null;
+    await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        randomToken: null,
+      },
+    });
+    return user;
+  }
+
+  async deleteUser(token: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        randomToken: token,
+      },
+    });
+    if (!user) {
+      throw new ForbiddenException('mail not found');
+    }
+    const services = await this.prisma.services.findMany({
+      where: {
+        userId: user.id,
+      },
+    });
+    for (const service of services) {
+      await this.prisma.action.deleteMany({
+        where: {
+          serviceId: service.id,
+        },
+      });
+      await this.prisma.reaction.deleteMany({
+        where: {
+          serviceId: service.id,
+        },
+      });
+    }
+    await this.prisma.services.deleteMany({
+      where: {
+        userId: user.id,
+      },
+    });
+    await this.prisma.area.deleteMany({
+      where: {
+        userId: user.id,
+      },
+    });
+    await this.prisma.user.delete({
+      where: {
+        id: user.id,
+      },
+    });
+  }
+
   async loginService(token: string): Promise<any> {
     try {
       const ticket = await this.googleClient.verifyIdToken({

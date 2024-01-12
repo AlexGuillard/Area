@@ -1,7 +1,7 @@
-import { Body, Controller, ForbiddenException, Post } from '@nestjs/common';
+import { Body, Controller, ForbiddenException, Post, Headers, Delete } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto, TokenDto } from './dto';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiHeader, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -45,6 +45,25 @@ export class AuthController {
   })
   signIn(@Body() params: AuthDto) {
     return this.authService.signIn(params);
+  }
+  @Delete('delete')
+  @ApiHeader({
+    name: 'token',
+    required: true,
+    description: 'Token of the user',
+  })
+  deleteUser(@Headers('token') token: string) {
+    return this.authService.deleteUser(token);
+  }
+
+  @Post('signout')
+  @ApiHeader({
+    name: 'token',
+    required: true,
+    description: 'Token of the user',
+  })
+  signOut(@Headers('token') token: string) {
+    return this.authService.signOut(token);
   }
 
   @Post('loginservice')
