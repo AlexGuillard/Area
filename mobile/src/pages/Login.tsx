@@ -33,11 +33,10 @@ const Login = ({navigation}) => {
       mail: mail,
       password: password,
     };
-    axios
-      .post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
+    axios.post('http://10.0.2.2:8080/auth/signin', data)
       .then(async (response) => {
         setAuthData(response.data.email, response.data.randomToken, response.data.id);
-        navigation.navigate('Area');
+        navigation.navigate('Service');
       })
       .catch(error => {
         console.error(error);
