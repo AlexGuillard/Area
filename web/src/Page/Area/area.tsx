@@ -69,7 +69,7 @@ function Area() {
         (
           <div className='areaComponentArea'>
             <div className='areaComponentBack' onClick={() => setShowAddArea(false)} />
-            <Add />
+            <Add refreshAreas={handleCallAreaList} closeAddArea={() => setShowAddArea(false)}/>
           </div>
         )
       }
