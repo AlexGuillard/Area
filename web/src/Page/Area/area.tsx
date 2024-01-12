@@ -43,7 +43,11 @@ function Area() {
 
   const handleCallAreaList = () => {
     const storedToken = Cookies.get('token');
-    axios.get(process.env.REACT_APP_SERVER_URL + "/" + storedToken + "/areas")
+    axios.get(process.env.REACT_APP_SERVER_URL + "/areas", {
+      headers: {
+        token: storedToken
+      }
+    })
       .then(response => {
         setListArea(response.data)
       })
