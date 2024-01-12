@@ -111,6 +111,7 @@ export class AuthService {
       });
 
       if (!existingUser) {
+        console.log('create new user');
         const hashpass = await argon.hash(uid(16));
         const newUser = await this.prisma.user.create({
           data: {
@@ -144,17 +145,17 @@ export class AuthService {
         });
 
         return {
-          user: {
-            id: newUser.id,
-            email: newUser.email,
-            randomToken: newUser.randomToken,
-            createdAt: newUser.createdAt,
-            updatedAt: newUser.updatedAt,
-          },
+          id: newUser.id,
+          email: newUser.email,
+          randomToken: newUser.randomToken,
+          createdAt: newUser.createdAt,
+          updatedAt: newUser.updatedAt,
         };
       }
+      console.log('update existing user');
 
       const newRandomToken = uid(16);
+      existingUser.randomToken = newRandomToken;
 
       await this.prisma.user.update({
         where: {
@@ -173,13 +174,11 @@ export class AuthService {
       });
 
       return {
-        user: {
-          id: existingUser.id,
-          email: existingUser.email,
-          randomToken: newRandomToken,
-          createdAt: existingUser.createdAt,
-          updatedAt: existingUser.updatedAt,
-        },
+        id: existingUser.id,
+        email: existingUser.email,
+        randomToken: existingUser.randomToken,
+        createdAt: existingUser.createdAt,
+        updatedAt: existingUser.updatedAt,
       };
     } catch (error) {
       throw new ForbiddenException('Error' + error);
