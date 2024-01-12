@@ -127,29 +127,33 @@ export class AuthService {
           },
         });
 
-        // Here filled with bad infos caus its another funcitonnality so on another branch
-        const service = await this.prisma.services.findUnique({
-          where: {
+        await this.prisma.services.create({
+          data: {
             userId: newUser.id,
-            token: newUser.randomToken, // bad token to change
-            typeService: ServiceType.GOOGLE,
+            typeService: ServiceType.TIME,
+            token: uid(16),
           },
         });
 
-        console.log(service);
+        await this.prisma.services.create({
+          data: {
+            userId: newUser.id,
+            typeService: ServiceType.WEATHER,
+            token: uid(16),
+          },
+        });
 
         return {
-          user: {
-            id: newUser.id,
-            email: newUser.email,
-            randomToken: newUser.randomToken,
-            createdAt: newUser.createdAt,
-            updatedAt: newUser.updatedAt,
-          },
+          id: newUser.id,
+          email: newUser.email,
+          randomToken: newUser.randomToken,
+          createdAt: newUser.createdAt,
+          updatedAt: newUser.updatedAt,
         };
       }
 
       const newRandomToken = uid(16);
+      existingUser.randomToken = newRandomToken;
 
       await this.prisma.user.update({
         where: {
@@ -168,13 +172,11 @@ export class AuthService {
       });
 
       return {
-        user: {
-          id: existingUser.id,
-          email: existingUser.email,
-          randomToken: newRandomToken,
-          createdAt: existingUser.createdAt,
-          updatedAt: existingUser.updatedAt,
-        },
+        id: existingUser.id,
+        email: existingUser.email,
+        randomToken: existingUser.randomToken,
+        createdAt: existingUser.createdAt,
+        updatedAt: existingUser.updatedAt,
       };
     } catch (error) {
       throw new ForbiddenException('Error' + error);
