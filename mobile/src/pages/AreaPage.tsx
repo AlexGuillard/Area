@@ -59,7 +59,7 @@ const AreaPage = ({navigation}) => {
     }
     const handleCallAreaList = () => {
       axios
-        .get('http://10.0.2.2:8080/areas', {
+        .get(process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/areas', {
           headers: {
             token: token,
           },

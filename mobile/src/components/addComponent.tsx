@@ -66,7 +66,7 @@ const AddComponent = () => {
     setListParamAction([]);
     try {
       const response = await axios.get(
-        'http://10.0.2.2:8080/actions/' + event,
+        process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/actions/' + event,
         {
           headers: {
             token: token,
@@ -103,7 +103,7 @@ const AddComponent = () => {
     setListParamReaction([]);
     try {
       const response = await axios.get(
-        'http://10.0.2.2:8080/reactions/' + event,
+        process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/reactions/' + event,
         {
           headers: {
             token: token,
@@ -194,7 +194,7 @@ const AddComponent = () => {
     };
     console.log(data);
     axios
-      .post('http://10.0.2.2:8080/areas', data, {
+      .post(process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/areas', data, {
         headers: {
           token: token,
         },
@@ -208,7 +208,7 @@ const AddComponent = () => {
   useEffect(() => {
     const handleCallActionList = () => {
       axios
-        .get('http://10.0.2.2:8080/actions', {
+        .get(process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/actions', {
           headers: {
             token: token,
           },
@@ -226,7 +226,7 @@ const AddComponent = () => {
 
     const handleCallReactionList = () => {
       axios
-        .get('http://10.0.2.2:8080/reactions', {
+        .get(process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/reactions', {
           headers: {
             token: token,
           },

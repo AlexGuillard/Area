@@ -35,7 +35,7 @@ const Service = ({navigation}) => {
       const handleCallServicesList = () => {
         const storedToken = token;
         axios
-          .get('http://10.0.2.2:8080/services', {
+          .get(process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/services', {
             headers: {
               token: storedToken,
             },
@@ -84,28 +84,28 @@ const Service = ({navigation}) => {
           status={stateGoogle}
           image={Google}
           userName={''}
-          link={'http://10.0.2.2:8080/myauth/google-redirect'}
+          link={process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/myauth/google-redirect'}
         />
         <ServiceCard
           serviceName={'Discord'}
           status={stateDiscord}
           image={Discord}
           userName={''}
-          link={'http://10.0.2.2:8080/services/discord/login'}
+          link={process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/services/discord/login'}
         />
         <ServiceCard
           serviceName={'Github'}
           status={stateGithub}
           image={Github}
           userName={''}
-          link={'http://10.0.2.2:8080/auth/github'}
+          link={process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/auth/github'}
         />
         <ServiceCard
           serviceName={'Spotify'}
           status={stateSpotify}
           image={Spotify}
           userName={''}
-          link={'http://10.0.2.2:8080/auth/spotify'}
+          link={process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/auth/spotify'}
         />
       </View>
     </SafeAreaView>

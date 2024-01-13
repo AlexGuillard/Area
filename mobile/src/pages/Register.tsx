@@ -30,7 +30,7 @@ const Register = ({navigation}) => {
       password: textPassWord,
     };
     axios
-      .post('http://10.0.2.2:8080/auth/signup', data)
+      .post(process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/auth/signup', data)
       .then(async response => {
         setMessage('');
         setAuthData(
