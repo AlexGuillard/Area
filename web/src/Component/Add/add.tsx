@@ -4,8 +4,30 @@ import { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import SelectInput from '../../Image/SelectInput.png'
+import GoogleIcon from '../../Image/Google.png'
+import GithubIcon from '../../Image/Github.png'
+import SpotifyIcon from '../../Image/Spotify.png'
+import DiscordIcon from '../../Image/Discord.png'
+import ClockIcon from '../../Image/Clock.png'
+import WeatherIcon from '../../Image/Weather.png'
 
-function Add() {
+function GetIcon(type: string) {
+  const iconMap: { [key: string]: string } = {
+    "GOOGLE": GoogleIcon,
+    "GITHUB": GithubIcon,
+    "SPOTIFY": SpotifyIcon,
+    "DISCORD": DiscordIcon,
+    "TIME": ClockIcon,
+    "WEATHER": WeatherIcon
+  }
+
+  if (!iconMap[type]) {
+    return GoogleIcon
+  }
+  return iconMap[type]
+}
+
+function Add(props: {refreshAreas: () => void, closeAddArea: () => void}) {
 
   interface ParamItem {
     nameParam: string;
@@ -13,13 +35,25 @@ function Add() {
     param: any;
   }
 
+  interface Action {
+    name: string;
+    description: string;
+    typeService: string;
+  }
+
+  interface Reaction {
+    name: string;
+    description: string;
+    typeService: string;
+  }
+
   const [nameArea, setNameArea] = useState("");
   const [selectedAction, setSelectedAction] = useState("Action");
   const [selectedReaction, setSelectedReaction] = useState("Reaction");
   const [showlistAction, setShowListAction] = useState(false);
   const [showlistReaction, setShowListReaction] = useState(false);
-  const [listAction, setListAction] = useState<string []>();
-  const [listReaction, setListReaction] = useState<string []>();
+  const [listAction, setListAction] = useState<Action []>();
+  const [listReaction, setListReaction] = useState<Reaction []>();
 
   const [listParamAction, setListParamAction] = useState<ParamItem []>([]);
   const [listParamReaction, setListParamReaction] = useState<ParamItem []>([]);
@@ -138,43 +172,6 @@ function Add() {
   
       setListParamReaction(updatedList);
     };
-
-  const handleCallActionList = () => {
-    const storedToken = Cookies.get('token');
-    axios.get(process.env.REACT_APP_SERVER_URL + "/actions", {
-      headers: {
-        token: storedToken
-      }
-    })
-      .then(response => {
-        setListAction((prevState: string[] | undefined) => [
-          ...(prevState || []),
-          ...response.data.map((item: { name: string }) => item.name)
-        ]);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-
-  const handleCallReactionList = () => {
-    const storedToken = Cookies.get('token');
-    axios.get(process.env.REACT_APP_SERVER_URL + "/reactions", {
-      headers: {
-        token: storedToken
-      }
-    })
-      .then(response => {
-        setListReaction((prevState: string[] | undefined) => [
-          ...(prevState || []),
-          ...response.data.map((item: { name: string }) => item.name)
-        ]);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-
   const handleCreateArea = () => {
     for (var i = 0; i < listParamAction.length; i++) {
       if (listParamAction[i].typeParam === "number") {
@@ -206,6 +203,8 @@ function Add() {
       }
     })
     .then(response => {
+      props.refreshAreas();
+      props.closeAddArea();
     })
     .catch(error => {
       console.error(error);
@@ -213,6 +212,42 @@ function Add() {
   }
 
   useEffect(() => {
+    const handleCallActionList = () => {
+      const storedToken = Cookies.get('token');
+      axios.get(process.env.REACT_APP_SERVER_URL + "/actions", {
+        headers: {
+          token: storedToken
+        }
+      })
+        .then(response => {
+          setListAction((prevState: Action[] | undefined) => [
+            ...(prevState || []),
+            ...response.data.map((item: Action) => item)
+          ]);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
+    const handleCallReactionList = () => {
+      const storedToken = Cookies.get('token');
+      axios.get(process.env.REACT_APP_SERVER_URL + "/reactions", {
+        headers: {
+          token: storedToken
+        }
+      })
+        .then(response => {
+          setListReaction((prevState: Reaction[] | undefined) => [
+            ...(prevState || []),
+            ...response.data.map((item: Reaction) => item)
+          ]);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
     handleCallActionList()
     handleCallReactionList()
   }, []);
@@ -238,8 +273,9 @@ function Add() {
               <ul className='addComponentActionListArea'>
                 {
                   listAction && listAction.map((item) =>
-                    <li key={item} className='addComponentActionList' >
-                      <span className='addComponentActionListName' onClick={() => handleActionAreaChange(item)}>{item}</span>
+                    <li key={item.name} className='addComponentActionList' >
+                      <img src={GetIcon(item.typeService)} className='addComponentListIcon' alt="icon"/>
+                      <span className='addComponentActionListName' onClick={() => handleActionAreaChange(item.name)}>{item.name}</span>
                     </li>
                   )
                 }
@@ -278,13 +314,17 @@ function Add() {
                   }
                   {item.typeParam === "boolean" &&
                     (
-                      <input
-                        type="checkbox"
-                        id="checkbox-input"
-                        value={item.param}
-                        onChange={(event) => handleParamActionChange(event, item.nameParam)}
-                        placeholder={item.nameParam}
-                      />
+                      <div>
+                        <span className="addComponentNameParam">{item.nameParam}</span>
+                        <input
+                          type="checkbox"
+                          id="checkbox-input"
+                          value={item.param}
+                          onChange={(event) => handleParamActionChange(event, item.nameParam)}
+                          placeholder={item.nameParam}
+                          className='addComponentParamBoolean'
+                        />
+                      </div>
                     )
                   }
                 </li>
@@ -301,8 +341,9 @@ function Add() {
               <ul className='addComponentReactionListArea'>
                 {
                   listReaction && listReaction.map((item) =>
-                    <li key={item} className='addComponentReactionList' >
-                      <span onClick={() => handleReactionAreaChange(item)}>{item}</span>
+                    <li key={item.name} className='addComponentReactionList' >
+                      <img src={GetIcon(item.typeService)} className='addComponentListIcon' alt="icon"/>
+                      <span onClick={() => handleReactionAreaChange(item.name)}>{item.name}</span>
                     </li>
                   )
                 }

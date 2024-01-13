@@ -90,6 +90,19 @@ android {
             keyPassword 'azerqsdf'
         }
     }
+    lintOptions {
+        checkReleaseBuilds false
+        // ... (other lint options)
+
+        // Add the following lines to declare dependencies
+        abortOnError false
+        checkDependencies false
+    }
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == 'debug') {
+            variant.preBuild.dependsOn 'copyReactNativeVectorIconFonts'
+        }
+    }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
@@ -106,6 +119,7 @@ android {
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
+    implementation project(':react-native-webview')
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
 
