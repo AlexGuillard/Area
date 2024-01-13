@@ -15,12 +15,7 @@ const App = () => {
   return (
     <AuthProvider>
       <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: styles.header,
-          headerTitleStyle: styles.headerText,
-          headerTintColor: '#2B2277',
-        }}>
+      <Stack.Navigator>
         <Stack.Screen
           name="Login"
           component={Login}
@@ -29,20 +24,10 @@ const App = () => {
         <Stack.Screen
           name="Area"
           component={AreaPage}
-          options={() => ({
-            title: 'Area',
-            headerBackVisible: false,
-            headerRight: () => (
-              <IconButton
-                style={styles.IconItem}
-                icon="account-circle"
-                onPress={() => {}}
-              />
-            ),
-          })}
+          options={{headerShown: false}}
         />
-        <Stack.Screen name="Service" component={Service} />
-        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="Service" component={Service} options={{headerShown: false}}/>
+        <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
     </AuthProvider>

@@ -16,6 +16,7 @@ import AddComponent from '../components/addComponent';
 import EditComponent from '../components/editComponent';
 import axios from 'axios';
 import { useAuth } from '../context/UserContext';
+import HeaderBar from '../components/headerComponent';
 
 interface ReactionItem {
   id: string;
@@ -75,6 +76,11 @@ const AreaPage = ({navigation}) => {
         barStyle={'light-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+      <HeaderBar page="Area" left_icon={
+        [{ image_url: require('../../assets/User.png'), onPress: () => {navigation.navigate('Service')} },
+        { image_url: require('../../assets/Logout.png'), onPress: () => {} },
+      ]
+      }/>
       {showAddArea && (
         <TouchableWithoutFeedback onPress={() => setShowAddArea(false)}>
           <View style={styles.addComponent}>
