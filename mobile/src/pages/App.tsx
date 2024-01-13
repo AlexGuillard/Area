@@ -6,6 +6,7 @@ import Login from './Login';
 import AreaPage from './AreaPage';
 import Service from './Service';
 import Register from './Register';
+import GithubWebView from './WebView/GithubWebView';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,11 @@ const App = () => {
           <Stack.Screen
             name="Register"
             component={Register}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="GithubWebView"
+            component={GithubWebView}
             options={{headerShown: false}}
           />
         </Stack.Navigator>
