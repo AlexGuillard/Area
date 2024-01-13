@@ -47,7 +47,6 @@ const Register = ({navigation}) => {
           setMessage('Invalid Mail or Password');
         } else {
           setMessage('Error');
-          console.error(error.value);
           console.error(error);
         }
       });
