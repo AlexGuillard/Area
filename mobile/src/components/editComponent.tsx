@@ -16,6 +16,7 @@ interface editProps {
 }
 import axios from 'axios';
 import {useAuth} from '../context/UserContext';
+import { REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT } from '@env';
 
 function EditComponent(props: editProps) {
   interface AreaItem {
@@ -75,7 +76,11 @@ function EditComponent(props: editProps) {
     setParamAction(infoArea?.actionParameter);
     try {
       const response = await axios.get(
-        'http://10.0.2.2:8080/actions/' + event,
+        REACT_APP_SERVER_IP +
+          ':' +
+          REACT_APP_SERVER_PORT +
+          '/actions/' +
+          event,
         {
           headers: {
             token: token,
@@ -114,7 +119,11 @@ function EditComponent(props: editProps) {
     setParamReaction(infoArea?.reactionParameter);
     try {
       const response = await axios.get(
-        'http://10.0.2.2:8080/reactions/' + event,
+        REACT_APP_SERVER_IP +
+          ':' +
+          REACT_APP_SERVER_PORT +
+          '/reactions/' +
+          event,
         {
           headers: {
             token: token,
@@ -182,11 +191,17 @@ function EditComponent(props: editProps) {
   const handleCallActionList = () => {
     setListAction([]);
     axios
-      .get('http://10.0.2.2:8080/actions', {
-        headers: {
-          token: token,
+      .get(
+        REACT_APP_SERVER_IP +
+          ':' +
+          REACT_APP_SERVER_PORT +
+          '/actions',
+        {
+          headers: {
+            token: token,
+          },
         },
-      })
+      )
       .then(response => {
         setListAction((prevState: string[] | undefined) => [
           ...(prevState || []),
@@ -201,11 +216,17 @@ function EditComponent(props: editProps) {
   const handleCallReactionList = () => {
     setListReaction([]);
     axios
-      .get('http://10.0.2.2:8080/reactions', {
-        headers: {
-          token: token,
+      .get(
+        REACT_APP_SERVER_IP +
+          ':' +
+          REACT_APP_SERVER_PORT +
+          '/reactions',
+        {
+          headers: {
+            token: token,
+          },
         },
-      })
+      )
       .then(response => {
         setListReaction((prevState: string[] | undefined) => [
           ...(prevState || []),
@@ -223,20 +244,27 @@ function EditComponent(props: editProps) {
         modelParamAction[listParamAction[i].nameParam] = Number(
           listParamAction[i].param,
         );
-      } else {
+      } else if (listParamAction[i].typeParam === 'string') {
         modelParamAction[listParamAction[i].nameParam] =
           listParamAction[i].param;
+      } else if (listParamAction[i].typeParam === 'boolean') {
+        modelParamAction[listParamAction[i].nameParam] = Boolean(
+          listParamAction[i].param,
+        );
       }
     }
-
     for (var y = 0; y < listParamReaction.length; y++) {
       if (listParamReaction[y].typeParam === 'number') {
         modelParamReaction[listParamReaction[y].nameParam] = Number(
           listParamReaction[y].param,
         );
-      } else {
+      } else if (listParamReaction[i].typeParam === 'string') {
         modelParamReaction[listParamReaction[y].nameParam] =
           listParamReaction[y].param;
+      } else if (listParamReaction[i].typeParam === 'boolean') {
+        modelParamReaction[listParamReaction[y].nameParam] = Boolean(
+          listParamReaction[y].param,
+        );
       }
     }
 
@@ -248,11 +276,19 @@ function EditComponent(props: editProps) {
       reactionParameter: modelParamReaction,
     };
     axios
-      .put('http://10.0.2.2:8080/areas/' + props.name, data, {
-        headers: {
-          token: token,
+      .put(
+        REACT_APP_SERVER_IP +
+          ':' +
+          REACT_APP_SERVER_PORT +
+          '/areas/' +
+          props.name,
+        data,
+        {
+          headers: {
+            token: token,
+          },
         },
-      })
+      )
       .then(_response => {})
       .catch(error => {
         console.error(error);
@@ -262,7 +298,11 @@ function EditComponent(props: editProps) {
   const handleCallAreaInfo = async () => {
     try {
       const response = await axios.get(
-        'http://10.0.2.2:8080/areas/' + props.name,
+        REACT_APP_SERVER_IP +
+          ':' +
+          REACT_APP_SERVER_PORT +
+          '/areas/' +
+          props.name,
         {
           headers: {
             token: token,
@@ -294,7 +334,7 @@ function EditComponent(props: editProps) {
       handleCallReactionList();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [infoArea, listAction, listReaction]);
+  }, [infoArea]);
 
   return (
     <View style={styles.editComponent}>

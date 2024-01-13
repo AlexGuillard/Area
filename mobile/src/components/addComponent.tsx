@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {useAuth} from '../context/UserContext';
+import { REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT } from '@env';
 
 const AddComponent = () => {
   interface ParamItem {
@@ -66,7 +67,11 @@ const AddComponent = () => {
     setListParamAction([]);
     try {
       const response = await axios.get(
-        'http://10.0.2.2:8080/actions/' + event,
+        REACT_APP_SERVER_IP +
+          ':' +
+          REACT_APP_SERVER_PORT +
+          '/actions/' +
+          event,
         {
           headers: {
             token: token,
@@ -103,7 +108,11 @@ const AddComponent = () => {
     setListParamReaction([]);
     try {
       const response = await axios.get(
-        'http://10.0.2.2:8080/reactions/' + event,
+        REACT_APP_SERVER_IP +
+          ':' +
+          REACT_APP_SERVER_PORT +
+          '/reactions/' +
+          event,
         {
           headers: {
             token: token,
@@ -169,9 +178,13 @@ const AddComponent = () => {
         modelParamAction[listParamAction[i].nameParam] = Number(
           listParamAction[i].param,
         );
-      } else {
+      } else if (listParamAction[i].typeParam === 'string') {
         modelParamAction[listParamAction[i].nameParam] =
           listParamAction[i].param;
+      } else if (listParamAction[i].typeParam === 'boolean') {
+        modelParamAction[listParamAction[i].nameParam] = Boolean(
+          listParamAction[i].param,
+        );
       }
     }
     for (var y = 0; y < listParamReaction.length; y++) {
@@ -179,9 +192,13 @@ const AddComponent = () => {
         modelParamReaction[listParamReaction[y].nameParam] = Number(
           listParamReaction[y].param,
         );
-      } else {
+      } else if (listParamReaction[i].typeParam === 'string') {
         modelParamReaction[listParamReaction[y].nameParam] =
           listParamReaction[y].param;
+      } else if (listParamReaction[i].typeParam === 'boolean') {
+        modelParamReaction[listParamReaction[y].nameParam] = Boolean(
+          listParamReaction[y].param,
+        );
       }
     }
 
@@ -193,11 +210,18 @@ const AddComponent = () => {
       reactionParameter: modelParamReaction,
     };
     axios
-      .post('http://10.0.2.2:8080/areas', data, {
-        headers: {
-          token: token,
+      .post(
+        REACT_APP_SERVER_IP +
+          ':' +
+          REACT_APP_SERVER_PORT +
+          '/areas',
+        data,
+        {
+          headers: {
+            token: token,
+          },
         },
-      })
+      )
       .then(_response => {})
       .catch(error => {
         console.error(error);
@@ -207,11 +231,17 @@ const AddComponent = () => {
   useEffect(() => {
     const handleCallActionList = () => {
       axios
-        .get('http://10.0.2.2:8080/actions', {
-          headers: {
-            token: token,
+        .get(
+          REACT_APP_SERVER_IP +
+            ':' +
+            REACT_APP_SERVER_PORT +
+            '/actions',
+          {
+            headers: {
+              token: token,
+            },
           },
-        })
+        )
         .then(response => {
           setListAction((prevState: Action[] | undefined) => [
             ...(prevState || []),
@@ -225,11 +255,17 @@ const AddComponent = () => {
 
     const handleCallReactionList = () => {
       axios
-        .get('http://10.0.2.2:8080/reactions', {
-          headers: {
-            token: token,
+        .get(
+          REACT_APP_SERVER_IP +
+            ':' +
+            REACT_APP_SERVER_PORT +
+            '/reactions',
+          {
+            headers: {
+              token: token,
+            },
           },
-        })
+        )
         .then(response => {
           setListReaction((prevState: Reaction[] | undefined) => [
             ...(prevState || []),

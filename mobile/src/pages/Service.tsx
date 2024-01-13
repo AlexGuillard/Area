@@ -4,6 +4,7 @@ import axios from 'axios';
 import {useAuth} from '../context/UserContext';
 import ServiceCard from '../components/ServiceList/serviceList';
 import HeaderBar from '../components/headerComponent';
+import { REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT } from '@env';
 
 const Service = ({navigation}) => {
   const backgroundStyle = {
@@ -35,11 +36,17 @@ const Service = ({navigation}) => {
       const handleCallServicesList = () => {
         const storedToken = token;
         axios
-          .get('http://10.0.2.2:8080/services', {
-            headers: {
-              token: storedToken,
+          .get(
+            REACT_APP_SERVER_IP +
+              ':' +
+              REACT_APP_SERVER_PORT +
+              '/services',
+            {
+              headers: {
+                token: storedToken,
+              },
             },
-          })
+          )
           .then(response => {
             setListServices(response.data);
           })

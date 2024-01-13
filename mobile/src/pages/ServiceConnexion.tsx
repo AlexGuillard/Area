@@ -4,6 +4,7 @@ import { WebView } from 'react-native-webview';
 import CookieManager from '@react-native-cookies/cookies';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT, REACT_APP_WEB_IP, REACT_APP_WEB_PORT } from '@env';
 
 const ServiceConnexion = ({ route, navigation }) => {
   const { routeParam } = route.params;
@@ -20,7 +21,7 @@ const ServiceConnexion = ({ route, navigation }) => {
       console.log('err =>', err);
     });
 
-    await CookieManager.get('http://10.0.2.2:8081/ServicesConnexion')
+    await CookieManager.get(REACT_APP_WEB_IP + ':' + REACT_APP_WEB_PORT + '/ServicesConnexion')
       .then((cookies) => {
         console.log('CookieManager.get =>', cookies);
         setStoredServiceType(cookies.ServiceType.value);
@@ -35,7 +36,7 @@ const ServiceConnexion = ({ route, navigation }) => {
     };
 
     await axios
-      .post('http://10.0.2.2:8080/services/connexion', data, {
+      .post(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/services/connexion', data, {
         headers: {
           token: token,
         },
