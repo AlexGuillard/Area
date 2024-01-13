@@ -18,6 +18,15 @@ export class SpotifyService {
         this.eventEmitter.on('followArtistSpotify.struct', (struct: SpotifyArtistNameDto) => {
             struct.id = 'string';
         });
+        this.eventEmitter.on('unFollowArtistSpotify.struct', (struct: SpotifyArtistNameDto) => {
+            struct.id = 'string';
+        });
+        this.eventEmitter.on('likeMusic.struct', (struct: SpotifyMusicDto) => {
+            struct.id = 'string';
+        });
+        this.eventEmitter.on('unLikeMusic.struct', (struct: SpotifyMusicDto) => {
+            struct.id = 'string';
+        });
     }
 
     private async getAccessToken(userId: number): Promise<string> {
@@ -125,14 +134,14 @@ export class SpotifyService {
             const response: AxiosResponse = await axios.delete(endPoint, { headers });
 
             if (response.status === 204) {
-                console.log('Artist followed');
+                console.log('Artist unfollowed');
                 return true;
             } else {
-                console.log('Artist not followed');
-                throw new Error('Artist not followed');
+                console.log('Artist not unfollowed');
+                throw new Error('Artist not unfollowed');
             }
         } catch (error) {
-            throw new Error('Artist not followed');
+            throw new Error('Artist not unfollowed');
         }
     }
 
