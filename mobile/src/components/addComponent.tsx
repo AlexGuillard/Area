@@ -163,42 +163,6 @@ const AddComponent = () => {
     setListParamReaction(updatedList);
   };
 
-  const handleCallActionList = () => {
-    axios
-      .get('http://10.0.2.2:8080/actions', {
-        headers: {
-          token: token,
-        },
-      })
-      .then(response => {
-        setListAction((prevState: Action[] | undefined) => [
-          ...(prevState || []),
-          ...response.data.map((item: Action) => item),
-        ]);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
-  const handleCallReactionList = () => {
-    axios
-      .get('http://10.0.2.2:8080/reactions', {
-        headers: {
-          token: token,
-        },
-      })
-      .then(response => {
-        setListReaction((prevState: Reaction[] | undefined) => [
-          ...(prevState || []),
-          ...response.data.map((item: Reaction) => item),
-        ]);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
   const handleCreateArea = () => {
     for (var i = 0; i < listParamAction.length; i++) {
       if (listParamAction[i].typeParam === 'number') {
@@ -235,15 +199,51 @@ const AddComponent = () => {
           token: token,
         },
       })
-      .then(response => {})
+      .then(_response => {})
       .catch(error => {
         console.error(error);
       });
   };
 
   useEffect(() => {
+    const handleCallActionList = () => {
+      axios
+        .get('http://10.0.2.2:8080/actions', {
+          headers: {
+            token: token,
+          },
+        })
+        .then(response => {
+          setListAction((prevState: Action[] | undefined) => [
+            ...(prevState || []),
+            ...response.data.map((item: Action) => item),
+          ]);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    };
+
+    const handleCallReactionList = () => {
+      axios
+        .get('http://10.0.2.2:8080/reactions', {
+          headers: {
+            token: token,
+          },
+        })
+        .then(response => {
+          setListReaction((prevState: Reaction[] | undefined) => [
+            ...(prevState || []),
+            ...response.data.map((item: Reaction) => item),
+          ]);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    };
     handleCallActionList();
     handleCallReactionList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

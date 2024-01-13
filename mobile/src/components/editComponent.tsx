@@ -253,7 +253,7 @@ function EditComponent(props: editProps) {
           token: token,
         },
       })
-      .then(response => {})
+      .then(_response => {})
       .catch(error => {
         console.error(error);
       });
@@ -293,6 +293,7 @@ function EditComponent(props: editProps) {
     if (listReaction === undefined) {
       handleCallReactionList();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [infoArea, listAction, listReaction]);
 
   return (
