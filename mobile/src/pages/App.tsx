@@ -8,7 +8,6 @@ import Service from './Service';
 import Register from './Register';
 import ServiceConnexion from './ServiceConnexion';
 import GithubWebView from './WebView/GithubWebView';
-import ServiceConnexion, { ParamsProps } from './ServiceConnexion';
 
 const Stack = createNativeStackNavigator();
 
