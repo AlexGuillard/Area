@@ -243,24 +243,24 @@ function EditComponent(props: editProps) {
         modelParamAction[listParamAction[i].nameParam] = Number(
           listParamAction[i].param,
         );
-      } else if (listParamAction[i].typeParam === 'string'){
+      } else if (listParamAction[i].typeParam === 'string') {
         modelParamAction[listParamAction[i].nameParam] =
           listParamAction[i].param;
-      } else if (listParamAction[i].typeParam === 'boolean'){
+      } else if (listParamAction[i].typeParam === 'boolean') {
         modelParamAction[listParamAction[i].nameParam] = Boolean(
           listParamAction[i].param,
         );
       }
-
+    }
     for (var y = 0; y < listParamReaction.length; y++) {
       if (listParamReaction[y].typeParam === 'number') {
         modelParamReaction[listParamReaction[y].nameParam] = Number(
           listParamReaction[y].param,
         );
-      } else if (listParamReaction[i].typeParam === 'string'){
+      } else if (listParamReaction[i].typeParam === 'string') {
         modelParamReaction[listParamReaction[y].nameParam] =
           listParamReaction[y].param;
-      } else if (listParamReaction[i].typeParam === 'boolean'){
+      } else if (listParamReaction[i].typeParam === 'boolean') {
         modelParamReaction[listParamReaction[y].nameParam] = Boolean(
           listParamReaction[y].param,
         );
