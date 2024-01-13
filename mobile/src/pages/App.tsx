@@ -52,17 +52,17 @@ const App = () => {
           <Stack.Screen
             name="ServiceConnexion"
             component={ServiceConnexion}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="GoogleWebView"
             component={GoogleWebView}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="SpotifyWebView"
             component={SpotifyWebView}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>

@@ -4,7 +4,7 @@ import axios from 'axios';
 import {useAuth} from '../context/UserContext';
 import ServiceCard from '../components/ServiceList/serviceList';
 import HeaderBar from '../components/headerComponent';
-import { REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT } from '@env';
+import {REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT} from '@env';
 
 const Service = ({navigation}) => {
   const backgroundStyle = {
@@ -37,10 +37,7 @@ const Service = ({navigation}) => {
         const storedToken = token;
         axios
           .get(
-            REACT_APP_SERVER_IP +
-              ':' +
-              REACT_APP_SERVER_PORT +
-              '/services',
+            REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/services',
             {
               headers: {
                 token: storedToken,

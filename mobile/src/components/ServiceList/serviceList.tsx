@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Image,
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Linking,
-} from 'react-native';
+import {Image, View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 type ServiceProps = {
   navigation: any;
@@ -17,7 +10,7 @@ type ServiceProps = {
   link: string;
 };
 
-const ServiceCard: React.FC<ServiceProps> =  props => {
+const ServiceCard: React.FC<ServiceProps> = props => {
   const handleSubmit = () => {
     console.log('Formulaire soumis !');
     // Linking.openURL(props.link);

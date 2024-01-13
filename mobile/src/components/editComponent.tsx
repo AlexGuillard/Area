@@ -16,7 +16,7 @@ interface editProps {
 }
 import axios from 'axios';
 import {useAuth} from '../context/UserContext';
-import { REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT } from '@env';
+import {REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT} from '@env';
 
 function EditComponent(props: editProps) {
   interface AreaItem {
@@ -76,11 +76,7 @@ function EditComponent(props: editProps) {
     setParamAction(infoArea?.actionParameter);
     try {
       const response = await axios.get(
-        REACT_APP_SERVER_IP +
-          ':' +
-          REACT_APP_SERVER_PORT +
-          '/actions/' +
-          event,
+        REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/actions/' + event,
         {
           headers: {
             token: token,
@@ -191,17 +187,11 @@ function EditComponent(props: editProps) {
   const handleCallActionList = () => {
     setListAction([]);
     axios
-      .get(
-        REACT_APP_SERVER_IP +
-          ':' +
-          REACT_APP_SERVER_PORT +
-          '/actions',
-        {
-          headers: {
-            token: token,
-          },
+      .get(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/actions', {
+        headers: {
+          token: token,
         },
-      )
+      })
       .then(response => {
         setListAction((prevState: string[] | undefined) => [
           ...(prevState || []),
@@ -216,17 +206,11 @@ function EditComponent(props: editProps) {
   const handleCallReactionList = () => {
     setListReaction([]);
     axios
-      .get(
-        REACT_APP_SERVER_IP +
-          ':' +
-          REACT_APP_SERVER_PORT +
-          '/reactions',
-        {
-          headers: {
-            token: token,
-          },
+      .get(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/reactions', {
+        headers: {
+          token: token,
         },
-      )
+      })
       .then(response => {
         setListReaction((prevState: string[] | undefined) => [
           ...(prevState || []),
