@@ -85,7 +85,7 @@ const Service = ({navigation}) => {
           status={stateGoogle}
           image={Google}
           userName={''}
-          link={'http://10.0.2.2:8080/myauth/google-redirect'}
+          link={'GoogleWebView'}
         />
         <ServiceCard
           navigation={navigation}

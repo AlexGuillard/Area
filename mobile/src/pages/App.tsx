@@ -9,6 +9,7 @@ import Register from './Register';
 import ServiceConnexion from './ServiceConnexion';
 import GithubWebView from './WebView/GithubWebView';
 import DiscordWebView from './WebView/DiscordWebView';
+import GoogleWebView from './WebView/GoogleWebView';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,11 @@ const App = () => {
           <Stack.Screen
             name="ServiceConnexion"
             component={ServiceConnexion}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="GoogleWebView"
+            component={GoogleWebView}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
