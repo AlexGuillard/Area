@@ -59,12 +59,12 @@ const AreaPage = ({navigation}) => {
       }
     })
       .then(response => {
-        setListArea(response.data)
+        setListArea(response.data);
       })
       .catch(error => {
         console.error(error);
       });
-  }
+  };
 
   useEffect(() => {
     if (token === 'undefined') {
@@ -72,7 +72,7 @@ const AreaPage = ({navigation}) => {
       navigation.navigate('Login');
     }
     handleCallAreaList();
-  }, []);
+  }, [clearAuthData, handleCallAreaList, navigation, token]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
