@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, View, Dimensions} from 'react-native';
 import axios from 'axios';
 import {useAuth} from '../context/UserContext';
@@ -64,7 +64,7 @@ const Service = ({navigation}) => {
         i = i + 1;
       }
     }
-  }, [listServices]);
+  }, [listServices, handleCallServicesList]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
