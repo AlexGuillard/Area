@@ -1,3 +1,4 @@
+import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 
 type IconBar = {

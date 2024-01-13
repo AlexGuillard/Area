@@ -1,3 +1,4 @@
+import React from 'react';
 import {Avatar} from 'react-native-elements';
 import {View, StyleSheet, Text, StatusBar, Pressable} from 'react-native';
 
