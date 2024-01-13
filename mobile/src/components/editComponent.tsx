@@ -74,24 +74,24 @@ function EditComponent(props: editProps) {
     setListParamAction([]);
     setParamAction(infoArea?.actionParameter);
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_SERVER_URL + '/' + token + '/actions/' + event,
-      );
+      const response = await axios.get("http://10.0.2.2:8080/actions/" + event, {
+        headers: {
+          token: token
+        }
+      });
+  
+      const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
 
-      const allPropertyNames = Object.keys(
-        response.data,
-      ) as (keyof typeof response.data)[];
-
-      const updatedList = allPropertyNames.map(async key => {
+      const updatedList = allPropertyNames.map(async (key) => {
         const data = response.data[key];
         const variableType = typeof data;
 
         return {
           nameParam: String(key),
           typeParam: variableType,
-          param: paramAction[key],
+          param: paramAction[key]
         };
-      });
+      })
 
       const resolvedList = await Promise.all(updatedList);
 
@@ -108,24 +108,25 @@ function EditComponent(props: editProps) {
     setListParamReaction([]);
     setParamReaction(infoArea?.reactionParameter);
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_SERVER_URL + '/' + token + '/reactions/' + event,
-      );
+      const response = await axios.get("http://10.0.2.2:8080/reactions/" + event, {
+        headers: {
+          token: token
+        }
+      });
 
-      const allPropertyNames = Object.keys(
-        response.data,
-      ) as (keyof typeof response.data)[];
+      const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
 
-      const updatedList = allPropertyNames.map(async key => {
+      const updatedList = allPropertyNames.map(async (key) => {
         const data = response.data[key];
         const variableType = typeof data;
 
         return {
           nameParam: String(key),
           typeParam: variableType,
-          param: paramReaction[key],
+          param: paramReaction[key]
         };
       });
+
 
       const resolvedList = await Promise.all(updatedList);
 
@@ -171,12 +172,15 @@ function EditComponent(props: editProps) {
 
   const handleCallActionList = () => {
     setListAction([]);
-    axios
-      .get(process.env.REACT_APP_SERVER_URL + '/' + token + '/actions')
+    axios.get("http://10.0.2.2:8080/actions", {
+      headers: {
+        token: token
+      }
+    })
       .then(response => {
         setListAction((prevState: string[] | undefined) => [
           ...(prevState || []),
-          ...response.data.map((item: {name: string}) => item.name),
+          ...response.data.map((item: { name: string }) => item.name)
         ]);
       })
       .catch(error => {
@@ -186,12 +190,15 @@ function EditComponent(props: editProps) {
 
   const handleCallReactionList = () => {
     setListReaction([]);
-    axios
-      .get(process.env.REACT_APP_SERVER_URL + '/' + token + '/reactions')
+    axios.get("http://10.0.2.2:8080/reactions", {
+      headers: {
+        token: token
+      }
+    })
       .then(response => {
         setListReaction((prevState: string[] | undefined) => [
           ...(prevState || []),
-          ...response.data.map((item: {name: string}) => item.name),
+          ...response.data.map((item: { name: string }) => item.name)
         ]);
       })
       .catch(error => {
@@ -229,22 +236,25 @@ function EditComponent(props: editProps) {
       nameReaction: selectedReaction,
       reactionParameter: modelParamReaction,
     };
-    axios
-      .put(
-        process.env.REACT_APP_SERVER_URL + '/' + token + '/areas/' + props.name,
-        data,
-      )
-      .then(() => {})
-      .catch(error => {
-        console.error(error);
-      });
+    axios.put("http://10.0.2.2:8080/areas/" + props.name, data, {
+      headers: {
+        token: token
+      }
+    })
+    .then(response => {
+    })
+    .catch(error => {
+      console.error(error);
+    });
   };
 
   const handleCallAreaInfo = async () => {
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_SERVER_URL + '/' + token + '/areas/' + props.name,
-      );
+      const response = await axios.get("http://10.0.2.2:8080/areas/" + props.name, {
+        headers: {
+          token: token
+        }
+      });
       await setInfoArea(await response.data);
     } catch (error) {
       console.error(error);
