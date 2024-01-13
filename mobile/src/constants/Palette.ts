@@ -1,5 +1,4 @@
 export const palette = {
-
   /* Dark theme */
 
   /* Primary */

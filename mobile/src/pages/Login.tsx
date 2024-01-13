@@ -1,4 +1,4 @@
-import React, {useState, createContext} from 'react';
+import {useState} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -19,7 +19,7 @@ const Login = ({navigation}) => {
     backgroundColor: Colors.darker,
     flex: 1,
   };
-  const { setAuthData } = useAuth();
+  const {setAuthData} = useAuth();
   const [displayMessage, setMessage] = useState('');
 
   const handleTextChangeUser = (text: string) => {
@@ -34,9 +34,14 @@ const Login = ({navigation}) => {
       mail: mail,
       password: password,
     };
-    axios.post('http://10.0.2.2:8080/auth/signin', data)
-      .then(async (response) => {
-        setAuthData(response.data.email, response.data.randomToken, response.data.id);
+    axios
+      .post('http://10.0.2.2:8080/auth/signin', data)
+      .then(async response => {
+        setAuthData(
+          response.data.email,
+          response.data.randomToken,
+          response.data.id,
+        );
         navigation.navigate('Area');
       })
       .catch(error => {
@@ -76,9 +81,9 @@ const Login = ({navigation}) => {
           />
         </View>
         <View style={{paddingHorizontal: 50}}>
-        {
-          displayMessage !== '' && <Text style={styles.errorMessage}>{displayMessage}</Text>
-        }
+          {displayMessage !== '' && (
+            <Text style={styles.errorMessage}>{displayMessage}</Text>
+          )}
           <Pressable
             style={styles.primaryButton}
             onPress={handleClickConnection}>

@@ -1,14 +1,14 @@
-import { createContext, useContext, useState } from 'react';
+import {createContext, useContext, useState} from 'react';
 
 const AuthContext = createContext({
   email: '',
   token: '',
   id: '',
-  setAuthData: (email: string, token: string, id: string) => {},
+  setAuthData: (_email: string, _token: string, _id: string) => {},
   clearAuthData: () => {},
 });
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const [email, setEmail] = useState('');
   const [token, setToken] = useState('');
   const [id, setId] = useState('');
@@ -26,7 +26,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ email, token, id, setAuthData, clearAuthData }}>
+    <AuthContext.Provider
+      value={{email, token, id, setAuthData, clearAuthData}}>
       {children}
     </AuthContext.Provider>
   );

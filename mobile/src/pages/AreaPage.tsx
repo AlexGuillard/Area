@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -15,7 +15,7 @@ import {Appbar} from 'react-native-paper';
 import AddComponent from '../components/addComponent';
 import EditComponent from '../components/editComponent';
 import axios from 'axios';
-import { useAuth } from '../context/UserContext';
+import {useAuth} from '../context/UserContext';
 import HeaderBar from '../components/headerComponent';
 
 interface ReactionItem {
@@ -27,10 +27,10 @@ const AreaPage = ({navigation}) => {
   const [showAddArea, setShowAddArea] = useState(false);
   const [showEditArea, setShowEditArea] = useState(false);
   const [areaSelected, setAreaSelected] = useState('');
-  const [actionSelected, setActionSelected] = useState("");
-  const [reactionSelected, setReactionSelected] = useState("");
+  const [actionSelected, setActionSelected] = useState('');
+  const [reactionSelected, setReactionSelected] = useState('');
   const [listArea, setListArea] = useState<ReactionItem[]>([]);
-  const { email, token, id , clearAuthData} = useAuth();
+  const {token, clearAuthData} = useAuth();
 
   const backgroundStyle = {
     backgroundColor: Colors.darker,
@@ -48,26 +48,27 @@ const AreaPage = ({navigation}) => {
     setShowEditArea(true);
     setShowAddArea(false);
     setAreaSelected(item);
-    setActionSelected("");
-    setReactionSelected("");
+    setActionSelected('');
+    setReactionSelected('');
   };
 
   const handleCallAreaList = () => {
-    axios.get(process.env.REACT_APP_SERVER_URL + "/" + token + "/areas")
+    axios
+      .get(process.env.REACT_APP_SERVER_URL + '/' + token + '/areas')
       .then(response => {
-        setListArea(response.data)
+        setListArea(response.data);
       })
       .catch(error => {
         console.error(error);
       });
-  }
+  };
 
   useEffect(() => {
-    if (token === "undefined") {
+    if (token === 'undefined') {
       clearAuthData();
-      navigation.navigate('Login')
+      navigation.navigate('Login');
     }
-    handleCallAreaList()
+    handleCallAreaList();
   }, []);
 
   return (
@@ -76,11 +77,18 @@ const AreaPage = ({navigation}) => {
         barStyle={'light-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <HeaderBar page="Area" left_icon={
-        [{ image_url: require('../../assets/User.png'), onPress: () => {navigation.navigate('Service')} },
-        { image_url: require('../../assets/Logout.png'), onPress: () => {} },
-      ]
-      }/>
+      <HeaderBar
+        page="Area"
+        left_icon={[
+          {
+            image_url: require('../../assets/User.png'),
+            onPress: () => {
+              navigation.navigate('Service');
+            },
+          },
+          {image_url: require('../../assets/Logout.png'), onPress: () => {}},
+        ]}
+      />
       {showAddArea && (
         <TouchableWithoutFeedback onPress={() => setShowAddArea(false)}>
           <View style={styles.addComponent}>
@@ -91,7 +99,11 @@ const AreaPage = ({navigation}) => {
       {showEditArea && (
         <TouchableWithoutFeedback onPress={() => setShowEditArea(false)}>
           <View style={styles.editComponent}>
-            <EditComponent name={areaSelected} />
+            <EditComponent
+              name={areaSelected}
+              nameAction={actionSelected}
+              nameReaction={reactionSelected}
+            />
           </View>
         </TouchableWithoutFeedback>
       )}

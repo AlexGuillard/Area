@@ -4,11 +4,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Pressable,
   Image,
   Switch,
   StyleSheet,
-  FlatList
+  FlatList,
 } from 'react-native';
 interface editProps {
   name: string;
@@ -16,8 +15,7 @@ interface editProps {
   nameReaction: string;
 }
 import axios from 'axios';
-import { useAuth } from '../context/UserContext';
-import { palette } from '../constants/Palette.ts';
+import {useAuth} from '../context/UserContext';
 
 function EditComponent(props: editProps) {
   interface AreaItem {
@@ -36,102 +34,113 @@ function EditComponent(props: editProps) {
 
   const [infoArea, setInfoArea] = useState<AreaItem | null>(null);
 
-  const [nameArea, setNameArea] = useState("");
-  const [selectedAction, setSelectedAction] = useState("");
-  const [selectedReaction, setSelectedReaction] = useState("");
+  const [nameArea, setNameArea] = useState('');
+  const [selectedAction, setSelectedAction] = useState('');
+  const [selectedReaction, setSelectedReaction] = useState('');
 
   const [showlistAction, setShowListAction] = useState(false);
   const [showlistReaction, setShowListReaction] = useState(false);
 
-  const [listAction, setListAction] = useState<string []>();
-  const [listReaction, setListReaction] = useState<string []>();
+  const [listAction, setListAction] = useState<string[]>();
+  const [listReaction, setListReaction] = useState<string[]>();
 
-  const [listParamAction, setListParamAction] = useState<ParamItem []>([]);
-  const [listParamReaction, setListParamReaction] = useState<ParamItem []>([]);
+  const [listParamAction, setListParamAction] = useState<ParamItem[]>([]);
+  const [listParamReaction, setListParamReaction] = useState<ParamItem[]>([]);
 
-  const [modelParamAction, setModelParamAction] = useState<any>([])
-  const [modelParamReaction, setModelParamReaction] = useState<any>([])
+  const [modelParamAction, setModelParamAction] = useState<any>([]);
+  const [modelParamReaction, setModelParamReaction] = useState<any>([]);
 
-  const [paramAction, setParamAction] = useState<any>([])
-  const [paramReaction, setParamReaction] = useState<any>([])
+  const [paramAction, setParamAction] = useState<any>([]);
+  const [paramReaction, setParamReaction] = useState<any>([]);
 
-  const { token } = useAuth();
+  const {token} = useAuth();
 
   const handleNameAreaChange = (text: string) => {
     setNameArea(text);
   };
 
   const handleClickActionList = () => {
-    setShowListAction(!showlistAction)
-    setShowListReaction(false)
-  }
+    setShowListAction(!showlistAction);
+    setShowListReaction(false);
+  };
 
   const handleClickReactionList = () => {
-    setShowListReaction(!showlistReaction)
-    setShowListAction(false)
-  }
+    setShowListReaction(!showlistReaction);
+    setShowListAction(false);
+  };
 
   const handleActionAreaChange = async (event: string) => {
     setSelectedAction(event);
-    setListParamAction([])
-    setParamAction(infoArea?.actionParameter)
+    setListParamAction([]);
+    setParamAction(infoArea?.actionParameter);
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + token + "/actions/" + event);
-  
-      const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
+      const response = await axios.get(
+        process.env.REACT_APP_SERVER_URL + '/' + token + '/actions/' + event,
+      );
 
-      const updatedList = allPropertyNames.map(async (key) => {
+      const allPropertyNames = Object.keys(
+        response.data,
+      ) as (keyof typeof response.data)[];
+
+      const updatedList = allPropertyNames.map(async key => {
         const data = response.data[key];
         const variableType = typeof data;
 
         return {
           nameParam: String(key),
           typeParam: variableType,
-          param: paramAction[key]
+          param: paramAction[key],
         };
       });
 
       const resolvedList = await Promise.all(updatedList);
 
       setListParamAction(await resolvedList);
-      setModelParamAction(await response.data)
+      setModelParamAction(await response.data);
     } catch (error) {
       console.error(error);
     }
-      setShowListAction(false)
+    setShowListAction(false);
   };
 
   const handleReactionAreaChange = async (event: string) => {
     setSelectedReaction(event);
-    setListParamReaction([])
-    setParamReaction(infoArea?.reactionParameter)
+    setListParamReaction([]);
+    setParamReaction(infoArea?.reactionParameter);
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + token + "/reactions/" + event);
+      const response = await axios.get(
+        process.env.REACT_APP_SERVER_URL + '/' + token + '/reactions/' + event,
+      );
 
-      const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
+      const allPropertyNames = Object.keys(
+        response.data,
+      ) as (keyof typeof response.data)[];
 
-      const updatedList = allPropertyNames.map(async (key) => {
+      const updatedList = allPropertyNames.map(async key => {
         const data = response.data[key];
         const variableType = typeof data;
 
         return {
           nameParam: String(key),
           typeParam: variableType,
-          param: paramReaction[key]
+          param: paramReaction[key],
         };
       });
 
       const resolvedList = await Promise.all(updatedList);
 
       setListParamReaction(await resolvedList);
-      setModelParamReaction(await response.data)
+      setModelParamReaction(await response.data);
     } catch (error) {
       console.error(error);
     }
-    setShowListReaction(false)
+    setShowListReaction(false);
   };
 
-  const handleParamActionChange = (event: string | number | boolean, nameParam: string) => {
+  const handleParamActionChange = (
+    event: string | number | boolean,
+    nameParam: string,
+  ) => {
     const updatedList = listParamAction.map(param => {
       if (param.nameParam === nameParam) {
         return {
@@ -144,7 +153,10 @@ function EditComponent(props: editProps) {
     setListParamAction(updatedList);
   };
 
-  const handleParamReactionChange = (event: string | number | boolean, nameParam: string) => {
+  const handleParamReactionChange = (
+    event: string | number | boolean,
+    nameParam: string,
+  ) => {
     const updatedList = listParamReaction.map(param => {
       if (param.nameParam === nameParam) {
         return {
@@ -158,47 +170,55 @@ function EditComponent(props: editProps) {
   };
 
   const handleCallActionList = () => {
-    setListAction([])
-    axios.get(process.env.REACT_APP_SERVER_URL + "/" + token + "/actions")
+    setListAction([]);
+    axios
+      .get(process.env.REACT_APP_SERVER_URL + '/' + token + '/actions')
       .then(response => {
         setListAction((prevState: string[] | undefined) => [
           ...(prevState || []),
-          ...response.data.map((item: { name: string }) => item.name)
+          ...response.data.map((item: {name: string}) => item.name),
         ]);
       })
       .catch(error => {
         console.error(error);
       });
-  }
+  };
 
   const handleCallReactionList = () => {
-    setListReaction([])
-    axios.get(process.env.REACT_APP_SERVER_URL + "/" + token + "/reactions")
+    setListReaction([]);
+    axios
+      .get(process.env.REACT_APP_SERVER_URL + '/' + token + '/reactions')
       .then(response => {
         setListReaction((prevState: string[] | undefined) => [
           ...(prevState || []),
-          ...response.data.map((item: { name: string }) => item.name)
+          ...response.data.map((item: {name: string}) => item.name),
         ]);
       })
       .catch(error => {
         console.error(error);
       });
-  }
+  };
 
   const handleUpdateArea = () => {
     for (var i = 0; i < listParamAction.length; i++) {
-      if (listParamAction[i].typeParam === "number") {
-        modelParamAction[listParamAction[i].nameParam] = Number(listParamAction[i].param)
+      if (listParamAction[i].typeParam === 'number') {
+        modelParamAction[listParamAction[i].nameParam] = Number(
+          listParamAction[i].param,
+        );
       } else {
-        modelParamAction[listParamAction[i].nameParam] = listParamAction[i].param
+        modelParamAction[listParamAction[i].nameParam] =
+          listParamAction[i].param;
       }
     }
 
     for (var y = 0; y < listParamReaction.length; y++) {
-      if (listParamReaction[y].typeParam === "number") {
-        modelParamReaction[listParamReaction[y].nameParam] = Number(listParamReaction[y].param)
+      if (listParamReaction[y].typeParam === 'number') {
+        modelParamReaction[listParamReaction[y].nameParam] = Number(
+          listParamReaction[y].param,
+        );
       } else {
-        modelParamReaction[listParamReaction[y].nameParam] = listParamReaction[y].param
+        modelParamReaction[listParamReaction[y].nameParam] =
+          listParamReaction[y].param;
       }
     }
 
@@ -207,45 +227,49 @@ function EditComponent(props: editProps) {
       nameAction: selectedAction,
       actionParameter: modelParamAction,
       nameReaction: selectedReaction,
-      reactionParameter: modelParamReaction
+      reactionParameter: modelParamReaction,
     };
-    axios.put(process.env.REACT_APP_SERVER_URL + "/" + token + "/areas/" + props.name, data)
-    .then(response => {
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  }
+    axios
+      .put(
+        process.env.REACT_APP_SERVER_URL + '/' + token + '/areas/' + props.name,
+        data,
+      )
+      .then(() => {})
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   const handleCallAreaInfo = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_SERVER_URL + "/" + token + "/areas/" + props.name);
+      const response = await axios.get(
+        process.env.REACT_APP_SERVER_URL + '/' + token + '/areas/' + props.name,
+      );
       await setInfoArea(await response.data);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     if (infoArea === null) {
-      handleCallAreaInfo()
+      handleCallAreaInfo();
     } else {
-      setNameArea(infoArea.nameArea)
+      setNameArea(infoArea.nameArea);
       if (listParamAction.length === 0) {
-        handleActionAreaChange(infoArea.nameAction)
+        handleActionAreaChange(infoArea.nameAction);
       }
       if (listParamReaction.length === 0) {
-        handleReactionAreaChange(infoArea.nameReaction)
+        handleReactionAreaChange(infoArea.nameReaction);
       }
     }
     if (listAction === undefined) {
-      handleCallActionList()
+      handleCallActionList();
     }
     if (listReaction === undefined) {
-      handleCallReactionList()
+      handleCallReactionList();
     }
-  }, [infoArea, handleCallAreaInfo, listAction, listReaction]);
-
+  }, [infoArea, listAction, listReaction]);
 
   return (
     <View style={styles.editComponent}>
@@ -256,138 +280,152 @@ function EditComponent(props: editProps) {
           onChangeText={handleNameAreaChange}
           value={nameArea}
           placeholder="Area Name"
-          inputMode='text'
+          inputMode="text"
         />
         <View>
           <TouchableOpacity
             style={styles.editComponentActionInput}
             onPress={handleClickActionList}>
-              <Text style={styles.editComponentActionTitle}>{selectedAction}</Text>
-              <View style={styles.editComponentActionLine}/>
-              <Image
-                style={styles.editComponentActionButton}
-                source={require('../../assets/SelectInput.png')}/>
-            </TouchableOpacity>
-            {showlistAction &&
-              (
-                <FlatList
-                  style={styles.editComponentActionListArea}
-                  data={listAction}
-                  renderItem={({item}) => (
-                    <TouchableOpacity
-                      style={styles.editComponentActionList}
-                      onPress={() => handleActionAreaChange(item)}>
-                      <Text>{item}</Text>
-                    </TouchableOpacity>
-                  )}
-                  keyExtractor={item => item}
-                />
-              )
-            }
+            <Text style={styles.editComponentActionTitle}>
+              {selectedAction}
+            </Text>
+            <View style={styles.editComponentActionLine} />
+            <Image
+              style={styles.editComponentActionButton}
+              source={require('../../assets/SelectInput.png')}
+            />
+          </TouchableOpacity>
+          {showlistAction && (
+            <FlatList
+              style={styles.editComponentActionListArea}
+              data={listAction}
+              renderItem={({item}) => (
+                <TouchableOpacity
+                  style={styles.editComponentActionList}
+                  onPress={() => handleActionAreaChange(item)}>
+                  <Text>{item}</Text>
+                </TouchableOpacity>
+              )}
+              keyExtractor={item => item}
+            />
+          )}
         </View>
         {listParamAction && (
-        <FlatList
-          data={listParamAction}
-          style={styles.editComponentParamArea}
-          keyExtractor={(item) => item.nameParam}
-          renderItem={({ item }) => (
-            <View key={item.nameParam}>
-              {item.typeParam === 'string' && (
-                <TextInput
-                  style={styles.editComponentParamInput}
-                  value={item.param}
-                  onChangeText={(text) => handleParamActionChange(text, item.nameParam)}
-                  placeholder={item.nameParam}
-                  inputMode='text'
-                />
-              )}
-              {item.typeParam === 'number' && (
-                <TextInput
-                  value={item.param}
-                  onChangeText={(text) => handleParamActionChange(text, item.nameParam)}
-                  keyboardType="numeric"
-                  placeholder={item.nameParam}
-                  inputMode='numeric'
-                />
-              )}
-              {item.typeParam === 'boolean' && (
-                <Switch
-                  value={item.param}
-                  onValueChange={(value) => handleParamActionChange(value, item.nameParam)}
-                />
-              )}
-            </View>
-          )}
-        />
+          <FlatList
+            data={listParamAction}
+            style={styles.editComponentParamArea}
+            keyExtractor={item => item.nameParam}
+            renderItem={({item}) => (
+              <View key={item.nameParam}>
+                {item.typeParam === 'string' && (
+                  <TextInput
+                    style={styles.editComponentParamInput}
+                    value={item.param}
+                    onChangeText={text =>
+                      handleParamActionChange(text, item.nameParam)
+                    }
+                    placeholder={item.nameParam}
+                    inputMode="text"
+                  />
+                )}
+                {item.typeParam === 'number' && (
+                  <TextInput
+                    value={item.param}
+                    onChangeText={text =>
+                      handleParamActionChange(text, item.nameParam)
+                    }
+                    keyboardType="numeric"
+                    placeholder={item.nameParam}
+                    inputMode="numeric"
+                  />
+                )}
+                {item.typeParam === 'boolean' && (
+                  <Switch
+                    value={item.param}
+                    onValueChange={value =>
+                      handleParamActionChange(value, item.nameParam)
+                    }
+                  />
+                )}
+              </View>
+            )}
+          />
         )}
         <View>
           <TouchableOpacity
             style={styles.editComponentReactionInput}
             onPress={handleClickReactionList}>
-              <Text style={styles.editComponentReactionTitle}>{selectedReaction}</Text>
-              <View style={styles.editComponentReactionLine}/>
-              <Image
-                style={styles.editComponentReactionButton}
-                source={require('../../assets/SelectInput.png')}/>
-            </TouchableOpacity>
-            {showlistReaction &&
-              (
-                <FlatList
-                  style={styles.editComponentReactionListArea}
-                  data={listReaction}
-                  renderItem={({item}) => (
-                    <TouchableOpacity
-                      style={styles.editComponentReactionList}
-                      onPress={() => handleReactionAreaChange(item)}>
-                      <Text>{item}</Text>
-                    </TouchableOpacity>
-                  )}
-                  keyExtractor={item => item}
-                />
-              )
-            }
+            <Text style={styles.editComponentReactionTitle}>
+              {selectedReaction}
+            </Text>
+            <View style={styles.editComponentReactionLine} />
+            <Image
+              style={styles.editComponentReactionButton}
+              source={require('../../assets/SelectInput.png')}
+            />
+          </TouchableOpacity>
+          {showlistReaction && (
+            <FlatList
+              style={styles.editComponentReactionListArea}
+              data={listReaction}
+              renderItem={({item}) => (
+                <TouchableOpacity
+                  style={styles.editComponentReactionList}
+                  onPress={() => handleReactionAreaChange(item)}>
+                  <Text>{item}</Text>
+                </TouchableOpacity>
+              )}
+              keyExtractor={item => item}
+            />
+          )}
         </View>
         {listParamReaction && (
-        <FlatList
-          data={listParamAction}
-          style={styles.editComponentParamArea}
-          keyExtractor={(item) => item.nameParam}
-          renderItem={({ item }) => (
-            <View key={item.nameParam}>
-              {item.typeParam === 'string' && (
-                <TextInput
-                  style={styles.editComponentParamInput}
-                  value={item.param}
-                  onChangeText={(text) => handleParamReactionChange(text, item.nameParam)}
-                  placeholder={item.nameParam}
-                  inputMode='text'
-                />
-              )}
-              {item.typeParam === 'number' && (
-                <TextInput
-                  value={item.param}
-                  onChangeText={(text) => handleParamReactionChange(text, item.nameParam)}
-                  keyboardType="numeric"
-                  placeholder={item.nameParam}
-                  inputMode='numeric'
-                />
-              )}
-              {item.typeParam === 'boolean' && (
-                <Switch
-                  value={item.param}
-                  onValueChange={(value) => handleParamReactionChange(value, item.nameParam)}
-                />
-              )}
-            </View>
-          )}
-        />
+          <FlatList
+            data={listParamAction}
+            style={styles.editComponentParamArea}
+            keyExtractor={item => item.nameParam}
+            renderItem={({item}) => (
+              <View key={item.nameParam}>
+                {item.typeParam === 'string' && (
+                  <TextInput
+                    style={styles.editComponentParamInput}
+                    value={item.param}
+                    onChangeText={text =>
+                      handleParamReactionChange(text, item.nameParam)
+                    }
+                    placeholder={item.nameParam}
+                    inputMode="text"
+                  />
+                )}
+                {item.typeParam === 'number' && (
+                  <TextInput
+                    value={item.param}
+                    onChangeText={text =>
+                      handleParamReactionChange(text, item.nameParam)
+                    }
+                    keyboardType="numeric"
+                    placeholder={item.nameParam}
+                    inputMode="numeric"
+                  />
+                )}
+                {item.typeParam === 'boolean' && (
+                  <Switch
+                    value={item.param}
+                    onValueChange={value =>
+                      handleParamReactionChange(value, item.nameParam)
+                    }
+                  />
+                )}
+              </View>
+            )}
+          />
         )}
       </View>
-        <TouchableOpacity
-          style={styles.editComponentButton}
-          onPress={handleUpdateArea}>
-          <Text style={styles.editComponentButtonText}>Edit</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.editComponentButton}
+        onPress={handleUpdateArea}>
+        <Text style={styles.editComponentButtonText}>Edit</Text>
+      </TouchableOpacity>
     </View>
   );
 }

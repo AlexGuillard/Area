@@ -1,6 +1,12 @@
 import React from 'react';
-import {Avatar, Image} from 'react-native-elements';
-import {SafeAreaView, View, FlatList, StyleSheet, Text, TouchableOpacity, Linking} from 'react-native';
+import {
+  Image,
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Linking,
+} from 'react-native';
 
 type ServiceProps = {
   serviceName: string;
@@ -10,20 +16,23 @@ type ServiceProps = {
   link: string;
 };
 
-const ServiceCard: React.FC<ServiceProps> = (props) => {
+const ServiceCard: React.FC<ServiceProps> = props => {
   const handleSubmit = () => {
     console.log('Formulaire soumis !');
     Linking.openURL(props.link);
   };
 
   return (
-    <TouchableOpacity style={styles.serviceCard} onPress={handleSubmit} accessibilityRole="button">
+    <TouchableOpacity
+      style={styles.serviceCard}
+      onPress={handleSubmit}
+      accessibilityRole="button">
       <View style={styles.serviceCardHeader}>
         <Text style={styles.serviceCardName}>{props.serviceName}</Text>
         <Text style={styles.serviceCardStatus}>{props.status}</Text>
       </View>
       <View style={styles.serviceCardBody}>
-        <Image style={styles.serviceLogo} source={props.image}/>
+        <Image style={styles.serviceLogo} source={props.image} />
         <Text style={styles.serviceCardUser}>{props.userName}</Text>
       </View>
     </TouchableOpacity>
@@ -52,7 +61,7 @@ const styles = StyleSheet.create({
   serviceCardName: {
     fontSize: 20,
     color: '#000000',
-    marginLeft: '10%'
+    marginLeft: '10%',
   },
 
   serviceCardStatus: {
@@ -66,7 +75,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     width: '100%',
-    height: '85%'
+    height: '85%',
   },
 
   serviceLogo: {
@@ -75,9 +84,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
 
-  serviceCardUser: {
-
-  }
+  serviceCardUser: {},
 });
 
 export default ServiceCard;
