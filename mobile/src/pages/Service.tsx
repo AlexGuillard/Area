@@ -30,24 +30,23 @@ const Service = ({navigation}) => {
   const [stateGithub, setStateGithub] = useState('Not Connected');
   const [stateSpotify, setStateSpotify] = useState('Not Connected');
 
-  const handleCallServicesList = () => {
-    const storedToken = token;
-    axios
-      .get('http://10.0.2.2:8080/services', {
-        headers: {
-          token: storedToken,
-        },
-      })
-      .then(response => {
-        setListServices(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
   useEffect(() => {
     if (listServices === undefined) {
+      const handleCallServicesList = () => {
+        const storedToken = token;
+        axios
+          .get('http://10.0.2.2:8080/services', {
+            headers: {
+              token: storedToken,
+            },
+          })
+          .then(response => {
+            setListServices(response.data);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      };
       handleCallServicesList();
     } else {
       let i = 0;
@@ -64,7 +63,7 @@ const Service = ({navigation}) => {
         i = i + 1;
       }
     }
-  }, [listServices, handleCallServicesList]);
+  }, [listServices]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
