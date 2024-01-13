@@ -35,7 +35,13 @@ const Login = ({navigation}) => {
       password: password,
     };
     axios
-      .post(process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/auth/signin', data)
+      .post(
+        process.env.REACT_APP_SERVER_IP +
+          ':' +
+          process.env.REACT_APP_SERVER_PORT +
+          '/auth/signin',
+        data,
+      )
       .then(async response => {
         setAuthData(
           response.data.email,

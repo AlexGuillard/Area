@@ -59,11 +59,17 @@ const AreaPage = ({navigation}) => {
     }
     const handleCallAreaList = () => {
       axios
-        .get(process.env.REACT_APP_SERVER_IP + ':' + process.env.REACT_APP_SERVER_PORT + '/areas', {
-          headers: {
-            token: token,
+        .get(
+          process.env.REACT_APP_SERVER_IP +
+            ':' +
+            process.env.REACT_APP_SERVER_PORT +
+            '/areas',
+          {
+            headers: {
+              token: token,
+            },
           },
-        })
+        )
         .then(response => {
           setListArea(response.data);
         })
