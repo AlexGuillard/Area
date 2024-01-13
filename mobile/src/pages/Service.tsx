@@ -93,7 +93,7 @@ const Service = ({navigation}) => {
           status={stateDiscord}
           image={Discord}
           userName={''}
-          link={'http://10.0.2.2:8080/services/discord/login'}
+          link={'DiscordWebView'}
         />
         <ServiceCard
           navigation={navigation}

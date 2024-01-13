@@ -8,6 +8,7 @@ import Service from './Service';
 import Register from './Register';
 import ServiceConnexion from './ServiceConnexion';
 import GithubWebView from './WebView/GithubWebView';
+import DiscordWebView from './WebView/DiscordWebView';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,11 @@ const App = () => {
           <Stack.Screen
             name="GithubWebView"
             component={GithubWebView}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="DiscordWebView"
+            component={DiscordWebView}
             options={{headerShown: false}}
           />
           <Stack.Screen
