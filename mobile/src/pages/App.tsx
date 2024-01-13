@@ -6,6 +6,7 @@ import Login from './Login';
 import AreaPage from './AreaPage';
 import Service from './Service';
 import Register from './Register';
+import ServiceConnexion from './ServiceConnexion';
 import GithubWebView from './WebView/GithubWebView';
 import ServiceConnexion, { ParamsProps } from './ServiceConnexion';
 
@@ -42,9 +43,9 @@ const App = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen
-          name="ServiceConnexion"
-          component={ServiceConnexion}
-          options={{ headerShown: false }}
+            name="ServiceConnexion"
+            component={ServiceConnexion}
+            options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>
