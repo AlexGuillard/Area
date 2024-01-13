@@ -131,46 +131,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: '30%',
   },
-
-  // listReaction: {
-  //   height: Dimensions.get('window').height - 275,
-  // },
-  // addButton: {
-  //   backgroundColor: '#4A4458',
-  //   borderRadius: 16,
-  //   display: 'flex',
-  //   width: 75,
-  //   height: 75,
-  //   marginTop: 10,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   position: 'absolute',
-  //   bottom: 20,
-  //   zIndex: 1,
-  // },
-  // header: {
-  //   backgroundColor: 'rgba(197, 192, 255, 1)',
-  //   position: 'absolute',
-  //   top: 0,
-  //   width: '100%',
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   height: '10%',
-  // },
-  // headerItem: {
-  //   color: '#2B2277',
-  //   fontSize: 30,
-  // },
-  // headerText: {
-  //   textDecorationColor: '#2B2277',
-  //   fontSize: 30,
-  // },
-  // bottomBar: {
-  //   backgroundColor: 'rgba(197, 192, 255, 1)',
-  //   width: '100%',
-  //   position: 'absolute',
-  //   bottom: 0,
-  // },
 });
 
 export default Service;
