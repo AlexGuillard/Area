@@ -90,6 +90,77 @@ export class AuthService {
     };
   }
 
+  async signOut(token: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        randomToken: token,
+      },
+      select: {
+        id: true,
+        email: true,
+        randomToken: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    if (!user) {
+      throw new ForbiddenException('user not found');
+    }
+    user.randomToken = null;
+    await this.prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        randomToken: null,
+      },
+    });
+    return user;
+  }
+
+  async deleteUser(token: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        randomToken: token,
+      },
+    });
+    if (!user) {
+      throw new ForbiddenException('mail not found');
+    }
+    const services = await this.prisma.services.findMany({
+      where: {
+        userId: user.id,
+      },
+    });
+    for (const service of services) {
+      await this.prisma.action.deleteMany({
+        where: {
+          serviceId: service.id,
+        },
+      });
+      await this.prisma.reaction.deleteMany({
+        where: {
+          serviceId: service.id,
+        },
+      });
+    }
+    await this.prisma.services.deleteMany({
+      where: {
+        userId: user.id,
+      },
+    });
+    await this.prisma.area.deleteMany({
+      where: {
+        userId: user.id,
+      },
+    });
+    await this.prisma.user.delete({
+      where: {
+        id: user.id,
+      },
+    });
+  }
+
   async loginService(token: string): Promise<any> {
     try {
       const ticket = await this.googleClient.verifyIdToken({
@@ -127,29 +198,33 @@ export class AuthService {
           },
         });
 
-        // Here filled with bad infos caus its another funcitonnality so on another branch
-        const service = await this.prisma.services.findUnique({
-          where: {
+        await this.prisma.services.create({
+          data: {
             userId: newUser.id,
-            token: newUser.randomToken, // bad token to change
-            typeService: ServiceType.GOOGLE,
+            typeService: ServiceType.TIME,
+            token: uid(16),
           },
         });
 
-        console.log(service);
+        await this.prisma.services.create({
+          data: {
+            userId: newUser.id,
+            typeService: ServiceType.WEATHER,
+            token: uid(16),
+          },
+        });
 
         return {
-          user: {
-            id: newUser.id,
-            email: newUser.email,
-            randomToken: newUser.randomToken,
-            createdAt: newUser.createdAt,
-            updatedAt: newUser.updatedAt,
-          },
+          id: newUser.id,
+          email: newUser.email,
+          randomToken: newUser.randomToken,
+          createdAt: newUser.createdAt,
+          updatedAt: newUser.updatedAt,
         };
       }
 
       const newRandomToken = uid(16);
+      existingUser.randomToken = newRandomToken;
 
       await this.prisma.user.update({
         where: {
@@ -168,13 +243,11 @@ export class AuthService {
       });
 
       return {
-        user: {
-          id: existingUser.id,
-          email: existingUser.email,
-          randomToken: newRandomToken,
-          createdAt: existingUser.createdAt,
-          updatedAt: existingUser.updatedAt,
-        },
+        id: existingUser.id,
+        email: existingUser.email,
+        randomToken: existingUser.randomToken,
+        createdAt: existingUser.createdAt,
+        updatedAt: existingUser.updatedAt,
       };
     } catch (error) {
       throw new ForbiddenException('Error' + error);

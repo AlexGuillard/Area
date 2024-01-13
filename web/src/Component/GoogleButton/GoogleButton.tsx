@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useStore } from '../../hooks/useStore';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 export default function GoogleButton() {
 
@@ -22,6 +23,7 @@ export default function GoogleButton() {
                   token: credentialResponse.credential
                 });
                 const data = response.data;
+                Cookies.set('token', data.randomToken)
                 localStorage.setItem('authData', JSON.stringify(data))
 
                 setAuthData(data)

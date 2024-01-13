@@ -69,27 +69,27 @@ services:
     networks:
       - back-tier
     ports:
-      - 8083:8083
-
-  client_web:
-    restart: always
-    container_name: client_web
-    image: client_web_dev
-    build:
-      context: ./web
-      dockerfile: Dockerfile
-    networks:
-      - back-tier
-    depends_on:
-      - server
-      - client_mobile
-    environment:
-      REACT_APP_SERVER_URL: "${SERVER_IP}:${SERVER_PORT}"
-      REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
-    volumes:
-      - ./web/src:/app/src
-    ports:
       - 8081:8081
+
+  # client_web:
+  #   restart: always
+  #   container_name: client_web
+  #   image: client_web_dev
+  #   build:
+  #     context: ./web
+  #     dockerfile: Dockerfile
+  #   networks:
+  #     - back-tier
+  #   depends_on:
+  #     - server
+  #     - client_mobile
+  #   environment:
+  #     REACT_APP_SERVER_URL: "${SERVER_IP}:${SERVER_PORT}"
+  #     REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+  #   volumes:
+  #     - ./web/src:/app/src
+  #   ports:
+  #     - 8081:8081
 
   pgadmin:
     image: dpage/pgadmin4
