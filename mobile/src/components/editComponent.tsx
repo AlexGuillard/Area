@@ -4,9 +4,11 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Pressable,
   Image,
   Switch,
   StyleSheet,
+  FlatList
 } from 'react-native';
 interface editProps {
   name: string;
@@ -129,7 +131,7 @@ function EditComponent(props: editProps) {
     setShowListReaction(false)
   };
 
-  const handleParamActionChange = (event: string, nameParam: string) => {
+  const handleParamActionChange = (event: string | number | boolean, nameParam: string) => {
     const updatedList = listParamAction.map(param => {
       if (param.nameParam === nameParam) {
         return {
@@ -142,7 +144,7 @@ function EditComponent(props: editProps) {
     setListParamAction(updatedList);
   };
 
-  const handleParamReactionChange = (event: string, nameParam: string) => {
+  const handleParamReactionChange = (event: string | number | boolean, nameParam: string) => {
     const updatedList = listParamReaction.map(param => {
       if (param.nameParam === nameParam) {
         return {
@@ -247,6 +249,145 @@ function EditComponent(props: editProps) {
 
   return (
     <View style={styles.editComponent}>
+      <View style={styles.editComponentBody}>
+        <Text style={styles.editComponentTitle}>Edit Area</Text>
+        <TextInput
+          style={styles.editComponentNameInput}
+          onChangeText={handleNameAreaChange}
+          value={nameArea}
+          placeholder="Area Name"
+          inputMode='text'
+        />
+        <View>
+          <TouchableOpacity
+            style={styles.editComponentActionInput}
+            onPress={handleClickActionList}>
+              <Text style={styles.editComponentActionTitle}>{selectedAction}</Text>
+              <View style={styles.editComponentActionLine}/>
+              <Image
+                style={styles.editComponentActionButton}
+                source={require('../../assets/SelectInput.png')}/>
+            </TouchableOpacity>
+            {showlistAction &&
+              (
+                <FlatList
+                  style={styles.editComponentActionListArea}
+                  data={listAction}
+                  renderItem={({item}) => (
+                    <TouchableOpacity
+                      style={styles.editComponentActionList}
+                      onPress={() => handleActionAreaChange(item)}>
+                      <Text>{item}</Text>
+                    </TouchableOpacity>
+                  )}
+                  keyExtractor={item => item}
+                />
+              )
+            }
+        </View>
+        {listParamAction && (
+        <FlatList
+          data={listParamAction}
+          style={styles.editComponentParamArea}
+          keyExtractor={(item) => item.nameParam}
+          renderItem={({ item }) => (
+            <View key={item.nameParam}>
+              {item.typeParam === 'string' && (
+                <TextInput
+                  style={styles.editComponentParamInput}
+                  value={item.param}
+                  onChangeText={(text) => handleParamActionChange(text, item.nameParam)}
+                  placeholder={item.nameParam}
+                  inputMode='text'
+                />
+              )}
+              {item.typeParam === 'number' && (
+                <TextInput
+                  value={item.param}
+                  onChangeText={(text) => handleParamActionChange(text, item.nameParam)}
+                  keyboardType="numeric"
+                  placeholder={item.nameParam}
+                  inputMode='numeric'
+                />
+              )}
+              {item.typeParam === 'boolean' && (
+                <Switch
+                  value={item.param}
+                  onValueChange={(value) => handleParamActionChange(value, item.nameParam)}
+                />
+              )}
+            </View>
+          )}
+        />
+        )}
+        <View>
+          <TouchableOpacity
+            style={styles.editComponentReactionInput}
+            onPress={handleClickReactionList}>
+              <Text style={styles.editComponentReactionTitle}>{selectedReaction}</Text>
+              <View style={styles.editComponentReactionLine}/>
+              <Image
+                style={styles.editComponentReactionButton}
+                source={require('../../assets/SelectInput.png')}/>
+            </TouchableOpacity>
+            {showlistReaction &&
+              (
+                <FlatList
+                  style={styles.editComponentReactionListArea}
+                  data={listReaction}
+                  renderItem={({item}) => (
+                    <TouchableOpacity
+                      style={styles.editComponentReactionList}
+                      onPress={() => handleReactionAreaChange(item)}>
+                      <Text>{item}</Text>
+                    </TouchableOpacity>
+                  )}
+                  keyExtractor={item => item}
+                />
+              )
+            }
+        </View>
+        {listParamReaction && (
+        <FlatList
+          data={listParamAction}
+          style={styles.editComponentParamArea}
+          keyExtractor={(item) => item.nameParam}
+          renderItem={({ item }) => (
+            <View key={item.nameParam}>
+              {item.typeParam === 'string' && (
+                <TextInput
+                  style={styles.editComponentParamInput}
+                  value={item.param}
+                  onChangeText={(text) => handleParamReactionChange(text, item.nameParam)}
+                  placeholder={item.nameParam}
+                  inputMode='text'
+                />
+              )}
+              {item.typeParam === 'number' && (
+                <TextInput
+                  value={item.param}
+                  onChangeText={(text) => handleParamReactionChange(text, item.nameParam)}
+                  keyboardType="numeric"
+                  placeholder={item.nameParam}
+                  inputMode='numeric'
+                />
+              )}
+              {item.typeParam === 'boolean' && (
+                <Switch
+                  value={item.param}
+                  onValueChange={(value) => handleParamReactionChange(value, item.nameParam)}
+                />
+              )}
+            </View>
+          )}
+        />
+        )}
+      </View>
+        <TouchableOpacity
+          style={styles.editComponentButton}
+          onPress={handleUpdateArea}>
+          <Text style={styles.editComponentButtonText}>Edit</Text>
+        </TouchableOpacity>
     </View>
   );
 }
@@ -256,13 +397,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'column',
+    position: 'absolute',
+    width: '100%',
+    height: 500,
   },
   editComponentBody: {
     width: 325,
-    height: 410,
+    height: '80%',
     backgroundColor: '#C7C4DC',
     borderRadius: 16,
     alignItems: 'center',
+    flexDirection: 'column',
   },
   editComponentTitle: {
     fontSize: 32,
@@ -290,23 +436,26 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  editComponentActionTitle: {
+    flexGrow: 1,
+    textAlign: 'center',
+    marginRight: -45,
   },
   editComponentActionLine: {
     width: 1,
     height: 62,
     backgroundColor: '#000',
-    position: 'absolute',
-    left: 260,
   },
   editComponentActionButton: {
-    position: 'absolute',
-    left: 275,
+    marginHorizontal: 10,
   },
   editComponentActionListArea: {
     position: 'absolute',
-    backgroundColor: palette.secondaryContainer,
-    top: 154,
-    width: '46%',
+    backgroundColor: 'white',
+    top: 0,
+    width: '50%',
     borderWidth: 1,
     borderColor: '#000',
     borderTopRightRadius: 16,
@@ -315,6 +464,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 0,
     paddingTop: 10,
     paddingBottom: 20,
+    marginTop: 30,
   },
   editComponentActionList: {
     marginTop: 10,
@@ -328,23 +478,27 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  editComponentReactionTitle: {
+    flexGrow: 1,
+    textAlign: 'center',
+    marginRight: -45,
   },
   editComponentReactionLine: {
     width: 1,
     height: 62,
     backgroundColor: '#000',
-    position: 'absolute',
-    left: 260,
   },
   editComponentReactionButton: {
-    position: 'absolute',
-    left: 275,
+    marginHorizontal: 10,
   },
   editComponentReactionListArea: {
     position: 'absolute',
-    backgroundColor: palette.secondaryContainer,
-    top: 246,
-    width: '46%',
+    backgroundColor: 'white',
+    // backgroundColor: palette.secondaryContainer,
+    top: 0,
+    width: '50%',
     borderWidth: 1,
     borderColor: '#000',
     borderTopRightRadius: 16,
@@ -353,14 +507,21 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 0,
     paddingTop: 10,
     paddingBottom: 20,
+    marginTop: 50,
   },
   editComponentReactionList: {
     marginTop: 10,
   },
+  editComponentParamArea: {
+    margin: 0,
+    marginTop: 10,
+    padding: 0,
+    marginBottom: 10,
+  },
   editComponentParamInput: {
     marginTop: 15,
-    height: 44,
-    width: 262,
+    height: 35,
+    width: 250,
     backgroundColor: '#C5C0FF',
     borderWidth: 2,
     borderColor: '#423B8E',
