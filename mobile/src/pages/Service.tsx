@@ -18,7 +18,7 @@ const Service = ({navigation}) => {
   const Google = require('../../assets/Google.png');
   const Discord = require('../../assets/Discord.png');
   const Github = require('../../assets/Github.png');
-  // const Spotify = require('../../assets/Spotify.png')
+  const Spotify = require('../../assets/Spotify.png');
 
   interface ServiceItem {
     typeService: string;
@@ -108,7 +108,7 @@ const Service = ({navigation}) => {
         <ServiceCard
           serviceName={'Spotify'}
           status={stateSpotify}
-          image={Google}
+          image={Spotify}
           userName={''}
           link={'http://10.0.2.2:8080/auth/spotify'}
         />
