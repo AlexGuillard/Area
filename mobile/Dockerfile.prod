@@ -7,8 +7,7 @@ COPY . .
 # it ensures that the build will be done in production mode (without .env dev file)
 RUN rm .env -f
 
-ENV REACT_APP_SERVER_IP http://10.0.2.2
-ENV REACT_APP_SERVER_PORT 8080
+RUN echo "REACT_APP_SERVER_IP=http://10.0.2.2\nREACT_APP_SERVER_PORT=8080" > .env
 
 RUN npm install
 
