@@ -57,20 +57,6 @@ services:
     networks:
       - db
 
-  client_mobile:
-    restart: on-failure
-    image: client_mobile_dev
-    container_name: client_mobile
-    build:
-      context: ./mobile
-      dockerfile: Dockerfile.dev
-    volumes:
-      - ./mobile/src:/app/src
-    networks:
-      - back-tier
-    ports:
-      - 8083:8083
-
   client_web:
     restart: always
     container_name: client_web
@@ -82,7 +68,6 @@ services:
       - back-tier
     depends_on:
       - server
-      - client_mobile
     environment:
       REACT_APP_SERVER_URL: "${SERVER_IP}:${SERVER_PORT}"
       REACT_APP_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
