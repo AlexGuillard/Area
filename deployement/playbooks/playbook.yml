@@ -49,6 +49,9 @@
     git:
       repo: https://github.com/AlexGuillard/Area.git
       dest: /home/Area
+      depth: 1
+      update: yes
+      version: main
 
   - name: Copy .env file
     copy:
