@@ -20,6 +20,7 @@ const Login = ({navigation}) => {
     flex: 1,
   };
   const { setAuthData } = useAuth();
+  const [displayMessage, setMessage] = useState('');
 
   const handleTextChangeUser = (text: string) => {
     setMail(text);
@@ -40,7 +41,14 @@ const Login = ({navigation}) => {
         navigation.navigate('Area');
       })
       .catch(error => {
-        console.error(error);
+        if (error.response.status === 403) {
+          setMessage('Mail Not Found');
+        } else if (error.response.status === 400) {
+          setMessage('Invalid Mail or Password');
+        } else {
+          setMessage('Error');
+          console.error(error);
+        }
       });
   };
 
@@ -69,6 +77,9 @@ const Login = ({navigation}) => {
           />
         </View>
         <View style={{paddingHorizontal: 50}}>
+        {
+          displayMessage !== '' && <Text style={styles.errorMessage}>{displayMessage}</Text>
+        }
           <Pressable
             style={styles.primaryButton}
             onPress={handleClickConnection}>
@@ -110,6 +121,10 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: 'rgba(197, 192, 255, 1)',
     marginBottom: 10,
+  },
+  errorMessage: {
+    color: 'red',
+    marginTop: 0,
   },
   primaryButton: {
     borderColor: '#3F3C8F',
