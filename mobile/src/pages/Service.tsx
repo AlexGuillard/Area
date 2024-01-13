@@ -108,14 +108,6 @@ const Service = ({navigation}) => {
           link={'http://10.0.2.2:8080/auth/spotify'}
         />
       </View>
-      {/* <Appbar style={styles.bottomBar}>
-        <Appbar.Action
-          icon="arrow-left"
-          onPress={() => {
-          }}
-        />
-        <Appbar.Content title="Area" />
-      </Appbar> */}
     </SafeAreaView>
   );
 };
