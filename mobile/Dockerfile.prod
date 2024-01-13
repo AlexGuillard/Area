@@ -7,6 +7,9 @@ COPY . .
 # it ensures that the build will be done in production mode (without .env dev file)
 RUN rm .env
 
+# REACT_APP_SERVER_IP
+# REACT_APP_SERVER_PORT
+
 RUN npm install
 
 WORKDIR /app/android
