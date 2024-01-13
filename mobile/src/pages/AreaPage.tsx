@@ -53,11 +53,12 @@ const AreaPage = ({navigation}) => {
   };
 
   const handleCallAreaList = () => {
-    axios.get("http://10.0.2.2:8080/areas", {
-      headers: {
-        token: token
-      }
-    })
+    axios
+      .get('http://10.0.2.2:8080/areas', {
+        headers: {
+          token: token,
+        },
+      })
       .then(response => {
         setListArea(response.data);
       })

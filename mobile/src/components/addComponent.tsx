@@ -65,22 +65,27 @@ const AddComponent = () => {
     setSelectedAction(event);
     setListParamAction([]);
     try {
-      const response = await axios.get("http://10.0.2.2:8080/actions/" + event, {
-        headers: {
-          token: token
-        }
-      });
+      const response = await axios.get(
+        'http://10.0.2.2:8080/actions/' + event,
+        {
+          headers: {
+            token: token,
+          },
+        },
+      );
 
-      const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
+      const allPropertyNames = Object.keys(
+        response.data,
+      ) as (keyof typeof response.data)[];
 
-      const updatedList = allPropertyNames.map(async (key) => {
+      const updatedList = allPropertyNames.map(async key => {
         const data = response.data[key];
         const variableType = typeof data;
 
         return {
           nameParam: String(key),
           typeParam: variableType,
-          param: null
+          param: null,
         };
       });
       const resolvedList = await Promise.all(updatedList);
@@ -97,22 +102,27 @@ const AddComponent = () => {
     setSelectedReaction(event);
     setListParamReaction([]);
     try {
-      const response = await axios.get("http://10.0.2.2:8080/reactions/" + event, {
-        headers: {
-          token: token
-        }
-      });
+      const response = await axios.get(
+        'http://10.0.2.2:8080/reactions/' + event,
+        {
+          headers: {
+            token: token,
+          },
+        },
+      );
 
-      const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
+      const allPropertyNames = Object.keys(
+        response.data,
+      ) as (keyof typeof response.data)[];
 
-      const updatedList = allPropertyNames.map(async (key) => {
+      const updatedList = allPropertyNames.map(async key => {
         const data = response.data[key];
         const variableType = typeof data;
 
         return {
           nameParam: String(key),
           typeParam: variableType,
-          param: null
+          param: null,
         };
       });
       const resolvedList = await Promise.all(updatedList);
@@ -154,38 +164,40 @@ const AddComponent = () => {
   };
 
   const handleCallActionList = () => {
-    axios.get("http://10.0.2.2:8080/actions", {
-      headers: {
-        token: token
-      }
-    })
+    axios
+      .get('http://10.0.2.2:8080/actions', {
+        headers: {
+          token: token,
+        },
+      })
       .then(response => {
         setListAction((prevState: Action[] | undefined) => [
           ...(prevState || []),
-          ...response.data.map((item: Action) => item)
+          ...response.data.map((item: Action) => item),
         ]);
       })
       .catch(error => {
         console.error(error);
       });
-  }
+  };
 
   const handleCallReactionList = () => {
-    axios.get("http://10.0.2.2:8080/reactions", {
-      headers: {
-        token: token
-      }
-    })
+    axios
+      .get('http://10.0.2.2:8080/reactions', {
+        headers: {
+          token: token,
+        },
+      })
       .then(response => {
         setListReaction((prevState: Reaction[] | undefined) => [
           ...(prevState || []),
-          ...response.data.map((item: Reaction) => item)
+          ...response.data.map((item: Reaction) => item),
         ]);
       })
       .catch(error => {
         console.error(error);
       });
-  }
+  };
 
   const handleCreateArea = () => {
     for (var i = 0; i < listParamAction.length; i++) {
@@ -216,17 +228,17 @@ const AddComponent = () => {
       nameReaction: selectedReaction,
       reactionParameter: modelParamReaction,
     };
-    console.log(data)
-    axios.post("http://10.0.2.2:8080/areas", data, {
-      headers: {
-        token: token
-      }
-    })
-    .then(response => {
-    })
-    .catch(error => {
-      console.error(error);
-    });
+    console.log(data);
+    axios
+      .post('http://10.0.2.2:8080/areas', data, {
+        headers: {
+          token: token,
+        },
+      })
+      .then(response => {})
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   useEffect(() => {
