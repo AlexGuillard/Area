@@ -67,10 +67,6 @@ const Service = ({navigation}) => {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      {/* <StatusBar
-        barStyle={'light-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      /> */}
       <HeaderBar
         page="Services"
         left_icon={[
