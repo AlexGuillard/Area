@@ -200,7 +200,6 @@ function Edit(props: editProps) {
 
   const handleUpdateArea = () => {
     for (var i = 0; i < listParamAction.length; i++) {
-      console.log(listParamAction[i].typeParam)
       if (listParamAction[i].typeParam === "number") {
         modelParamAction[listParamAction[i].nameParam] = Number(listParamAction[i].param)
       } else if (listParamAction[i].typeParam === "string"){
@@ -211,7 +210,6 @@ function Edit(props: editProps) {
     }
   
     for (var y = 0; y < listParamReaction.length; y++) {
-      console.log(listParamReaction[y].typeParam)
       if (listParamReaction[y].typeParam === "number") {
         modelParamReaction[listParamReaction[y].nameParam] = Number(listParamReaction[y].param)
       } else if (listParamReaction[i].typeParam === "string"){
