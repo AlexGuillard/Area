@@ -2,13 +2,13 @@ import React from 'react';
 import {Avatar} from 'react-native-elements';
 import {View, StyleSheet, Text, StatusBar, Pressable} from 'react-native';
 
-type ReactionProps = {
+type AreaCardProps = {
   title: string;
   image_url: string;
   on_press: () => void;
 };
 
-const Reaction = (props: ReactionProps) => {
+const AreaCard = (props: AreaCardProps) => {
   return (
     <View>
       <Pressable style={styles.card} onPress={props.on_press}>
@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Reaction;
+export default AreaCard;

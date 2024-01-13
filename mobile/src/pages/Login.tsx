@@ -8,8 +8,9 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
-// import axios from 'axios';
+import axios from 'axios';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {useAuth} from '../context/UserContext';
 
 const Login = ({navigation}) => {
   const [mail, setMail] = useState('');
@@ -18,6 +19,8 @@ const Login = ({navigation}) => {
     backgroundColor: Colors.darker,
     flex: 1,
   };
+  const {setAuthData} = useAuth();
+  const [displayMessage, setMessage] = useState('');
 
   const handleTextChangeUser = (text: string) => {
     setMail(text);
@@ -26,20 +29,32 @@ const Login = ({navigation}) => {
     setPassword(text);
   };
 
-  // const handleClickConnection = () => {
-  //   const data = {
-  //     mail: mail,
-  //     password: password,
-  //   };
-  //   axios
-  //     .post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
-  //     .then(() => {
-  //       navigation.navigate('Area');
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // };
+  const handleClickConnection = () => {
+    const data = {
+      mail: mail,
+      password: password,
+    };
+    axios
+      .post('http://10.0.2.2:8080/auth/signin', data)
+      .then(async response => {
+        setAuthData(
+          response.data.email,
+          response.data.randomToken,
+          response.data.id,
+        );
+        navigation.navigate('Area');
+      })
+      .catch(error => {
+        if (error.response.status === 403) {
+          setMessage('Mail Not Found');
+        } else if (error.response.status === 400) {
+          setMessage('Invalid Mail or Password');
+        } else {
+          setMessage('Error');
+          console.error(error);
+        }
+      });
+  };
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -66,11 +81,12 @@ const Login = ({navigation}) => {
           />
         </View>
         <View style={{paddingHorizontal: 50}}>
+          {displayMessage !== '' && (
+            <Text style={styles.errorMessage}>{displayMessage}</Text>
+          )}
           <Pressable
             style={styles.primaryButton}
-            onPress={() => {
-              navigation.navigate('Area');
-            }}>
+            onPress={handleClickConnection}>
             <Text style={styles.primaryButtonText}>Login</Text>
           </Pressable>
           <Pressable
@@ -109,6 +125,10 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: 'rgba(197, 192, 255, 1)',
     marginBottom: 10,
+  },
+  errorMessage: {
+    color: 'red',
+    marginTop: 0,
   },
   primaryButton: {
     borderColor: '#3F3C8F',

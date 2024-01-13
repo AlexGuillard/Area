@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {
   View,
@@ -7,45 +7,244 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  Switch,
+  Pressable,
 } from 'react-native';
+import axios from 'axios';
+import {useAuth} from '../context/UserContext';
 
 const AddComponent = () => {
+  interface ParamItem {
+    nameParam: string;
+    typeParam: string;
+    param: any;
+  }
+
+  interface Action {
+    name: string;
+    description: string;
+    typeService: string;
+  }
+
+  interface Reaction {
+    name: string;
+    description: string;
+    typeService: string;
+  }
+
   const [nameArea, setNameArea] = useState('');
   const [selectedAction, setSelectedAction] = useState('Action');
   const [selectedReaction, setSelectedReaction] = useState('Reaction');
-  const [paramArea, setParamArea] = useState('');
-  const [showListAction, setShowListAction] = useState(false);
-  const [showListReaction, setShowListReaction] = useState(false);
-  const listAction = useState(['test1', 'test2', 'test3', 'test4']);
-  const listReaction = useState(['reaction1', 'reaction2', 'reaction3']);
+  const [showlistAction, setShowListAction] = useState(false);
+  const [showlistReaction, setShowListReaction] = useState(false);
+  const [listAction, setListAction] = useState<Action[]>();
+  const [listReaction, setListReaction] = useState<Reaction[]>();
 
-  const handleNameAreaChange = text => {
+  const [listParamAction, setListParamAction] = useState<ParamItem[]>([]);
+  const [listParamReaction, setListParamReaction] = useState<ParamItem[]>([]);
+
+  const [modelParamAction, setModelParamAction] = useState<any>([]);
+  const [modelParamReaction, setModelParamReaction] = useState<any>([]);
+  const {token} = useAuth();
+
+  const handleNameAreaChange = (text: string) => {
     setNameArea(text);
   };
 
   const handleClickActionList = () => {
-    setShowListAction(!showListAction);
+    setShowListAction(!showlistAction);
     setShowListReaction(false);
   };
 
   const handleClickReactionList = () => {
-    setShowListReaction(!showListReaction);
+    setShowListReaction(!showlistReaction);
     setShowListAction(false);
   };
 
-  const handleActionAreaChange = item => {
-    setSelectedAction(item);
+  const handleActionAreaChange = async (event: string) => {
+    setSelectedAction(event);
+    setListParamAction([]);
+    try {
+      const response = await axios.get(
+        'http://10.0.2.2:8080/actions/' + event,
+        {
+          headers: {
+            token: token,
+          },
+        },
+      );
+
+      const allPropertyNames = Object.keys(
+        response.data,
+      ) as (keyof typeof response.data)[];
+
+      const updatedList = allPropertyNames.map(async key => {
+        const data = response.data[key];
+        const variableType = typeof data;
+
+        return {
+          nameParam: String(key),
+          typeParam: variableType,
+          param: null,
+        };
+      });
+      const resolvedList = await Promise.all(updatedList);
+
+      setListParamAction(await resolvedList);
+      setModelParamAction(await response.data);
+    } catch (error) {
+      console.error(error);
+    }
     setShowListAction(false);
   };
 
-  const handleReactionAreaChange = item => {
-    setSelectedReaction(item);
+  const handleReactionAreaChange = async (event: string) => {
+    setSelectedReaction(event);
+    setListParamReaction([]);
+    try {
+      const response = await axios.get(
+        'http://10.0.2.2:8080/reactions/' + event,
+        {
+          headers: {
+            token: token,
+          },
+        },
+      );
+
+      const allPropertyNames = Object.keys(
+        response.data,
+      ) as (keyof typeof response.data)[];
+
+      const updatedList = allPropertyNames.map(async key => {
+        const data = response.data[key];
+        const variableType = typeof data;
+
+        return {
+          nameParam: String(key),
+          typeParam: variableType,
+          param: null,
+        };
+      });
+      const resolvedList = await Promise.all(updatedList);
+      setListParamReaction(await resolvedList);
+      setModelParamReaction(await response.data);
+    } catch (error) {
+      console.error(error);
+    }
     setShowListReaction(false);
   };
 
-  const handleParamAreaChange = text => {
-    setParamArea(text);
+  const handleParamActionChange = (
+    event: string | number | boolean,
+    nameParam: string,
+  ) => {
+    const updatedList = listParamAction.map(param => {
+      if (param.nameParam === nameParam) {
+        return {
+          ...param,
+          param: event,
+        };
+      }
+      return param;
+    });
+    setListParamAction(updatedList);
   };
+
+  const handleParamReactionChange = (event: string, nameParam: string) => {
+    const updatedList = listParamReaction.map(param => {
+      if (param.nameParam === nameParam) {
+        return {
+          ...param,
+          param: event,
+        };
+      }
+      return param;
+    });
+    setListParamReaction(updatedList);
+  };
+
+  const handleCreateArea = () => {
+    for (var i = 0; i < listParamAction.length; i++) {
+      if (listParamAction[i].typeParam === 'number') {
+        modelParamAction[listParamAction[i].nameParam] = Number(
+          listParamAction[i].param,
+        );
+      } else {
+        modelParamAction[listParamAction[i].nameParam] =
+          listParamAction[i].param;
+      }
+    }
+    for (var y = 0; y < listParamReaction.length; y++) {
+      if (listParamReaction[y].typeParam === 'number') {
+        modelParamReaction[listParamReaction[y].nameParam] = Number(
+          listParamReaction[y].param,
+        );
+      } else {
+        modelParamReaction[listParamReaction[y].nameParam] =
+          listParamReaction[y].param;
+      }
+    }
+
+    const data = {
+      nameArea: nameArea,
+      nameAction: selectedAction,
+      actionParameter: modelParamAction,
+      nameReaction: selectedReaction,
+      reactionParameter: modelParamReaction,
+    };
+    console.log(data);
+    axios
+      .post('http://10.0.2.2:8080/areas', data, {
+        headers: {
+          token: token,
+        },
+      })
+      .then(_response => {})
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    const handleCallActionList = () => {
+      axios
+        .get('http://10.0.2.2:8080/actions', {
+          headers: {
+            token: token,
+          },
+        })
+        .then(response => {
+          setListAction((prevState: Action[] | undefined) => [
+            ...(prevState || []),
+            ...response.data.map((item: Action) => item),
+          ]);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    };
+
+    const handleCallReactionList = () => {
+      axios
+        .get('http://10.0.2.2:8080/reactions', {
+          headers: {
+            token: token,
+          },
+        })
+        .then(response => {
+          setListReaction((prevState: Reaction[] | undefined) => [
+            ...(prevState || []),
+            ...response.data.map((item: Reaction) => item),
+          ]);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    };
+    handleCallActionList();
+    handleCallReactionList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View style={styles.addComponent}>
@@ -53,61 +252,129 @@ const AddComponent = () => {
         <Text style={styles.addComponentTitle}>Create Area</Text>
         <TextInput
           style={styles.addComponentNameInput}
-          value={nameArea}
           onChangeText={handleNameAreaChange}
-          placeholder="Name area"
+          value={nameArea}
+          placeholder="Area name"
+          inputMode="text"
         />
-        <View style={styles.addComponentActionInput}>
-          <Text>{selectedAction}</Text>
-          <View style={styles.addComponentActionLine} />
-          <TouchableOpacity onPress={handleClickActionList}>
+        <View>
+          <Pressable
+            onPress={handleClickActionList}
+            style={styles.addComponentActionInput}>
+            <Text style={styles.addComponentActionTitle}>{selectedAction}</Text>
+            <View style={styles.addComponentActionLine} />
             <Image
-              source={require('../../assets/SelectInput.png')}
               style={styles.addComponentActionButton}
-            />
-          </TouchableOpacity>
-          {showListAction && (
-            <FlatList
-              data={listAction}
-              keyExtractor={item => item}
-              renderItem={({item}) => (
-                <TouchableOpacity onPress={() => handleActionAreaChange(item)}>
-                  <Text style={styles.addComponentActionList}>{item}</Text>
-                </TouchableOpacity>
-              )}
-            />
-          )}
-        </View>
-        <View style={styles.addComponentReactionInput}>
-          <Text>{selectedReaction}</Text>
-          <View style={styles.addComponentReactionLine} />
-          <TouchableOpacity onPress={handleClickReactionList}>
-            <Image
               source={require('../../assets/SelectInput.png')}
-              style={styles.addComponentReactionButton}
             />
-          </TouchableOpacity>
-          {showListReaction && (
+          </Pressable>
+          {showlistAction && (
             <FlatList
-              data={listReaction}
-              keyExtractor={item => item}
+              style={styles.addComponentActionListArea}
+              data={listAction}
+              keyExtractor={(item, index) => index.toString()}
               renderItem={({item}) => (
                 <TouchableOpacity
-                  onPress={() => handleReactionAreaChange(item)}>
-                  <Text style={styles.addComponentReactionList}>{item}</Text>
+                  style={styles.addComponentActionList}
+                  onPress={() => handleActionAreaChange(item.name)}>
+                  <Text>{item.name}</Text>
                 </TouchableOpacity>
               )}
             />
           )}
         </View>
-        <TextInput
-          style={styles.addComponentParamInput}
-          value={paramArea}
-          onChangeText={handleParamAreaChange}
-          placeholder="Reaction parameter"
-        />
+        {listParamAction && (
+          <FlatList
+            data={listParamAction}
+            style={styles.addComponentParamArea}
+            keyExtractor={item => item.nameParam}
+            renderItem={({item}) => (
+              <View key={item.nameParam}>
+                {item.typeParam === 'string' && (
+                  <TextInput
+                    style={styles.addComponentParamInput}
+                    value={item.param}
+                    onChangeText={text =>
+                      handleParamActionChange(text, item.nameParam)
+                    }
+                    placeholder={item.nameParam}
+                    inputMode="text"
+                  />
+                )}
+                {item.typeParam === 'number' && (
+                  <TextInput
+                    style={styles.addComponentParamInput}
+                    value={item.param}
+                    onChangeText={text =>
+                      handleParamActionChange(text, item.nameParam)
+                    }
+                    keyboardType="numeric"
+                    placeholder={item.nameParam}
+                    inputMode="numeric"
+                  />
+                )}
+                {item.typeParam === 'boolean' && (
+                  <Switch
+                    value={item.param}
+                    onValueChange={value =>
+                      handleParamActionChange(value, item.nameParam)
+                    }
+                  />
+                )}
+              </View>
+            )}
+          />
+        )}
+        <View>
+          <Pressable
+            onPress={handleClickReactionList}
+            style={styles.addComponentReactionInput}>
+            <Text style={styles.addComponentReactionTitle}>
+              {selectedReaction}
+            </Text>
+            <View style={styles.addComponentReactionLine} />
+            <Image
+              style={styles.addComponentReactionButton}
+              source={require('../../assets/SelectInput.png')}
+            />
+          </Pressable>
+          {showlistReaction && (
+            <FlatList
+              style={styles.addComponentReactionListArea}
+              data={listReaction}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({item}) => (
+                <TouchableOpacity
+                  style={styles.addComponentReactionList}
+                  onPress={() => handleReactionAreaChange(item.name)}>
+                  <Text>{item.name}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          )}
+        </View>
+        {listParamReaction && (
+          <FlatList
+            data={listParamReaction}
+            style={styles.addComponentParamArea}
+            keyExtractor={item => item.nameParam}
+            renderItem={({item}) => (
+              <TextInput
+                key={item.nameParam}
+                style={styles.addComponentParamInput}
+                onChangeText={text =>
+                  handleParamReactionChange(text, item.nameParam)
+                }
+                value={item.param}
+                placeholder={item.nameParam}
+              />
+            )}
+          />
+        )}
       </View>
-      <TouchableOpacity style={styles.addComponentButton}>
+      <TouchableOpacity
+        style={styles.addComponentButton}
+        onPress={handleCreateArea}>
         <Text style={styles.addComponentButtonText}>Create</Text>
       </TouchableOpacity>
     </View>
@@ -118,14 +385,16 @@ export default AddComponent;
 
 const styles = StyleSheet.create({
   addComponent: {
+    display: 'flex',
     flex: 1,
+    position: 'absolute',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
   addComponentBody: {
     width: 325,
-    height: 410,
+    height: '90%',
     backgroundColor: '#C7C4DC',
     borderRadius: 16,
     flexDirection: 'column',
@@ -137,7 +406,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   addComponentNameInput: {
-    marginTop: 40,
+    marginTop: 10,
     height: 50,
     width: 280,
     backgroundColor: '#C5C0FF',
@@ -149,61 +418,103 @@ const styles = StyleSheet.create({
     paddingLeft: 18,
   },
   addComponentActionInput: {
-    marginTop: 20,
+    marginTop: 30,
+    marginBottom: 0,
     width: 300,
     height: 62,
     borderRadius: 16,
     backgroundColor: '#464559',
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  addComponentActionTitle: {
+    flexGrow: 1,
+    color: 'white',
+    textAlign: 'center',
+    marginRight: -45,
   },
   addComponentActionLine: {
     width: 1,
     height: 62,
     backgroundColor: '#000',
-    position: 'absolute',
-    left: 260,
   },
   addComponentActionButton: {
+    marginHorizontal: 10,
+  },
+  addComponentActionListArea: {
     position: 'absolute',
-    left: 275,
+    backgroundColor: 'white',
+    top: 0,
+    width: '50%',
+    borderWidth: 1,
+    borderColor: '#000',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 16,
+    borderBottomLeftRadius: 16,
+    paddingTop: 10,
+    paddingBottom: 20,
+    paddingHorizontal: 10,
+    marginTop: 30,
+    //width: 175???
   },
   addComponentActionList: {
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    color: '#000',
+    marginTop: 10,
   },
   addComponentReactionInput: {
-    marginTop: 30,
+    marginTop: 0,
+    marginBottom: 30,
     width: 300,
     height: 62,
     borderRadius: 16,
     backgroundColor: '#464559',
-    flexDirection: 'row',
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  addComponentReactionTitle: {
+    flexGrow: 1,
+    textAlign: 'center',
+    marginRight: -45,
+    color: 'white',
   },
   addComponentReactionLine: {
     width: 1,
     height: 62,
     backgroundColor: '#000',
-    position: 'absolute',
-    left: 260,
   },
   addComponentReactionButton: {
+    marginRight: 10,
+    marginLeft: 10,
+  },
+  addComponentReactionListArea: {
     position: 'absolute',
-    left: 275,
+    backgroundColor: 'white',
+    top: 0,
+    width: '50%',
+    borderWidth: 1,
+    borderColor: '#000',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 16,
+    borderBottomLeftRadius: 16,
+    paddingTop: 10,
+    paddingBottom: 20,
+    marginTop: 50,
   },
   addComponentReactionList: {
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    color: '#000',
+    marginTop: 10,
+  },
+  addComponentParamArea: {
+    marginTop: 30,
+    marginBottom: 10,
   },
   addComponentParamInput: {
     marginTop: 15,
-    height: 44,
-    width: 262,
+    height: 35,
+    width: 250,
     backgroundColor: '#C5C0FF',
     borderWidth: 2,
     borderColor: '#423B8E',
@@ -216,6 +527,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
     borderRadius: 16,
     backgroundColor: '#464559',
+    display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     width: 222,

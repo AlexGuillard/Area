@@ -1,5 +1,4 @@
-import React from 'react';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import {
   SafeAreaView,
@@ -10,12 +9,14 @@ import {
   TextInput,
   Pressable,
 } from 'react-native';
+import {useAuth} from '../context/UserContext';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const Register = ({navigation}) => {
   const [textEmail, setTextEmail] = useState('');
   const [textPassWord, setTextPassWord] = useState('');
-
+  const {setAuthData} = useAuth();
+  const [displayMessage, setMessage] = useState('');
   const handleTextChangeUser = (text: string) => {
     setTextEmail(text);
   };
@@ -29,12 +30,25 @@ const Register = ({navigation}) => {
       password: textPassWord,
     };
     axios
-      .post(process.env.REACT_APP_SERVER_URL + '/auth/signin', data)
-      .then(() => {
+      .post('http://10.0.2.2:8080/auth/signup', data)
+      .then(async response => {
+        setMessage('');
+        setAuthData(
+          response.data.email,
+          response.data.randomToken,
+          response.data.id,
+        );
         navigation.navigate('Area');
       })
       .catch(error => {
-        console.error(error);
+        if (error.response.status === 403) {
+          setMessage('Mail already exist');
+        } else if (error.response.status === 400) {
+          setMessage('Invalid Mail or Password');
+        } else {
+          setMessage('Error');
+          console.error(error);
+        }
       });
   };
 
@@ -68,6 +82,9 @@ const Register = ({navigation}) => {
           />
         </View>
         <View style={styles.options}>
+          {displayMessage !== '' && (
+            <Text style={styles.errorMessage}>{displayMessage}</Text>
+          )}
           <Pressable
             style={styles.connectionButon}
             onPress={handleClickRegister}>
@@ -102,6 +119,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 10,
+  },
+  errorMessage: {
+    color: 'red',
+    marginTop: 0,
+    textAlign: 'center',
   },
   inputArea: {
     height: 44,

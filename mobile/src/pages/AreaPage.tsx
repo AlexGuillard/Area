@@ -10,22 +10,27 @@ import {
   FlatList,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import Reaction from '../components/ReactionList/reactionList';
+import AreaCard from '../components/areaCard';
 import {Appbar} from 'react-native-paper';
 import AddComponent from '../components/addComponent';
 import EditComponent from '../components/editComponent';
-import {data_reaction} from '../constants/test_data';
+import axios from 'axios';
+import {useAuth} from '../context/UserContext';
+import HeaderBar from '../components/headerComponent';
 
 interface ReactionItem {
   id: string;
   icon: string;
   title: string;
 }
-const AreaPage = () => {
+const AreaPage = ({navigation}) => {
   const [showAddArea, setShowAddArea] = useState(false);
   const [showEditArea, setShowEditArea] = useState(false);
   const [areaSelected, setAreaSelected] = useState('');
+  const [actionSelected, setActionSelected] = useState('');
+  const [reactionSelected, setReactionSelected] = useState('');
   const [listArea, setListArea] = useState<ReactionItem[]>([]);
+  const {token, clearAuthData} = useAuth();
 
   const backgroundStyle = {
     backgroundColor: Colors.darker,
@@ -43,17 +48,49 @@ const AreaPage = () => {
     setShowEditArea(true);
     setShowAddArea(false);
     setAreaSelected(item);
+    setActionSelected('');
+    setReactionSelected('');
   };
 
   useEffect(() => {
-    setListArea(data_reaction);
-  }, []);
+    if (token === 'undefined') {
+      clearAuthData();
+      navigation.navigate('Login');
+    }
+    const handleCallAreaList = () => {
+      axios
+        .get('http://10.0.2.2:8080/areas', {
+          headers: {
+            token: token,
+          },
+        })
+        .then(response => {
+          setListArea(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    };
+    handleCallAreaList();
+  }, [clearAuthData, navigation, token]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
         barStyle={'light-content'}
         backgroundColor={backgroundStyle.backgroundColor}
+      />
+      <HeaderBar
+        page="Area"
+        left_icon={[
+          {
+            image_url: require('../../assets/User.png'),
+            onPress: () => {
+              navigation.navigate('Service');
+            },
+          },
+          {image_url: require('../../assets/Logout.png'), onPress: () => {}},
+        ]}
       />
       {showAddArea && (
         <TouchableWithoutFeedback onPress={() => setShowAddArea(false)}>
@@ -65,7 +102,11 @@ const AreaPage = () => {
       {showEditArea && (
         <TouchableWithoutFeedback onPress={() => setShowEditArea(false)}>
           <View style={styles.editComponent}>
-            <EditComponent name={areaSelected} />
+            <EditComponent
+              name={areaSelected}
+              nameAction={actionSelected}
+              nameReaction={reactionSelected}
+            />
           </View>
         </TouchableWithoutFeedback>
       )}
@@ -73,7 +114,7 @@ const AreaPage = () => {
         <FlatList
           data={listArea}
           renderItem={({item}) => (
-            <Reaction
+            <AreaCard
               title={item.title}
               image_url={item.icon}
               on_press={() => handleClickEdit(item.title)}
