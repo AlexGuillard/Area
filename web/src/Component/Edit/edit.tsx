@@ -4,11 +4,33 @@ import { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import SelectInput from '../../Image/SelectInput.png'
+import GoogleIcon from '../../Image/Google.png'
+import GithubIcon from '../../Image/Github.png'
+import SpotifyIcon from '../../Image/Spotify.png'
+import DiscordIcon from '../../Image/Discord.png'
+import ClockIcon from '../../Image/Clock.png'
+import WeatherIcon from '../../Image/Weather.png'
 
 interface editProps {
   name: string;
   nameAction: string;
   nameReaction: string;
+}
+
+function GetIcon(type: string) {
+  const iconMap: { [key: string]: string } = {
+    "GOOGLE": GoogleIcon,
+    "GITHUB": GithubIcon,
+    "SPOTIFY": SpotifyIcon,
+    "DISCORD": DiscordIcon,
+    "TIME": ClockIcon,
+    "WEATHER": WeatherIcon
+  }
+
+  if (!iconMap[type]) {
+    return GoogleIcon
+  }
+  return iconMap[type]
 }
 
 function Edit(props: editProps) {
@@ -27,6 +49,18 @@ function Edit(props: editProps) {
     param: any;
   }
 
+  interface Action {
+    name: string;
+    description: string;
+    typeService: string;
+  }
+
+  interface Reaction {
+    name: string;
+    description: string;
+    typeService: string;
+  }
+
   const [infoArea, setInfoArea] = useState<AreaItem | null>(null);
 
   const [nameArea, setNameArea] = useState("");
@@ -36,8 +70,8 @@ function Edit(props: editProps) {
   const [showlistAction, setShowListAction] = useState(false);
   const [showlistReaction, setShowListReaction] = useState(false);
 
-  const [listAction, setListAction] = useState<string []>();
-  const [listReaction, setListReaction] = useState<string []>();
+  const [listAction, setListAction] = useState<Action []>();
+  const [listReaction, setListReaction] = useState<Reaction []>();
 
   const [listParamAction, setListParamAction] = useState<ParamItem []>([]);
   const [listParamReaction, setListParamReaction] = useState<ParamItem []>([]);
@@ -169,9 +203,9 @@ function Edit(props: editProps) {
       }
     })
       .then(response => {
-        setListAction((prevState: string[] | undefined) => [
+        setListAction((prevState: Action[] | undefined) => [
           ...(prevState || []),
-          ...response.data.map((item: { name: string }) => item.name)
+          ...response.data.map((item: Action) => item)
         ]);
       })
       .catch(error => {
@@ -188,9 +222,9 @@ function Edit(props: editProps) {
       }
     })
       .then(response => {
-        setListReaction((prevState: string[] | undefined) => [
+        setListReaction((prevState: Reaction[] | undefined) => [
           ...(prevState || []),
-          ...response.data.map((item: { name: string }) => item.name)
+          ...response.data.map((item: Reaction) => item)
         ]);
       })
       .catch(error => {
@@ -295,8 +329,9 @@ function Edit(props: editProps) {
               <ul className='editComponentActionListArea'>
                 {
                   listAction && listAction.map((item) =>
-                    <li key={item} className='editComponentActionList' >
-                      <span className='editComponentActionListName' onClick={() => handleActionAreaChange(item)}>{item}</span>
+                    <li key={item.name} className='editComponentActionList' >
+                      <img src={GetIcon(item.typeService)} className='addComponentListIcon' alt="icon"/>
+                      <span className='editComponentActionListName' onClick={() => handleActionAreaChange(item.name)}>{item.name}</span>
                     </li>
                   )
                 }
@@ -358,8 +393,9 @@ function Edit(props: editProps) {
               <ul className='editComponentReactionListArea'>
                 {
                   listReaction && listReaction.map((item) =>
-                    <li key={item} className='editComponentReactionList' >
-                      <span onClick={() => handleReactionAreaChange(item)}>{item}</span>
+                    <li key={item.name} className='editComponentReactionList' >
+                      <img src={GetIcon(item.typeService)} className='editComponentListIcon' alt="icon"/>
+                      <span onClick={() => handleReactionAreaChange(item.name)}>{item.name}</span>
                     </li>
                   )
                 }
