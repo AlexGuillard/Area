@@ -268,7 +268,7 @@ function Edit(props: editProps) {
       handleCallReactionList()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [infoArea, handleCallAreaInfo, listAction, listReaction]);
+  }, [infoArea]);
   
   return (
     <div className='editComponent'>
