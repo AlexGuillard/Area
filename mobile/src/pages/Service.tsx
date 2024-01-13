@@ -12,8 +12,9 @@ import {useAuth} from '../context/UserContext';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Appbar} from 'react-native-paper';
 import ServiceCard from '../components/ServiceList/serviceList';
+import HeaderBar from '../components/headerComponent';
 
-function Service(): React.JSX.Element {
+const Service = ({navigation}) => {
   const backgroundStyle = {
     backgroundColor:  "#1C1B1F",
     flex: 1,
@@ -79,6 +80,7 @@ function Service(): React.JSX.Element {
         barStyle={'light-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       /> */}
+      <HeaderBar page="Services" left_icon={[{image_url: require('../../assets/BackIcon.png'), onPress: () => { navigation.goBack()} }]} />
       <View style={styles.servicesCardArea}>
         <ServiceCard
           serviceName={"Google"}
