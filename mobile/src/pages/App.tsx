@@ -7,6 +7,7 @@ import AreaPage from './AreaPage';
 import Service from './Service';
 import Register from './Register';
 import GithubWebView from './WebView/GithubWebView';
+import ServiceConnexion, { ParamsProps } from './ServiceConnexion';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +40,11 @@ const App = () => {
             name="GithubWebView"
             component={GithubWebView}
             options={{headerShown: false}}
+          />
+          <Stack.Screen
+          name="ServiceConnexion"
+          component={ServiceConnexion}
+          options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>

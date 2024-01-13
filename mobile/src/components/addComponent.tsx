@@ -192,7 +192,6 @@ const AddComponent = () => {
       nameReaction: selectedReaction,
       reactionParameter: modelParamReaction,
     };
-    console.log(data);
     axios
       .post('http://10.0.2.2:8080/areas', data, {
         headers: {
