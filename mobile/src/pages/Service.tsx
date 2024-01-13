@@ -80,6 +80,7 @@ const Service = ({navigation}) => {
       />
       <View style={styles.servicesCardArea}>
         <ServiceCard
+          navigation={navigation}
           serviceName={'Google'}
           status={stateGoogle}
           image={Google}
@@ -87,6 +88,7 @@ const Service = ({navigation}) => {
           link={'http://10.0.2.2:8080/myauth/google-redirect'}
         />
         <ServiceCard
+          navigation={navigation}
           serviceName={'Discord'}
           status={stateDiscord}
           image={Discord}
@@ -94,13 +96,15 @@ const Service = ({navigation}) => {
           link={'http://10.0.2.2:8080/services/discord/login'}
         />
         <ServiceCard
+          navigation={navigation}
           serviceName={'Github'}
           status={stateGithub}
           image={Github}
           userName={''}
-          link={'http://10.0.2.2:8080/auth/github'}
+          link={'GithubWebView'}
         />
         <ServiceCard
+          navigation={navigation}
           serviceName={'Spotify'}
           status={stateSpotify}
           image={Spotify}

@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 type ServiceProps = {
+  navigation: any;
   serviceName: string;
   status: string;
   image: any;
@@ -16,10 +17,11 @@ type ServiceProps = {
   link: string;
 };
 
-const ServiceCard: React.FC<ServiceProps> = props => {
+const ServiceCard: React.FC<ServiceProps> =  props => {
   const handleSubmit = () => {
     console.log('Formulaire soumis !');
-    Linking.openURL(props.link);
+    // Linking.openURL(props.link);
+    props.navigation.navigate(props.link);
   };
 
   return (
