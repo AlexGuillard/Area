@@ -20,13 +20,25 @@ const AddComponent = () => {
     param: any;
   }
 
+  interface Action {
+    name: string;
+    description: string;
+    typeService: string;
+  }
+
+  interface Reaction {
+    name: string;
+    description: string;
+    typeService: string;
+  }
+
   const [nameArea, setNameArea] = useState('');
   const [selectedAction, setSelectedAction] = useState('Action');
   const [selectedReaction, setSelectedReaction] = useState('Reaction');
   const [showlistAction, setShowListAction] = useState(false);
   const [showlistReaction, setShowListReaction] = useState(false);
-  const [listAction, setListAction] = useState<string[]>();
-  const [listReaction, setListReaction] = useState<string[]>();
+  const [listAction, setListAction] = useState<Action[]>();
+  const [listReaction, setListReaction] = useState<Reaction[]>();
 
   const [listParamAction, setListParamAction] = useState<ParamItem[]>([]);
   const [listParamReaction, setListParamReaction] = useState<ParamItem[]>([]);
@@ -53,19 +65,22 @@ const AddComponent = () => {
     setSelectedAction(event);
     setListParamAction([]);
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_SERVER_URL + '/' + token + '/actions/' + event,
-      );
-      const allPropertyNames = Object.keys(
-        response.data,
-      ) as (keyof typeof response.data)[];
-      const updatedList = allPropertyNames.map(async key => {
+      const response = await axios.get("http://10.0.2.2:8080/actions/" + event, {
+        headers: {
+          token: token
+        }
+      });
+
+      const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
+
+      const updatedList = allPropertyNames.map(async (key) => {
         const data = response.data[key];
         const variableType = typeof data;
+
         return {
           nameParam: String(key),
           typeParam: variableType,
-          param: null,
+          param: null
         };
       });
       const resolvedList = await Promise.all(updatedList);
@@ -82,22 +97,24 @@ const AddComponent = () => {
     setSelectedReaction(event);
     setListParamReaction([]);
     try {
-      const response = await axios.get(
-        process.env.REACT_APP_SERVER_URL + '/' + token + '/reactions/' + event,
-      );
-      const allPropertyNames = Object.keys(
-        response.data,
-      ) as (keyof typeof response.data)[];
-      const updatedList = allPropertyNames.map(async key => {
+      const response = await axios.get("http://10.0.2.2:8080/reactions/" + event, {
+        headers: {
+          token: token
+        }
+      });
+
+      const allPropertyNames = Object.keys(response.data) as (keyof typeof response.data)[];
+
+      const updatedList = allPropertyNames.map(async (key) => {
         const data = response.data[key];
         const variableType = typeof data;
+
         return {
           nameParam: String(key),
           typeParam: variableType,
-          param: null,
+          param: null
         };
       });
-
       const resolvedList = await Promise.all(updatedList);
       setListParamReaction(await resolvedList);
       setModelParamReaction(await response.data);
@@ -137,38 +154,38 @@ const AddComponent = () => {
   };
 
   const handleCallActionList = () => {
-    axios
-      .get(process.env.REACT_APP_SERVER_URL + '/' + token + '/actions')
+    axios.get("http://10.0.2.2:8080/actions", {
+      headers: {
+        token: token
+      }
+    })
       .then(response => {
-        setListAction((prevState: string[] | undefined) => {
-          const newActions = response.data.map(
-            (item: {name: string}) => item.name,
-          );
-          const uniqueActions = new Set([...(prevState || []), ...newActions]);
-          return Array.from(uniqueActions);
-        });
+        setListAction((prevState: Action[] | undefined) => [
+          ...(prevState || []),
+          ...response.data.map((item: Action) => item)
+        ]);
       })
       .catch(error => {
         console.error(error);
       });
-  };
+  }
 
   const handleCallReactionList = () => {
-    axios
-      .get(process.env.REACT_APP_SERVER_URL + '/' + token + '/reactions')
+    axios.get("http://10.0.2.2:8080/reactions", {
+      headers: {
+        token: token
+      }
+    })
       .then(response => {
-        setListReaction((prevState: string[] | undefined) => {
-          const newActions = response.data.map(
-            (item: {name: string}) => item.name,
-          );
-          const uniqueActions = new Set([...(prevState || []), ...newActions]);
-          return Array.from(uniqueActions);
-        });
+        setListReaction((prevState: Reaction[] | undefined) => [
+          ...(prevState || []),
+          ...response.data.map((item: Reaction) => item)
+        ]);
       })
       .catch(error => {
         console.error(error);
       });
-  };
+  }
 
   const handleCreateArea = () => {
     for (var i = 0; i < listParamAction.length; i++) {
@@ -199,12 +216,17 @@ const AddComponent = () => {
       nameReaction: selectedReaction,
       reactionParameter: modelParamReaction,
     };
-    axios
-      .post(process.env.REACT_APP_SERVER_URL + '/' + token + '/areas', data)
-      .then(() => {})
-      .catch(error => {
-        console.error(error);
-      });
+    console.log(data)
+    axios.post("http://10.0.2.2:8080/areas", data, {
+      headers: {
+        token: token
+      }
+    })
+    .then(response => {
+    })
+    .catch(error => {
+      console.error(error);
+    });
   };
 
   useEffect(() => {
@@ -238,12 +260,12 @@ const AddComponent = () => {
             <FlatList
               style={styles.addComponentActionListArea}
               data={listAction}
-              keyExtractor={item => item}
+              keyExtractor={(item, index) => index.toString()}
               renderItem={({item}) => (
                 <TouchableOpacity
                   style={styles.addComponentActionList}
-                  onPress={() => handleActionAreaChange(item)}>
-                  <Text>{item}</Text>
+                  onPress={() => handleActionAreaChange(item.name)}>
+                  <Text>{item.name}</Text>
                 </TouchableOpacity>
               )}
             />
@@ -308,14 +330,14 @@ const AddComponent = () => {
             <FlatList
               style={styles.addComponentReactionListArea}
               data={listReaction}
+              keyExtractor={(item, index) => index.toString()}
               renderItem={({item}) => (
                 <TouchableOpacity
                   style={styles.addComponentReactionList}
-                  onPress={() => handleReactionAreaChange(item)}>
-                  <Text>{item}</Text>
+                  onPress={() => handleReactionAreaChange(item.name)}>
+                  <Text>{item.name}</Text>
                 </TouchableOpacity>
               )}
-              keyExtractor={(item, index) => index.toString()}
             />
           )}
         </View>
