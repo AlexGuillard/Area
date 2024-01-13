@@ -215,14 +215,14 @@ export class SpotifyService {
             const response: AxiosResponse = await axios.delete(endPoint, { headers, data: body });
 
             if (response.status === 200) {
-                console.log('Track liked');
+                console.log('Track unliked');
                 return true;
             } else {
-                console.log('Track not liked');
-                throw new Error('Track not liked');
+                console.log('Track not unliked');
+                throw new Error('Track not unliked');
             }
         } catch (error) {
-            throw new Error('Track not liked');
+            throw new Error('Track not unliked');
         }
     }
 
