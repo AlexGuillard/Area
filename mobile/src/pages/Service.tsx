@@ -63,7 +63,7 @@ const Service = ({navigation}) => {
         i = i + 1;
       }
     }
-  }, [listServices]);
+  }, [listServices, token]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
