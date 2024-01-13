@@ -10,6 +10,7 @@ import ServiceConnexion from './ServiceConnexion';
 import GithubWebView from './WebView/GithubWebView';
 import DiscordWebView from './WebView/DiscordWebView';
 import GoogleWebView from './WebView/GoogleWebView';
+import SpotifyWebView from './WebView/SpotifyWebView';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,11 @@ const App = () => {
           <Stack.Screen
             name="GoogleWebView"
             component={GoogleWebView}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="SpotifyWebView"
+            component={SpotifyWebView}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

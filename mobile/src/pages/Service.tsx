@@ -109,7 +109,7 @@ const Service = ({navigation}) => {
           status={stateSpotify}
           image={Spotify}
           userName={''}
-          link={'http://10.0.2.2:8080/auth/spotify'}
+          link={'SpotifyWebView'}
         />
       </View>
     </SafeAreaView>
