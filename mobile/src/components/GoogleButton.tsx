@@ -7,9 +7,10 @@ import {
 } from '@react-native-google-signin/google-signin';
 import { REACT_APP_GOOGLE_CLIENT_ID, REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT } from '@env';
 import axios from 'axios';
+import { useAuth } from '../context/UserContext';
 
-const GoogleButton = () => {
-  const [userInfo, setUserInfo] = useState(null);
+const GoogleButton = ({ navigation }) => {
+  const {setAuthData} = useAuth();
 
   const configureGoogleSignIn = async () => {
     try {
@@ -34,7 +35,12 @@ const GoogleButton = () => {
       const response = await axios.post(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/auth/loginService', {
         token: userInfo.idToken
       });
-      console.log(response.data);
+      setAuthData(
+        response.data.email,
+        response.data.randomToken,
+        response.data.id,
+      );
+      navigation.navigate('Area');
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('User cancelled the login flow');

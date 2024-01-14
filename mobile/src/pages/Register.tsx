@@ -12,6 +12,7 @@ import {
 import {useAuth} from '../context/UserContext';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT} from '@env';
+import GoogleButton from '../components/GoogleButton';
 
 const Register = ({navigation}) => {
   const [textEmail, setTextEmail] = useState('');
@@ -100,6 +101,7 @@ const Register = ({navigation}) => {
             }}>
             <Text style={styles.secondaryButtonText}>Login</Text>
           </Pressable>
+          <GoogleButton navigation={navigation}/>
         </View>
       </View>
     </SafeAreaView>
