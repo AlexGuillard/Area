@@ -5,51 +5,53 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import { REACT_APP_GOOGLE_CLIENT_ID, REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT } from '@env';
+import axios from 'axios';
 
-export function GoogleButton() {
-
-  // onSuccess={async credentialResponse => {
-
-  //   const response = await axios.post(process.env.REACT_APP_SERVER_URL + '/auth/loginService', {
-  //     token: credentialResponse.credential
-  //   });
-  //   const data = response.data;
-  //   Cookies.set('token', data.randomToken)
-  //   localStorage.setItem('authData', JSON.stringify(data))
-
-  //   setAuthData(data)
-
-  //   navigate('/Area')
-  // }}
+const GoogleButton = () => {
   const [userInfo, setUserInfo] = useState(null);
+
+  const configureGoogleSignIn = async () => {
+    try {
+      await GoogleSignin.configure({
+        webClientId: REACT_APP_GOOGLE_CLIENT_ID,
+      });
+      console.log('Google Sign-In configured successfully!');
+    } catch (error) {
+      console.error('Error configuring Google Sign-In:', error);
+    }
+  };
+  
+  useEffect(() => {
+    configureGoogleSignIn();
+  }, []);
 
   const signIn = async () => {
     try {
-      await GoogleSignin.hasPlayServices().then
-      const user = await GoogleSignin.signIn();
-
-      setUserInfo(user);
-    } catch (error) {
+      const test = await GoogleSignin.hasPlayServices()
+      console.log("reached google sign in", test);
+      const userInfo = await GoogleSignin.signIn();
+      const response = await axios.post(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/auth/loginService', {
+        token: userInfo.idToken
+      });
+      console.log(response.data);
+    } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-        console.log('Sign in cancelled');
+        console.log('User cancelled the login flow');
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
-        console.log('Sign in in progress');
+        console.log('Signing in');
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
         console.log('Play services not available');
       } else {
-        // some other error happened
-        console.error(error);
+        console.log('Some other error happened:', error);
+        console.log(error.message);
+        console.log(error.code);
       }
     }
   };
 
   return (
     <View>
-    <Text>App</Text>
-    <Text style={{color: 'white'}}>User Info: {userInfo ? JSON.stringify(userInfo) : 'None'}</Text>
     <GoogleSigninButton
       style={{width: 192, height: 48, marginTop: 30}}
       size={GoogleSigninButton.Size.Wide}
@@ -59,3 +61,5 @@ export function GoogleButton() {
   </View>
   )
 }
+
+export default GoogleButton;

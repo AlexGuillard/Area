@@ -104,6 +104,7 @@ REACT_APP_SERVER_IP=Ip of the server like 'http://localhost' or 'http://10.0.2.2
 REACT_APP_SERVER_PORT=Port of the server like '8080'
 REACT_APP_WEB_IP=Ip of the server like 'http://localhost' or 'http://10.0.2.2' for android emulator
 REACT_APP_WEB_PORT=Port of the server like '8081'
+REACT_APP_GOOGLE_CLIENT_ID=id of google (same as the one in root)
 ```
 
 #### Start
