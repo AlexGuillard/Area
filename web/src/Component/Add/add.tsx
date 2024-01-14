@@ -226,7 +226,6 @@ function Add(props: {refreshAreas: () => void, closeAddArea: () => void}) {
       nameReaction: selectedReaction,
       reactionParameter: modelParamReaction
     };
-    console.log(data)
     const storedToken = Cookies.get('token');
     axios.post(process.env.REACT_APP_SERVER_URL + "/areas", data, {
       headers: {
