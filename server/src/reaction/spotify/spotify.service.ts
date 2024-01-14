@@ -27,6 +27,10 @@ export class SpotifyService {
         this.eventEmitter.on('unLikeMusic.struct', (struct: SpotifyMusicDto) => {
             struct.id = 'string';
         });
+        this.eventEmitter.on('SkipToNextTrack.struct', () => {
+        });
+        this.eventEmitter.on('SkipToPreviousTrack.struct', () => {
+        });
     }
 
     private async getAccessToken(userId: number): Promise<string> {
@@ -226,4 +230,73 @@ export class SpotifyService {
         }
     }
 
+    @OnEvent('SkipToNextTrack')
+    async skipToNextTrack(randomToken: string) {
+        
+        const userId = await this.prismaService.user.findFirst({
+            where: {
+              randomToken: randomToken,
+            },
+          });
+
+        if (!userId) {
+          throw new Error('User not found, or Spotify services not configured');
+        }
+
+        const accessToken = await this.getAccessToken(userId.id);
+
+        const endPoint = `${this.spotifyApiBaseUrl}/me/player/next`;
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+        };
+
+        try {
+            const response: AxiosResponse = await axios.post(endPoint, {}, { headers });
+
+            if (response.status === 204) {
+                console.log('Track skipped');
+                return true;
+            } else {
+                console.log('Track not skipped');
+                throw new Error('Track not skipped');
+            }
+        } catch (error) {
+            throw new Error('Track not skipped');
+        }
+    }
+
+    @OnEvent('SkipToPreviousTrack')
+    async skipToPreviousTrack(randomToken: string) {
+        
+        const userId = await this.prismaService.user.findFirst({
+            where: {
+              randomToken: randomToken,
+            },
+          });
+
+        if (!userId) {
+          throw new Error('User not found, or Spotify services not configured');
+        }
+
+        const accessToken = await this.getAccessToken(userId.id);
+
+        const endPoint = `${this.spotifyApiBaseUrl}/me/player/previous`;
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+        };
+
+        try {
+            const response: AxiosResponse = await axios.post(endPoint, {}, { headers });
+
+            if (response.status === 204) {
+                console.log('Track previous');
+                return true;
+            } else {
+                console.log('Track not previous');
+                throw new Error('Track not previous');
+            }
+        } catch (error) {
+            throw new Error('Track not previous');
+        }
+    }
 }

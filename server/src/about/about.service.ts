@@ -110,6 +110,14 @@ export class AboutService {
                 name: 'unLikeMusic',
                 description: 'unlike a song on spotify with his id',
               },
+              {
+                name: 'SkipToNextTrack',
+                description: 'skip to next track',
+              },
+              {
+                name: 'SkipToPreviousTrack',
+                description: 'skip to previous track',
+              },
             ],
           },
         ],
