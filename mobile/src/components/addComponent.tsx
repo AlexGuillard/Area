@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import {useAuth} from '../context/UserContext';
+import {REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT} from '@env';
 
 const AddComponent = () => {
   interface ParamItem {
@@ -66,11 +67,7 @@ const AddComponent = () => {
     setListParamAction([]);
     try {
       const response = await axios.get(
-        process.env.REACT_APP_SERVER_IP +
-          ':' +
-          process.env.REACT_APP_SERVER_PORT +
-          '/actions/' +
-          event,
+        REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/actions/' + event,
         {
           headers: {
             token: token,
@@ -107,9 +104,9 @@ const AddComponent = () => {
     setListParamReaction([]);
     try {
       const response = await axios.get(
-        process.env.REACT_APP_SERVER_IP +
+        REACT_APP_SERVER_IP +
           ':' +
-          process.env.REACT_APP_SERVER_PORT +
+          REACT_APP_SERVER_PORT +
           '/reactions/' +
           event,
         {
@@ -208,13 +205,9 @@ const AddComponent = () => {
       nameReaction: selectedReaction,
       reactionParameter: modelParamReaction,
     };
-    console.log(data);
     axios
       .post(
-        process.env.REACT_APP_SERVER_IP +
-          ':' +
-          process.env.REACT_APP_SERVER_PORT +
-          '/areas',
+        REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/areas',
         data,
         {
           headers: {
@@ -231,17 +224,11 @@ const AddComponent = () => {
   useEffect(() => {
     const handleCallActionList = () => {
       axios
-        .get(
-          process.env.REACT_APP_SERVER_IP +
-            ':' +
-            process.env.REACT_APP_SERVER_PORT +
-            '/actions',
-          {
-            headers: {
-              token: token,
-            },
+        .get(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/actions', {
+          headers: {
+            token: token,
           },
-        )
+        })
         .then(response => {
           setListAction((prevState: Action[] | undefined) => [
             ...(prevState || []),
@@ -255,17 +242,11 @@ const AddComponent = () => {
 
     const handleCallReactionList = () => {
       axios
-        .get(
-          process.env.REACT_APP_SERVER_IP +
-            ':' +
-            process.env.REACT_APP_SERVER_PORT +
-            '/reactions',
-          {
-            headers: {
-              token: token,
-            },
+        .get(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/reactions', {
+          headers: {
+            token: token,
           },
-        )
+        })
         .then(response => {
           setListReaction((prevState: Reaction[] | undefined) => [
             ...(prevState || []),
