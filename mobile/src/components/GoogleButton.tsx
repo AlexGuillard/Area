@@ -3,7 +3,6 @@ import React, {useEffect} from 'react';
 import {
   GoogleSignin,
   GoogleSigninButton,
-  statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {
   REACT_APP_GOOGLE_CLIENT_ID,
