@@ -19,6 +19,7 @@ export class OpenweatherService {
 
     @OnEvent('Weather')
     async ActionWeather(struct: OpenweatherDto, actionId: number) {
+        void actionId;
         try {
             const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${struct.city}&appid=${process.env.OPENWEATHER_API_KEY}&units=metric&lang=fr`);
             const  weatherData = response.data;
