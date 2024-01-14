@@ -25,7 +25,7 @@ function GetIcon(type: string): any {
   }
 
   if (!iconMap[type]) {
-    return GoogleIcon; // or any default icon
+    return require('../../assets/Google.png');
   }
   return iconMap[type];
 }

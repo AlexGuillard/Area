@@ -156,10 +156,6 @@ const AreaPage = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  listReaction: {
-    height: '75%',
-    marginBottom: 20,
-  },
   editComponent: {
     position: 'absolute',
     height: '100%',
@@ -215,12 +211,9 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   areaList: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    height: '75%',
+    marginBottom: 20,
     width: '60%',
-    gap: 50,
-    padding: 0,
-    marginTop: 10,
   }
 });
 
