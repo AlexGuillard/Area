@@ -145,17 +145,17 @@ const AddComponent = () => {
   ) => {
     const updatedList = listParamAction.map(param => {
       if (param.nameParam === nameParam) {
-        if (param.typeParam === "boolean") {
-          if (param.param === "") {
+        if (param.typeParam === 'boolean') {
+          if (param.param === '') {
             return {
               ...param,
-              param: true
-            }
+              param: true,
+            };
           }
           return {
             ...param,
-            param: !param.param
-          }
+            param: !param.param,
+          };
         } else {
           return {
             ...param,
@@ -171,17 +171,17 @@ const AddComponent = () => {
   const handleParamReactionChange = (event: string, nameParam: string) => {
     const updatedList = listParamReaction.map(param => {
       if (param.nameParam === nameParam) {
-        if (param.typeParam === "boolean") {
-          if (param.param === "") {
+        if (param.typeParam === 'boolean') {
+          if (param.param === '') {
             return {
               ...param,
-              param: true
-            }
+              param: true,
+            };
           }
           return {
             ...param,
-            param: !param.param
-          }
+            param: !param.param,
+          };
         } else {
           return {
             ...param,
