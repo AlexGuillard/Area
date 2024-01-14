@@ -7,3 +7,15 @@ export class TimeDto {
   @IsInt()
   MinutesTime: number;
 }
+
+export class CouldownDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsInt()
+  MinutesTime: number;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsInt()
+  date: number;
+}
