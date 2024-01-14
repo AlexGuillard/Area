@@ -101,7 +101,7 @@ const Login = ({navigation}) => {
             }}>
             <Text style={styles.secondaryButtonText}>Register</Text>
           </Pressable>
-          <GoogleButton navigation={navigation}/>
+          <GoogleButton navigation={navigation} />
         </View>
       </View>
     </SafeAreaView>

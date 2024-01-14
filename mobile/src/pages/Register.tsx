@@ -101,7 +101,7 @@ const Register = ({navigation}) => {
             }}>
             <Text style={styles.secondaryButtonText}>Login</Text>
           </Pressable>
-          <GoogleButton navigation={navigation}/>
+          <GoogleButton navigation={navigation} />
         </View>
       </View>
     </SafeAreaView>
