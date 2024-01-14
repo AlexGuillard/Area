@@ -499,6 +499,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingHorizontal: 10,
     marginTop: 30,
+    zIndex: 1,
     //width: 175???
   },
   addComponentActionList: {
@@ -515,6 +516,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    zIndex: 0,
   },
   addComponentReactionTitle: {
     flexGrow: 1,
@@ -545,6 +547,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 20,
     marginTop: 50,
+    zIndex: 2,
   },
   addComponentReactionList: {
     marginTop: 10,
@@ -579,5 +582,6 @@ const styles = StyleSheet.create({
     color: '#E4DFF9',
     fontSize: 20,
     fontWeight: '400',
+    zIndex: 0,
   },
 });

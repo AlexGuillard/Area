@@ -90,7 +90,10 @@ const AreaPage = ({navigation}) => {
               navigation.navigate('Service');
             },
           },
-          {image_url: require('../../assets/Logout.png'), onPress: () => {}},
+          {
+            image_url: require('../../assets/Logout.png'),
+            onPress: () => {},
+          },
         ]}
       />
       {showAddArea && (
@@ -137,8 +140,7 @@ const AreaPage = ({navigation}) => {
 const styles = StyleSheet.create({
   listReaction: {
     height: '75%',
-    position: 'absolute',
-    top: 50,
+    marginBottom: 20,
   },
   editComponent: {
     position: 'absolute',
