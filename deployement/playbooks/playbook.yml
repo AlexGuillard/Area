@@ -49,8 +49,9 @@
     git:
       repo: https://github.com/AlexGuillard/Area.git
       dest: /home/Area
-      version: setup-ip-for-prod
+      depth: 1
       update: yes
+      version: main
 
   - name: Copy .env file
     copy:
@@ -68,20 +69,6 @@
       path: /home/Area/.env
       regexp: 'WEB_IP=.*'
       replace: "WEB_IP=http://{{ hostvars['area']['ansible_host'] }}"
-
-  # - name: setup REACT_APP_SERVER_PORT .env var for mobile
-  #   replace:
-  #     path: /home/Area/mobile/Dockerfile.prod
-  #     regexp: '.*REACT_APP_SERVER_PORT.*'
-  #     replace: "ENV REACT_APP_SERVER_PORT 8080"
-
-  # - name: setup REACT_APP_SERVER_IP env var for mobile
-  #   replace:
-  #     path: /home/Area/mobile/Dockerfile.prod
-  #     regexp: '.*REACT_APP_SERVER_IP.*'
-  #     replace: "ENV REACT_APP_SERVER_IP http://{{ hostvars['area']['ansible_host'] }}"
-
-  # RUN echo "REACT_APP_SERVER_IP=http://10.0.2.2\nREACT_APP_SERVER_PORT=8080" > .env
 
   - name: fix react app server port / ip for mobile
     replace:
