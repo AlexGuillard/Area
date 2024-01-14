@@ -158,10 +158,23 @@ function EditComponent(props: editProps) {
   ) => {
     const updatedList = listParamAction.map(param => {
       if (param.nameParam === nameParam) {
-        return {
-          ...param,
-          param: event,
-        };
+        if (param.typeParam === "boolean") {
+          if (param.param === "") {
+            return {
+              ...param,
+              param: true
+            }
+          }
+          return {
+            ...param,
+            param: !param.param
+          }
+        } else {
+          return {
+            ...param,
+            param: event,
+          };
+        }
       }
       return param;
     });
@@ -174,10 +187,23 @@ function EditComponent(props: editProps) {
   ) => {
     const updatedList = listParamReaction.map(param => {
       if (param.nameParam === nameParam) {
-        return {
-          ...param,
-          param: event,
-        };
+        if (param.typeParam === "boolean") {
+          if (param.param === "") {
+            return {
+              ...param,
+              param: true
+            }
+          }
+          return {
+            ...param,
+            param: !param.param
+          }
+        } else {
+          return {
+            ...param,
+            param: event,
+          };
+        }
       }
       return param;
     });

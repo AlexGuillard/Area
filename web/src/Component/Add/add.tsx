@@ -148,10 +148,23 @@ function Add(props: {refreshAreas: () => void, closeAddArea: () => void}) {
     const handleParamActionChange = (event: React.ChangeEvent<HTMLInputElement>, nameParam: string) => {
       const updatedList = listParamAction.map(param => {
         if (param.nameParam === nameParam) {
-          return {
-            ...param,
-            param: event.target.value,
-          };
+          if (param.typeParam === "boolean") {
+            if (param.param === "") {
+              return {
+                ...param,
+                param: true
+              }
+            }
+            return {
+              ...param,
+              param: !param.param
+            }
+          } else {
+            return {
+              ...param,
+              param: event.target.value,
+            };
+          }
         }
         return param;
       });
@@ -162,10 +175,23 @@ function Add(props: {refreshAreas: () => void, closeAddArea: () => void}) {
     const handleParamReactionChange = (event: React.ChangeEvent<HTMLInputElement>, nameParam: string) => {
       const updatedList = listParamReaction.map(param => {
         if (param.nameParam === nameParam) {
-          return {
-            ...param,
-            param: event.target.value,
-          };
+          if (param.typeParam === "boolean") {
+            if (param.param === "") {
+              return {
+                ...param,
+                param: true
+              }
+            }
+            return {
+              ...param,
+              param: !param.param
+            }
+          } else {
+            return {
+              ...param,
+              param: event.target.value,
+            };
+          }
         }
         return param;
       });
@@ -200,6 +226,7 @@ function Add(props: {refreshAreas: () => void, closeAddArea: () => void}) {
       nameReaction: selectedReaction,
       reactionParameter: modelParamReaction
     };
+    console.log(data)
     const storedToken = Cookies.get('token');
     axios.post(process.env.REACT_APP_SERVER_URL + "/areas", data, {
       headers: {

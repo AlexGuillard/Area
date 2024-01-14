@@ -171,10 +171,23 @@ function Edit(props: editProps) {
   const handleParamActionChange = (event: React.ChangeEvent<HTMLInputElement>, nameParam: string) => {
     const updatedList = listParamAction.map(param => {
       if (param.nameParam === nameParam) {
-        return {
-          ...param,
-          param: event.target.value,
-        };
+        if (param.typeParam === "boolean") {
+          if (param.param === "") {
+            return {
+              ...param,
+              param: true
+            }
+          }
+          return {
+            ...param,
+            param: !param.param
+          }
+        } else {
+          return {
+            ...param,
+            param: event.target.value,
+          };
+        }
       }
       return param;
     });
@@ -184,10 +197,23 @@ function Edit(props: editProps) {
   const handleParamReactionChange = (event: React.ChangeEvent<HTMLInputElement>, nameParam: string) => {
     const updatedList = listParamReaction.map(param => {
       if (param.nameParam === nameParam) {
-        return {
-          ...param,
-          param: event.target.value,
-        };
+        if (param.typeParam === "boolean") {
+          if (param.param === "") {
+            return {
+              ...param,
+              param: true
+            }
+          }
+          return {
+            ...param,
+            param: !param.param
+          }
+        } else {
+          return {
+            ...param,
+            param: event.target.value,
+          };
+        }
       }
       return param;
     });
