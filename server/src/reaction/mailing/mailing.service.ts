@@ -19,8 +19,7 @@ export class MailingService {
       struct.to = 'string';
       struct.from = 'string';
       struct.subject = 'string';
-      struct.template = 'string';
-      struct.code = 'string';
+      struct.message = 'string';
     })
   }
 
@@ -80,8 +79,8 @@ export class MailingService {
     const to = structInfo.to;
     const from = structInfo.from;
     const subject = structInfo.subject;
-    const template = structInfo.template;
-    const code = structInfo.code;
+    const template = "action";
+    const code = structInfo.message;
     this.mailerService
       .sendMail({
         transporterName: 'gmail',

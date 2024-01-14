@@ -20,10 +20,5 @@ export class SendMailDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  template: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  code: string;
+  message: string;
 }
