@@ -49,19 +49,19 @@ const AddComponent = (props: {refreshAreas: () => void, closeAddArea: () => void
     typeService: string;
   }
 
-  const [nameArea, setNameArea] = useState("");
-  const [selectedAction, setSelectedAction] = useState("Action");
-  const [selectedReaction, setSelectedReaction] = useState("Reaction");
+  const [nameArea, setNameArea] = useState('');
+  const [selectedAction, setSelectedAction] = useState('Action');
+  const [selectedReaction, setSelectedReaction] = useState('Reaction');
   const [showlistAction, setShowListAction] = useState(false);
   const [showlistReaction, setShowListReaction] = useState(false);
-  const [listAction, setListAction] = useState<Action []>();
-  const [listReaction, setListReaction] = useState<Reaction []>();
+  const [listAction, setListAction] = useState<Action[]>();
+  const [listReaction, setListReaction] = useState<Reaction[]>();
 
-  const [listParamAction, setListParamAction] = useState<ParamItem []>([]);
-  const [listParamReaction, setListParamReaction] = useState<ParamItem []>([]);
+  const [listParamAction, setListParamAction] = useState<ParamItem[]>([]);
+  const [listParamReaction, setListParamReaction] = useState<ParamItem[]>([]);
 
-  const [modelParamAction, setModelParamAction] = useState<any>([])
-  const [modelParamReaction, setModelParamReaction] = useState<any>([])
+  const [modelParamAction, setModelParamAction] = useState<any>([]);
+  const [modelParamReaction, setModelParamReaction] = useState<any>([]);
   const {token} = useAuth();
 
   const handleNameAreaChange = (text: string) => {
