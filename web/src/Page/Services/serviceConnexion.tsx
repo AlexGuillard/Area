@@ -29,7 +29,7 @@ function ServicesConnexion() {
       .catch(error => {
         console.error("error at services/connexion");
         console.error(error.data);
-        navigate("/Area")
+        navigate("/Services")
       });
   }
   const registerServiceCallback = useCallback(registerService, [storedRefreshTokenService, storedTokenService, storedServiceType, navigate]);
