@@ -25,10 +25,10 @@ export class OpenweatherService {
             
             if (struct.superior && weatherData.main.temp > struct.temperature) {
                 console.log("superior");
-                this.actionService.executeReaction('Weather', actionId);
+                this.actionService.executeReaction('Weather', struct);
             } else if (!struct.superior && weatherData.main.temp < struct.temperature) {
                 console.log("inferior");
-                this.actionService.executeReaction('Weather', actionId);
+                this.actionService.executeReaction('Weather', struct);
             } else {
                 console.log("temperatures does not meet the conditions");
             }
