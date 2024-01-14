@@ -1,6 +1,4 @@
-import React from 'react';
-import {Avatar} from 'react-native-elements';
-import {View, StyleSheet, Text, StatusBar, Pressable} from 'react-native';
+import {View, StyleSheet, Text, StatusBar} from 'react-native';
 
 type AreaCardProps = {
   name: string;
@@ -10,7 +8,7 @@ type AreaCardProps = {
 const AreaCard = (props: AreaCardProps) => {
   return (
     <View style={styles.card}>
-        <Text style={styles.cardText}>{props.name}</Text>
+      <Text style={styles.cardText}>{props.name}</Text>
     </View>
   );
 };

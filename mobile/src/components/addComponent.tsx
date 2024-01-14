@@ -15,14 +15,14 @@ import {useAuth} from '../context/UserContext';
 import {REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT} from '@env';
 
 function GetIcon(type: string): any {
-  const iconMap: { [key: string]: any } = {
-    "GOOGLE": require('../../assets/Google.png'),
-    "GITHUB": require('../../assets/Github.png'),
-    "SPOTIFY": require('../../assets/Spotify.png'),
-    "DISCORD": require('../../assets/Discord.png'),
-    "TIME": require('../../assets/Clock.png'),
-    "WEATHER": require('../../assets/Weather.png'),
-  }
+  const iconMap: {[key: string]: any} = {
+    GOOGLE: require('../../assets/Google.png'),
+    GITHUB: require('../../assets/Github.png'),
+    SPOTIFY: require('../../assets/Spotify.png'),
+    DISCORD: require('../../assets/Discord.png'),
+    TIME: require('../../assets/Clock.png'),
+    WEATHER: require('../../assets/Weather.png'),
+  };
 
   if (!iconMap[type]) {
     return require('../../assets/Google.png');
@@ -30,7 +30,10 @@ function GetIcon(type: string): any {
   return iconMap[type];
 }
 
-const AddComponent = (props: {refreshAreas: () => void, closeAddArea: () => void}) => {
+const AddComponent = (props: {
+  refreshAreas: () => void;
+  closeAddArea: () => void;
+}) => {
   interface ParamItem {
     nameParam: string;
     typeParam: string;
@@ -338,7 +341,10 @@ const AddComponent = (props: {refreshAreas: () => void, closeAddArea: () => void
                 <TouchableOpacity
                   style={styles.addComponentActionList}
                   onPress={() => handleActionAreaChange(item.name)}>
-                  <Image source={GetIcon(item.typeService)} style={styles.addComponentListIcon} />
+                  <Image
+                    source={GetIcon(item.typeService)}
+                    style={styles.addComponentListIcon}
+                  />
                   <Text>{item.name}</Text>
                 </TouchableOpacity>
               )}
@@ -409,7 +415,11 @@ const AddComponent = (props: {refreshAreas: () => void, closeAddArea: () => void
                 <TouchableOpacity
                   style={styles.addComponentReactionList}
                   onPress={() => handleReactionAreaChange(item.name)}>
-                  <Image source={GetIcon(item.typeService)} style={styles.addComponentListIcon} alt="icon"/>
+                  <Image
+                    source={GetIcon(item.typeService)}
+                    style={styles.addComponentListIcon}
+                    alt="icon"
+                  />
                   <Text>{item.name}</Text>
                 </TouchableOpacity>
               )}
@@ -417,46 +427,46 @@ const AddComponent = (props: {refreshAreas: () => void, closeAddArea: () => void
           )}
         </View>
         {listParamReaction && (
-           <FlatList
-           data={listParamReaction}
-           style={styles.addComponentParamArea}
-           keyExtractor={item => item.nameParam}
-           renderItem={({item}) => (
-             <View key={item.nameParam}>
-               {item.typeParam === 'string' && (
-                 <TextInput
-                   style={styles.addComponentParamInput}
-                   value={item.param}
-                   onChangeText={text =>
-                     handleParamReactionChange(text, item.nameParam)
-                   }
-                   placeholder={item.nameParam}
-                   inputMode="text"
-                 />
-               )}
-               {item.typeParam === 'number' && (
-                 <TextInput
-                   style={styles.addComponentParamInput}
-                   value={item.param}
-                   onChangeText={text =>
-                     handleParamReactionChange(text, item.nameParam)
-                   }
-                   keyboardType="numeric"
-                   placeholder={item.nameParam}
-                   inputMode="numeric"
-                 />
-               )}
-               {item.typeParam === 'boolean' && (
-                 <Switch
-                   value={item.param}
-                   onValueChange={(event) =>
-                     handleParamReactionChange(event, item.nameParam)
-                   }
-                 />
-               )}
-             </View>
-           )}
-         />
+          <FlatList
+            data={listParamReaction}
+            style={styles.addComponentParamArea}
+            keyExtractor={item => item.nameParam}
+            renderItem={({item}) => (
+              <View key={item.nameParam}>
+                {item.typeParam === 'string' && (
+                  <TextInput
+                    style={styles.addComponentParamInput}
+                    value={item.param}
+                    onChangeText={text =>
+                      handleParamReactionChange(text, item.nameParam)
+                    }
+                    placeholder={item.nameParam}
+                    inputMode="text"
+                  />
+                )}
+                {item.typeParam === 'number' && (
+                  <TextInput
+                    style={styles.addComponentParamInput}
+                    value={item.param}
+                    onChangeText={text =>
+                      handleParamReactionChange(text, item.nameParam)
+                    }
+                    keyboardType="numeric"
+                    placeholder={item.nameParam}
+                    inputMode="numeric"
+                  />
+                )}
+                {item.typeParam === 'boolean' && (
+                  <Switch
+                    value={item.param}
+                    onValueChange={event =>
+                      handleParamReactionChange(event, item.nameParam)
+                    }
+                  />
+                )}
+              </View>
+            )}
+          />
         )}
       </View>
       <TouchableOpacity
@@ -592,7 +602,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 20,
     marginTop: 50,
-    zIndex: 2,
+    zIndex: 1,
   },
   addComponentReactionList: {
     marginTop: 10,
@@ -627,11 +637,10 @@ const styles = StyleSheet.create({
     color: '#E4DFF9',
     fontSize: 20,
     fontWeight: '400',
-    zIndex: 0,
   },
   addComponentListIcon: {
     width: 20,
     height: 20,
     marginRight: 10,
-  }
+  },
 });

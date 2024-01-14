@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -53,23 +53,7 @@ const AreaPage = ({navigation}) => {
     setReactionSelected('');
   };
 
-  const logOutUser = () => {
-    axios
-        .post(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/auth/signout', {
-          headers: {
-            token: token,
-          },
-        })
-        .then(() => {
-          clearAuthData();
-          navigation.navigate('Login');
-        })
-        .catch(error => {
-          console.error(error);
-        });
-  }
-
-  const handleCallAreaList = () => {
+  const handleCallAreaList = useCallback(() => {
     axios
       .get(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/areas', {
         headers: {
@@ -82,7 +66,7 @@ const AreaPage = ({navigation}) => {
       .catch(error => {
         console.error(error);
       });
-  };
+  }, [token]);
 
   useEffect(() => {
     if (token === 'undefined') {
@@ -90,7 +74,7 @@ const AreaPage = ({navigation}) => {
       navigation.navigate('Login');
     }
     handleCallAreaList();
-  }, [clearAuthData, navigation, token]);
+  }, [clearAuthData, handleCallAreaList, navigation, token]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -116,7 +100,10 @@ const AreaPage = ({navigation}) => {
       {showAddArea && (
         <TouchableWithoutFeedback onPress={() => setShowAddArea(false)}>
           <View style={styles.addComponent}>
-            <AddComponent refreshAreas={handleCallAreaList} closeAddArea={() => setShowAddArea(false)}/>
+            <AddComponent
+              refreshAreas={handleCallAreaList}
+              closeAddArea={() => setShowAddArea(false)}
+            />
           </View>
         </TouchableWithoutFeedback>
       )}
@@ -136,10 +123,10 @@ const AreaPage = ({navigation}) => {
           data={listArea}
           renderItem={({item}) => (
             <Pressable onPress={() => handleClickEdit(item.id)}>
-                <AreaCard
-              name={item.nameArea}
-              on_press={() => handleClickEdit(item.id)}
-            />
+              <AreaCard
+                name={item.nameArea}
+                on_press={() => handleClickEdit(item.id)}
+              />
             </Pressable>
           )}
           keyExtractor={item => item.id}
@@ -147,7 +134,10 @@ const AreaPage = ({navigation}) => {
       </View>
       {showAddArea === false && showEditArea === false && (
         <TouchableOpacity style={styles.addButton} onPress={handleClickAdd}>
-          <Image style={styles.addButton}  source={require('../../assets/AddIcon.png')} />
+          <Image
+            style={styles.addButton}
+            source={require('../../assets/AddIcon.png')}
+          />
         </TouchableOpacity>
       )}
       <Appbar style={styles.bottomBar} />
@@ -184,7 +174,7 @@ const styles = StyleSheet.create({
     height: 75,
     marginTop: 10,
     position: 'absolute',
-    bottom: "2%",
+    bottom: '2%',
     zIndex: 3,
   },
   header: {
@@ -214,7 +204,7 @@ const styles = StyleSheet.create({
     height: '75%',
     marginBottom: 20,
     width: '60%',
-  }
+  },
 });
 
 export default AreaPage;
