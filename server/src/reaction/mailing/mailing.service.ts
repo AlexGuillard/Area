@@ -19,12 +19,11 @@ export class MailingService {
       struct.to = 'string';
       struct.from = 'string';
       struct.subject = 'string';
-      struct.template = 'string';
-      struct.code = 'string';
+      struct.message = 'string';
     })
   }
 
-  private async setTransport(randomToken: string) {
+  private async setTransport(randomToken: string, from: string) {
     const OAuth2 = google.auth.OAuth2;
     const oauth2Client = new OAuth2(
       this.configService.get('GOOGLE_CLIENT_ID'),
@@ -44,7 +43,7 @@ export class MailingService {
 
     const service = await this.prismaService.services.findMany({
       where: { userId: userId.id, typeService: 'GOOGLE' },
-      select: { token: true, typeService: true },
+      select: { token: true },
     });
 
     oauth2Client.setCredentials({
@@ -65,7 +64,7 @@ export class MailingService {
       service: 'gmail',
       auth: {
         type: 'OAuth2',
-        user: userId.email,
+        user: from,
         clientId: this.configService.get('GOOGLE_CLIENT_ID'),
         clientSecret: this.configService.get('GOOGLE_CLIENT_SECRET'),
         accessToken,
@@ -76,12 +75,12 @@ export class MailingService {
 
   @OnEvent('sendEmail')
   async sendMail(structInfo: SendMailDto, randomToken: string) {
-    await this.setTransport(randomToken);
+    await this.setTransport(randomToken, structInfo.from);
     const to = structInfo.to;
     const from = structInfo.from;
     const subject = structInfo.subject;
-    const template = structInfo.template;
-    const code = structInfo.code;
+    const template = "action";
+    const code = structInfo.message;
     this.mailerService
       .sendMail({
         transporterName: 'gmail',
