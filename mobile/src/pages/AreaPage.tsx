@@ -58,7 +58,6 @@ const AreaPage = ({navigation}) => {
       clearAuthData();
       navigation.navigate('Login');
     }
-    console.log('token', token);
     const handleCallAreaList = () => {
       axios
         .get(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/areas', {
