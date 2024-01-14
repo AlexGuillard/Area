@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   View,
   Image,
+  Pressable,
   FlatList,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -19,10 +20,9 @@ import {useAuth} from '../context/UserContext';
 import HeaderBar from '../components/headerComponent';
 import {REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT} from '@env';
 
-interface ReactionItem {
+interface AreaItem {
   id: string;
-  icon: string;
-  title: string;
+  nameArea: string;
 }
 const AreaPage = ({navigation}) => {
   const [showAddArea, setShowAddArea] = useState(false);
@@ -30,7 +30,7 @@ const AreaPage = ({navigation}) => {
   const [areaSelected, setAreaSelected] = useState('');
   const [actionSelected, setActionSelected] = useState('');
   const [reactionSelected, setReactionSelected] = useState('');
-  const [listArea, setListArea] = useState<ReactionItem[]>([]);
+  const [listArea, setListArea] = useState<AreaItem[]>([]);
   const {token, clearAuthData} = useAuth();
 
   const backgroundStyle = {
@@ -53,25 +53,42 @@ const AreaPage = ({navigation}) => {
     setReactionSelected('');
   };
 
+  const logOutUser = () => {
+    axios
+        .post(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/auth/signout', {
+          headers: {
+            token: token,
+          },
+        })
+        .then(() => {
+          clearAuthData();
+          navigation.navigate('Login');
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  }
+
+  const handleCallAreaList = () => {
+    axios
+      .get(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/areas', {
+        headers: {
+          token: token,
+        },
+      })
+      .then(response => {
+        setListArea(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   useEffect(() => {
     if (token === 'undefined') {
       clearAuthData();
       navigation.navigate('Login');
     }
-    const handleCallAreaList = () => {
-      axios
-        .get(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/areas', {
-          headers: {
-            token: token,
-          },
-        })
-        .then(response => {
-          setListArea(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    };
     handleCallAreaList();
   }, [clearAuthData, navigation, token]);
 
@@ -90,13 +107,13 @@ const AreaPage = ({navigation}) => {
               navigation.navigate('Service');
             },
           },
-          {image_url: require('../../assets/Logout.png'), onPress: () => {}},
+          {image_url: require('../../assets/Logout.png'), onPress: () => logOutUser()},
         ]}
       />
       {showAddArea && (
         <TouchableWithoutFeedback onPress={() => setShowAddArea(false)}>
           <View style={styles.addComponent}>
-            <AddComponent />
+            <AddComponent refreshAreas={handleCallAreaList} closeAddArea={() => setShowAddArea(false)}/>
           </View>
         </TouchableWithoutFeedback>
       )}
@@ -111,22 +128,23 @@ const AreaPage = ({navigation}) => {
           </View>
         </TouchableWithoutFeedback>
       )}
-      <View style={styles.listReaction}>
+      <View style={styles.areaList}>
         <FlatList
           data={listArea}
           renderItem={({item}) => (
-            <AreaCard
-              title={item.title}
-              image_url={item.icon}
-              on_press={() => handleClickEdit(item.title)}
+            <Pressable onPress={() => handleClickEdit(item.id)}>
+                <AreaCard
+              name={item.nameArea}
+              on_press={() => handleClickEdit(item.id)}
             />
+            </Pressable>
           )}
           keyExtractor={item => item.id}
         />
       </View>
       {showAddArea === false && showEditArea === false && (
         <TouchableOpacity style={styles.addButton} onPress={handleClickAdd}>
-          <Image source={require('../../assets/FAB.png')} />
+          <Image style={styles.addButton}  source={require('../../assets/AddIcon.png')} />
         </TouchableOpacity>
       )}
       <Appbar style={styles.bottomBar} />
@@ -163,16 +181,12 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   addButton: {
-    backgroundColor: '#4A4458',
     borderRadius: 16,
-    display: 'flex',
     width: 75,
     height: 75,
     marginTop: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
     position: 'absolute',
-    bottom: 20,
+    bottom: "2%",
     zIndex: 3,
   },
   header: {
@@ -198,6 +212,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
   },
+  areaList: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    width: '60%',
+    gap: 50,
+    padding: 0,
+    marginTop: 10,
+  }
 });
 
 export default AreaPage;

@@ -3,18 +3,14 @@ import {Avatar} from 'react-native-elements';
 import {View, StyleSheet, Text, StatusBar, Pressable} from 'react-native';
 
 type AreaCardProps = {
-  title: string;
-  image_url: string;
+  name: string;
   on_press: () => void;
 };
 
 const AreaCard = (props: AreaCardProps) => {
   return (
-    <View>
-      <Pressable style={styles.card} onPress={props.on_press}>
-        <Avatar rounded size="medium" source={{uri: props.image_url}} />
-        <Text style={styles.cardText}>{props.title}</Text>
-      </Pressable>
+    <View style={styles.card}>
+        <Text style={styles.cardText}>{props.name}</Text>
     </View>
   );
 };
