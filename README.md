@@ -97,11 +97,13 @@ Now you can basically run the app using the following command:
 
 ##### Environment variables
 
-You need to have a `.env` file in the root folder of the project with the following lines:
+You need to have a `.env` file in the mobile folder of the project with the following lines:
 
 ```env
 REACT_APP_SERVER_IP=Ip of the server like 'http://localhost' or 'http://10.0.2.2' for android emulator
 REACT_APP_SERVER_PORT=Port of the server like '8080'
+REACT_APP_WEB_IP=Ip of the server like 'http://localhost' or 'http://10.0.2.2' for android emulator
+REACT_APP_WEB_PORT=Port of the server like '8081'
 ```
 
 #### Start

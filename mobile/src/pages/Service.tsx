@@ -4,6 +4,7 @@ import axios from 'axios';
 import {useAuth} from '../context/UserContext';
 import ServiceCard from '../components/ServiceList/serviceList';
 import HeaderBar from '../components/headerComponent';
+import {REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT} from '@env';
 
 const Service = ({navigation}) => {
   const backgroundStyle = {
@@ -36,10 +37,7 @@ const Service = ({navigation}) => {
         const storedToken = token;
         axios
           .get(
-            process.env.REACT_APP_SERVER_IP +
-              ':' +
-              process.env.REACT_APP_SERVER_PORT +
-              '/services',
+            REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/services',
             {
               headers: {
                 token: storedToken,
@@ -86,52 +84,36 @@ const Service = ({navigation}) => {
       />
       <View style={styles.servicesCardArea}>
         <ServiceCard
+          navigation={navigation}
           serviceName={'Google'}
           status={stateGoogle}
           image={Google}
           userName={''}
-          link={
-            process.env.REACT_APP_SERVER_IP +
-            ':' +
-            process.env.REACT_APP_SERVER_PORT +
-            '/myauth/google-redirect'
-          }
+          link={'GoogleWebView'}
         />
         <ServiceCard
+          navigation={navigation}
           serviceName={'Discord'}
           status={stateDiscord}
           image={Discord}
           userName={''}
-          link={
-            process.env.REACT_APP_SERVER_IP +
-            ':' +
-            process.env.REACT_APP_SERVER_PORT +
-            '/services/discord/login'
-          }
+          link={'DiscordWebView'}
         />
         <ServiceCard
+          navigation={navigation}
           serviceName={'Github'}
           status={stateGithub}
           image={Github}
           userName={''}
-          link={
-            process.env.REACT_APP_SERVER_IP +
-            ':' +
-            process.env.REACT_APP_SERVER_PORT +
-            '/auth/github'
-          }
+          link={'GithubWebView'}
         />
         <ServiceCard
+          navigation={navigation}
           serviceName={'Spotify'}
           status={stateSpotify}
           image={Spotify}
           userName={''}
-          link={
-            process.env.REACT_APP_SERVER_IP +
-            ':' +
-            process.env.REACT_APP_SERVER_PORT +
-            '/auth/spotify'
-          }
+          link={'SpotifyWebView'}
         />
       </View>
     </SafeAreaView>
