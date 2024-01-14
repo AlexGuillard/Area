@@ -70,7 +70,8 @@
       regexp: 'WEB_IP=.*'
       replace: "WEB_IP=http://{{ hostvars['area']['ansible_host'] }}"
 
-  - name: Compose down if already up
-    command: docker compose -f docker-compose.dev.yml down --volumes --remove-orphans
-    args:
-      chdir: /home/Area
+  - name: fix react app server port / ip for mobile
+    replace:
+      path: /home/Area/mobile/Dockerfile.prod
+      regexp: '.*REACT_APP_SERVER_IP.*'
+      replace: "RUN echo \"REACT_APP_SERVER_IP=http://{{ hostvars['area']['ansible_host'] }}\\\\nREACT_APP_SERVER_PORT=8080\" > .env"
