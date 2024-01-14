@@ -9,14 +9,30 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native';
+import axios from 'axios';
+import {useAuth} from '../context/UserContext';
+import {REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT} from '@env';
 interface editProps {
   name: string;
   nameAction: string;
   nameReaction: string;
 }
-import axios from 'axios';
-import {useAuth} from '../context/UserContext';
-import {REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT} from '@env';
+
+function GetIcon(type: string): any {
+  const iconMap: { [key: string]: any } = {
+    "GOOGLE": require('../../assets/Google.png'),
+    "GITHUB": require('../../assets/Github.png'),
+    "SPOTIFY": require('../../assets/Spotify.png'),
+    "DISCORD": require('../../assets/Discord.png'),
+    "TIME": require('../../assets/Clock.png'),
+    "WEATHER": require('../../assets/Weather.png'),
+  }
+
+  if (!iconMap[type]) {
+    return require('../../assets/Google.png');
+  }
+  return iconMap[type];
+}
 
 function EditComponent(props: editProps) {
   interface AreaItem {
@@ -33,26 +49,38 @@ function EditComponent(props: editProps) {
     param: any;
   }
 
+  interface Action {
+    name: string;
+    description: string;
+    typeService: string;
+  }
+
+  interface Reaction {
+    name: string;
+    description: string;
+    typeService: string;
+  }
+
   const [infoArea, setInfoArea] = useState<AreaItem | null>(null);
 
-  const [nameArea, setNameArea] = useState('');
-  const [selectedAction, setSelectedAction] = useState('');
-  const [selectedReaction, setSelectedReaction] = useState('');
+  const [nameArea, setNameArea] = useState("");
+  const [selectedAction, setSelectedAction] = useState("");
+  const [selectedReaction, setSelectedReaction] = useState("");
 
   const [showlistAction, setShowListAction] = useState(false);
   const [showlistReaction, setShowListReaction] = useState(false);
 
-  const [listAction, setListAction] = useState<string[]>();
-  const [listReaction, setListReaction] = useState<string[]>();
+  const [listAction, setListAction] = useState<Action []>();
+  const [listReaction, setListReaction] = useState<Reaction []>();
 
-  const [listParamAction, setListParamAction] = useState<ParamItem[]>([]);
-  const [listParamReaction, setListParamReaction] = useState<ParamItem[]>([]);
+  const [listParamAction, setListParamAction] = useState<ParamItem []>([]);
+  const [listParamReaction, setListParamReaction] = useState<ParamItem []>([]);
 
-  const [modelParamAction, setModelParamAction] = useState<any>([]);
-  const [modelParamReaction, setModelParamReaction] = useState<any>([]);
+  const [modelParamAction, setModelParamAction] = useState<any>([])
+  const [modelParamReaction, setModelParamReaction] = useState<any>([])
 
-  const [paramAction, setParamAction] = useState<any>([]);
-  const [paramReaction, setParamReaction] = useState<any>([]);
+  const [paramAction, setParamAction] = useState<any>([])
+  const [paramReaction, setParamReaction] = useState<any>([])
 
   const {token} = useAuth();
 
@@ -219,9 +247,9 @@ function EditComponent(props: editProps) {
         },
       })
       .then(response => {
-        setListAction((prevState: string[] | undefined) => [
+        setListAction((prevState: Action[] | undefined) => [
           ...(prevState || []),
-          ...response.data.map((item: {name: string}) => item.name),
+          ...response.data.map((item: Action) => item)
         ]);
       })
       .catch(error => {
@@ -238,9 +266,9 @@ function EditComponent(props: editProps) {
         },
       })
       .then(response => {
-        setListReaction((prevState: string[] | undefined) => [
+        setListReaction((prevState: Reaction[] | undefined) => [
           ...(prevState || []),
-          ...response.data.map((item: {name: string}) => item.name),
+          ...response.data.map((item: Reaction) => item),
         ]);
       })
       .catch(error => {
@@ -377,11 +405,12 @@ function EditComponent(props: editProps) {
               renderItem={({item}) => (
                 <TouchableOpacity
                   style={styles.editComponentActionList}
-                  onPress={() => handleActionAreaChange(item)}>
-                  <Text>{item}</Text>
+                  onPress={() => handleActionAreaChange(item.name)}>
+                    <Image source={GetIcon(item.typeService)} style={styles.editComponentListIcon} alt="icon"/>
+                  <Text>{item.name}</Text>
                 </TouchableOpacity>
               )}
-              keyExtractor={item => item}
+              keyExtractor={item => item.name}
             />
           )}
         </View>
@@ -446,11 +475,12 @@ function EditComponent(props: editProps) {
               renderItem={({item}) => (
                 <TouchableOpacity
                   style={styles.editComponentReactionList}
-                  onPress={() => handleReactionAreaChange(item)}>
-                  <Text>{item}</Text>
+                  onPress={() => handleReactionAreaChange(item.name)}>
+                  <Image source={GetIcon(item.typeService)} style={styles.editComponentListIcon} alt="icon"/>
+                  <Text>{item.name}</Text>
                 </TouchableOpacity>
               )}
-              keyExtractor={item => item}
+              keyExtractor={item => item.name}
             />
           )}
         </View>
@@ -658,6 +688,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '400',
   },
+  editComponentListIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
+  }
 });
 
 export default EditComponent;
