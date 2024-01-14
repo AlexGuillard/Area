@@ -516,7 +516,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    zIndex: 0
+    zIndex: 0,
   },
   addComponentReactionTitle: {
     flexGrow: 1,

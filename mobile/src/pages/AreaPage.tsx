@@ -53,32 +53,12 @@ const AreaPage = ({navigation}) => {
     setReactionSelected('');
   };
 
-  const logoutUser = () => {
-    axios
-      .post(
-        REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/auth/signout',
-        null,  // Set the data to null as you're not sending any request body
-        {
-          headers: {
-            "token": token
-          }
-        }
-      )
-      .then(async () => {
-        clearAuthData();
-        navigation.navigate('Login');
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }  
-
   useEffect(() => {
     if (token === 'undefined') {
       clearAuthData();
       navigation.navigate('Login');
     }
-    console.log("token", token)
+    console.log('token', token);
     const handleCallAreaList = () => {
       axios
         .get(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/areas', {
@@ -111,7 +91,10 @@ const AreaPage = ({navigation}) => {
               navigation.navigate('Service');
             },
           },
-          {image_url: require('../../assets/Logout.png'), onPress: () => {logoutUser()}},
+          {
+            image_url: require('../../assets/Logout.png'),
+            onPress: () => {},
+          },
         ]}
       />
       {showAddArea && (
