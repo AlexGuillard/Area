@@ -19,16 +19,17 @@ export class OpenweatherService {
 
     @OnEvent('Weather')
     async ActionWeather(struct: OpenweatherDto, actionId: number) {
+        void actionId;
         try {
             const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${struct.city}&appid=${process.env.OPENWEATHER_API_KEY}&units=metric&lang=fr`);
             const  weatherData = response.data;
             
             if (struct.superior && weatherData.main.temp > struct.temperature) {
                 console.log("superior");
-                this.actionService.executeReaction('Weather', actionId);
+                this.actionService.executeReaction('Weather', struct);
             } else if (!struct.superior && weatherData.main.temp < struct.temperature) {
                 console.log("inferior");
-                this.actionService.executeReaction('Weather', actionId);
+                this.actionService.executeReaction('Weather', struct);
             } else {
                 console.log("temperatures does not meet the conditions");
             }
