@@ -33,10 +33,6 @@ export class AboutService {
           {
             name: 'GOOGLE',
             actions: [
-              {
-                name: 'getCalendarEvents',
-                description: 'Get a list of calendar events',
-              },
             ],
             reactions: [
               {
@@ -52,6 +48,10 @@ export class AboutService {
               {
                 name: 'ExecuteTime',
                 description: 'trigger reaction when clock minutes correspond to args',
+              },
+              {
+                name: 'Couldown',
+                description: 'trigger reaction every args minutes',
               },
             ],
             reactions: [],
