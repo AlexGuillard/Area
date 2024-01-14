@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {useAuth} from '../context/UserContext';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT} from '@env';
 
 const Register = ({navigation}) => {
   const [textEmail, setTextEmail] = useState('');
@@ -31,10 +32,7 @@ const Register = ({navigation}) => {
     };
     axios
       .post(
-        process.env.REACT_APP_SERVER_IP +
-          ':' +
-          process.env.REACT_APP_SERVER_PORT +
-          '/auth/signup',
+        REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/auth/signup',
         data,
       )
       .then(async response => {

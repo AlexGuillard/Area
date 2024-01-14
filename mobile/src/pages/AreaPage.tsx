@@ -17,6 +17,7 @@ import EditComponent from '../components/editComponent';
 import axios from 'axios';
 import {useAuth} from '../context/UserContext';
 import HeaderBar from '../components/headerComponent';
+import {REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT} from '@env';
 
 interface ReactionItem {
   id: string;
@@ -59,17 +60,11 @@ const AreaPage = ({navigation}) => {
     }
     const handleCallAreaList = () => {
       axios
-        .get(
-          process.env.REACT_APP_SERVER_IP +
-            ':' +
-            process.env.REACT_APP_SERVER_PORT +
-            '/areas',
-          {
-            headers: {
-              token: token,
-            },
+        .get(REACT_APP_SERVER_IP + ':' + REACT_APP_SERVER_PORT + '/areas', {
+          headers: {
+            token: token,
           },
-        )
+        })
         .then(response => {
           setListArea(response.data);
         })
