@@ -21,9 +21,8 @@ const GoogleButton = ({navigation}) => {
       await GoogleSignin.configure({
         webClientId: REACT_APP_GOOGLE_CLIENT_ID,
       });
-      console.log('Google Sign-In configured successfully!');
     } catch (error) {
-      console.error('Error configuring Google Sign-In:', error);
+      console.error(error);
     }
   };
 
@@ -51,17 +50,7 @@ const GoogleButton = ({navigation}) => {
       );
       navigation.navigate('Area');
     } catch (error: any) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log('User cancelled the login flow');
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log('Signing in');
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log('Play services not available');
-      } else {
-        console.log('Some other error happened:', error);
-        console.log(error.message);
-        console.log(error.code);
-      }
+      console.log(error);
     }
   };
 

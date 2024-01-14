@@ -32,7 +32,6 @@ const ServiceConnexion = ({route, navigation}) => {
     await CookieManager.get(
       REACT_APP_WEB_IP + ':' + REACT_APP_WEB_PORT + '/ServicesConnexion',
     ).then(cookies => {
-      console.log('CookieManager.get =>', cookies);
       setStoredServiceType(cookies.ServiceType.value);
       setStoredRefreshTokenService(cookies.RefreshToken.value);
       setStoredTokenService(cookies.tokenService.value);
