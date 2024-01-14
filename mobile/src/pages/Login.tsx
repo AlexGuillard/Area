@@ -12,6 +12,7 @@ import axios from 'axios';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useAuth} from '../context/UserContext';
 import {REACT_APP_SERVER_IP, REACT_APP_SERVER_PORT} from '@env';
+import GoogleButton from '../components/GoogleButton';
 
 const Login = ({navigation}) => {
   const [mail, setMail] = useState('');
@@ -100,6 +101,7 @@ const Login = ({navigation}) => {
             }}>
             <Text style={styles.secondaryButtonText}>Register</Text>
           </Pressable>
+          <GoogleButton navigation={navigation} />
         </View>
       </View>
     </SafeAreaView>
